@@ -151,6 +151,14 @@ class App extends React.Component {
 		)
 	}
 
+	renderLegend() {
+		return (
+			<div className="legend">
+				<h2>Legend</h2>
+			</div>
+		)
+	}
+
 	renderSectionList() {
 		const sections = this.props.sectionList.map( s => 
 			<li onClick={this.selectSection} key={s.id} value={s.id} >{s.name}</li>
@@ -158,7 +166,7 @@ class App extends React.Component {
 
 		return (
 			<div className='section-list'>
-				<h2>Sections</h2>
+				<h2>Index</h2>
 				<ul>
 					{ sections }
 				</ul>
@@ -169,7 +177,10 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="app">
-				{ this.renderSectionList() }
+				<div className="sidebar">
+					{ this.renderLegend() }
+					{ this.renderSectionList() }
+				</div>
 				<h2>{this.state.section ? this.state.section : ""}</h2>
 				<TextPane
 					text={this.state.text}
