@@ -1,23 +1,25 @@
-.text {
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 60%;
-  background-color: #fff;
-  transition: top 200ms;
+.text-pane {
+  margin-left: 14em;
+  display: flex;
+}
+.reading {
+  width: 40em;
+  /* transition: top 200ms; */
 }
 .text.top-aligned {
-  top: 20%;
+  /* top: 20%; */
 }
+.translation {
+  width: 40em;
+}
+
 .text .reading {
-  margin-left: 25%;
-  width: 50%;
+  /* margin-left: 25%; */
   font-size: 1.2em;
   line-height: 1.5em;
   /* color: #989898; */
-  height: 100%;
-  overflow-y: auto;
+  /* height: 100%;
+  overflow-y: auto; */
 }
 /* .text .reading span {
   cursor: pointer;
@@ -42,7 +44,7 @@
   list-style: none;
   padding: 0;
   float: right;
-  width: 25%;
+  /* width: 25%; */
 }
 .text ul li {
   margin: 0 auto;

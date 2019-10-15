@@ -65,10 +65,15 @@ class TextPane extends React.Component {
       );
     }
 
+    // old className={cx({text: true, "top-aligned": this.props.activeNode ? false: true})}
+
     return (
-      <div className={cx({text: true, "top-aligned": this.props.activeNode ? false: true})}>
+      <div className="text-pane">
         <div className="reading">
           {textElements}
+        </div>
+        <div className="translation">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rhoncus fermentum libero, non sodales ipsum pharetra a. Cras luctus mattis feugiat. Proin arcu magna, euismod eu congue non, luctus et lacus. Nunc sapien quam, viverra sit amet imperdiet et, venenatis vel tortor. In hac habitasse platea dictumst. Sed massa nisi, venenatis sed odio non, commodo facilisis erat. Duis condimentum tempor efficitur. Maecenas rhoncus ex quam, at semper elit imperdiet nec. Sed imperdiet, nisi sed iaculis sollicitudin, magna sapien tincidunt erat, ut scelerisque est augue convallis ante. Fusce consectetur vel arcu sit amet suscipit. Aenean gravida egestas justo, non malesuada mauris facilisis eget. Ut felis libero, laoreet ac venenatis pulvinar, aliquam quis nisi. Morbi fermentum odio ante, non faucibus magna tristique eu. Integer nec pretium mi, sit amet aliquam massa. Etiam lobortis velit nec magna pharetra finibus.
         </div>
       </div>
     );

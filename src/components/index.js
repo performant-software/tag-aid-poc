@@ -157,7 +157,7 @@ class App extends React.Component {
 		)
 
 		return (
-			<div>
+			<div className='section-list'>
 				<h2>Sections</h2>
 				<ul>
 					{ sections }
