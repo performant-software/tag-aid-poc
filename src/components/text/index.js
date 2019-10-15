@@ -16,6 +16,27 @@ class TextPane extends React.Component {
     textBox.scrollTop = nodeTop - textBoxTop;
   }
 
+  renderWitnessList() {
+
+    let witness = this.props.activeWitness ? this.props.activeWitness.sigil : '';
+		let witnessList = this.props.text.witnesses.slice();
+		if (witnessList.length) {
+			witnessList.unshift('Lemma text');
+		}
+
+    return (
+      <ul>
+          {witnessList.map((w) => (
+            <li className={w === witness ? "selected" : ""}
+              key={w}
+              onClick={() => this.props.onSetActiveWitness(w)}>
+              {w}
+            </li>
+          ))}
+      </ul>
+    );
+  }
+
   // Render the text
   render() {
     let textElements = [];
@@ -37,33 +58,22 @@ class TextPane extends React.Component {
           })}
           id={`text-${rdg.id}`}
           key={rdg.id}
-          onClick={() => this.props.onSetActiveNode(rdg.id) }>
+          // onClick={() => this.props.onSetActiveNode(rdg.id) }>
+          >
           {rdgtext}
         </span>
       );
     }
 
-    let witness = this.props.activeWitness ? this.props.activeWitness.sigil : '';
-		let witnessList = this.props.text.witnesses.slice();
-		if (witnessList.length) {
-			witnessList.unshift('Lemma text');
-		}
     return (
       <div className={cx({text: true, "top-aligned": this.props.activeNode ? false: true})}>
-        <ul>
-          {witnessList.map((w) => (
-            <li className={w === witness ? "selected" : ""}
-              key={w}
-              onClick={() => this.props.onSetActiveWitness(w)}>
-              {w}
-            </li>
-          ))}
-        </ul>
         <div className="reading">
           {textElements}
         </div>
       </div>
     );
+
+    
   }
 }
 

@@ -13,15 +13,15 @@
 .text .reading {
   margin-left: 25%;
   width: 50%;
-  font-size: 0.8em;
+  font-size: 1.2em;
   line-height: 1.5em;
-  color: #989898;
+  /* color: #989898; */
   height: 100%;
   overflow-y: auto;
 }
-.text .reading span {
+/* .text .reading span {
   cursor: pointer;
-}
+} */
 .text .reading span.visible {
   color: #00a600;
   font-weight: bold;
@@ -29,9 +29,9 @@
 .text .reading span.visible.active {
   color: #006400;
 }
-.text .reading span:hover {
+/* .text .reading span:hover {
   background-color: #ddf;
-}
+} */
 .text ul {
   height: 100%;
   overflow-y: auto;

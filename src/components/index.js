@@ -104,7 +104,7 @@ class App extends React.Component {
 		}
 	}
 
-	render() {
+	renderOld() {
 		return (
 			<div className="app">
 				<div className="picker">
@@ -127,6 +127,50 @@ class App extends React.Component {
 					onSetActiveNode={this.handleSetActiveNode}
 					highlightedNodes={this.state.highlightedNodes}
 				/>
+				<TextPane
+					text={this.state.text}
+					activeNode={this.state.activeNode}
+					activeWitness={this.state.activeWitness}
+					onSetActiveNode={this.handleSetActiveNode}
+					onSetActiveWitness={this.handleSetActiveWitness}
+					highlightedNodes={this.state.highlightedNodes}
+				/>
+			</div>
+		);
+	}
+
+	renderSectionPicker() {
+		return (
+			<div className="picker">
+				<select onChange={this.selectSection}>
+					<option key="0" value="">Select a section...</option>
+					{this.props.sectionList.map(
+						s => <option key={s.id} value={s.id} >{s.name}</option>)}
+				</select>
+			</div>
+		)
+	}
+
+	renderSectionList() {
+		const sections = this.props.sectionList.map( s => 
+			<li onClick={this.selectSection} key={s.id} value={s.id} >{s.name}</li>
+		)
+
+		return (
+			<div>
+				<h2>Sections</h2>
+				<ul>
+					{ sections }
+				</ul>
+			</div>
+		);
+	}
+
+	render() {
+		return (
+			<div className="app">
+				{ this.renderSectionList() }
+				<h2>{this.state.section ? this.state.section : ""}</h2>
 				<TextPane
 					text={this.state.text}
 					activeNode={this.state.activeNode}
