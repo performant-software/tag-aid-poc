@@ -17,9 +17,13 @@ class App extends React.Component {
 		};
 	}
 
-	// Re-load all text and witness data when the section changes.
-	selectSection = evt => {
+	onSelectSection = evt => {
 		const section = evt.target.value;
+		this.selectSection(section);
+	}
+
+	// Re-load all text and witness data when the section changes.
+	selectSection(section) {
 		const rdglisturl = process.env.PUBLIC_URL + '/data/'
 			+ section + '/readings.json';
 		fetch(rdglisturl)
@@ -104,11 +108,11 @@ class App extends React.Component {
 		}
 	}
 
-	renderOld() {
+	renderViz() {
 		return (
 			<div className="app">
 				<div className="picker">
-				  <select onChange={this.selectSection}>
+				  <select onChange={this.onSelectSection}>
 						<option key="0" value="">Select a section...</option>
 						{this.props.sectionList.map(
 							s => <option key={s.id} value={s.id} >{s.name}</option>)}
@@ -142,7 +146,7 @@ class App extends React.Component {
 	renderSectionPicker() {
 		return (
 			<div className="picker">
-				<select onChange={this.selectSection}>
+				<select onChange={this.onSelectSection}>
 					<option key="0" value="">Select a section...</option>
 					{this.props.sectionList.map(
 						s => <option key={s.id} value={s.id} >{s.name}</option>)}
@@ -161,7 +165,7 @@ class App extends React.Component {
 
 	renderSectionList() {
 		const sections = this.props.sectionList.map( s => 
-			<li onClick={this.selectSection} key={s.id} value={s.id} >{s.name}</li>
+			<li onClick={this.onSelectSection} key={s.id} value={s.id} >{s.name}</li>
 		)
 
 		return (
@@ -177,6 +181,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="app">
+				<h1>The Critical Edition and Translation</h1>
+				<p>Short abstract</p>
 				<div className="sidebar">
 					{ this.renderLegend() }
 					{ this.renderSectionList() }
