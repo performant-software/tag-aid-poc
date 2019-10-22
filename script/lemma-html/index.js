@@ -111,9 +111,8 @@ class LemmaHTML {
       }
     }
 
-    // TODO
-    //const sectFile = `${outdir}/sections.json`
-    //fs.writeFileSync( sectFile, JSON.stringify(sectionlist) )
+    const sectFile = `${outdir}/sections.json`
+    fs.writeFileSync( sectFile, JSON.stringify(sectionlist) )
   }
 
   loadConfig() {
