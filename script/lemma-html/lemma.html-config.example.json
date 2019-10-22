@@ -1,0 +1,12 @@
+{
+    "options": {
+        "repository": "YOUR STEMMAREST REPO",
+        "tradition_id": "TRADITION GUID"
+    },
+    "auth": {
+        "username": "USER",
+        "password": "PASS"
+    }
+}
+
+

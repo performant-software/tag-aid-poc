@@ -2,9 +2,11 @@
 
 # data
 /public/data
+/script/lemma-html/lemma-html-config.json
 
 # dependencies
 /node_modules
+script/lemma-html/node_modules
 /.pnp
 .pnp.js
 
