@@ -24,20 +24,27 @@ class App extends React.Component {
 
 	// Re-load all text and witness data when the section changes.
 	selectSection(section) {
-		const rdglisturl = process.env.PUBLIC_URL + '/data/'
-			+ section + '/readings.json';
+		const baseURL = process.env.PUBLIC_URL + '/data/' + section
+		const rdglisturl = `${baseURL}/readings.json`
 		fetch(rdglisturl)
 		.then(r => r.json())
 		.then(rdgs => {
 			const textObj = this.setText(rdgs)
 			const witnessObj = this.setWitness("Lemma text", rdgs)
-			this.setState({
-				section: section,
-				text: textObj,
-				activeWitness: witnessObj,
-				activeNode: null,
-				highlightedNodes: [],
-			});
+
+			fetch(`${baseURL}/translation.html`).then(r => r.text()).then( translation => {
+				fetch(`${baseURL}/lemmaText.html`).then(r => r.text()).then( lemmaText => {
+					textObj.translation = translation
+					textObj.lemmaText = lemmaText
+					this.setState({
+						section: section,
+						text: textObj,
+						activeWitness: witnessObj,
+						activeNode: null,
+						highlightedNodes: [],
+					});
+				})
+			})
 		})
 		.catch(console.error.bind(console));
 	};
