@@ -19,8 +19,19 @@ class LemmaHTML {
     //     svg.write(dotresult.stdout)
   }
 
-  lemmaToHTML( witReadings, annos ) {
+  lemmaToHTML( titles, witReadings, annos ) {
     let textElements = [], annotationElements = []
+
+    let enTitle = "", hyTitle = ""
+    for( const title of titles ) {
+      const {properties} = title 
+      if( properties.language === 'en') {
+        enTitle = `<h2>${properties.text}</h2>`
+      } 
+      if( properties.language === 'hy' ) {
+        hyTitle = `<h2>${properties.text}</h2>`
+      }
+    }
 
     // index the annos by beginning reading ID 
     const annoMap = {}
@@ -52,8 +63,8 @@ class LemmaHTML {
       textElements.push( `<span id='text-${rdg.id}' key=${rdg.id}>${rdgtext}</span>`)
     }
 
-    const text = `<p>${textElements.join('')}</p>`
-    const translation = `<p>${annotationElements.join(' ')}</p>`
+    const text = `<div>${hyTitle}<p>${textElements.join('')}</p></div>`
+    const translation = `<div>${enTitle}<p>${annotationElements.join(' ')}</p></div>`
     return { text, translation }
   }
 
@@ -97,10 +108,13 @@ class LemmaHTML {
     const readings = r.data
     const lemmaReadings = this.getWitnessReadings("Lemma text", readings)
 
-    const annoResponse = await axios.get( `${baseURL}/annotations`, {auth, params: {label: 'TRANSLATION'}})
-    const annos = annoResponse.data
+    const titleResponse = await axios.get( `${baseURL}/annotations`, {auth, params: {label: 'TITLE'}})
+    const titles = titleResponse.data
 
-    const docs = this.lemmaToHTML( lemmaReadings.readings, annos )
+    const translationResponse = await axios.get( `${baseURL}/annotations`, {auth, params: {label: 'TRANSLATION'}})
+    const translations = translationResponse.data
+
+    const docs = this.lemmaToHTML( titles, lemmaReadings.readings, translations )
 
     const lemmaFile = `${sectiondir}/lemmaText.html`
     const translationFile = `${sectiondir}/translation.html`
