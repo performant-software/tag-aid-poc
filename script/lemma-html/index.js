@@ -67,7 +67,21 @@ class LemmaHTML {
 			sigil: sigil,
 			readings: witReadings
 		};
-	}
+  }
+  
+  clearSectionData( section, outdir ) {
+    const sectiondir = `${outdir}/${section.id}`
+    const lemmaFile = `${sectiondir}/lemmaText.html`
+    const translationFile = `${sectiondir}/translation.html`
+
+    if( fs.existsSync(lemmaFile)) {
+      fs.unlinkSync(lemmaFile)
+    } 
+
+    if( fs.existsSync(translationFile)) {
+      fs.unlinkSync(translationFile)
+    } 
+  }
 
   async collectSectionData( options, section, outdir, auth ) {
     const sectiondir = `${outdir}/${section.id}`
@@ -88,8 +102,16 @@ class LemmaHTML {
 
     const docs = this.lemmaToHTML( lemmaReadings.readings, annos )
 
-    fs.writeFileSync( `${sectiondir}/lemmaText.html`, docs.text )
-    fs.writeFileSync( `${sectiondir}/translation.html`, docs.translation )
+    const lemmaFile = `${sectiondir}/lemmaText.html`
+    const translationFile = `${sectiondir}/translation.html`
+
+    if( docs.text && docs.text.length > 0 ) {
+      fs.writeFileSync( lemmaFile, docs.text )    
+    }
+
+    if( docs.translation && docs.translation.length > 0) {
+      fs.writeFileSync( translationFile, docs.translation )  
+    }
   }
   
   async collectTraditionData( options, auth ) {
@@ -107,12 +129,14 @@ class LemmaHTML {
 
       if( answer.text ) {
         sectionList.push(sect)
-        this.collectSectionData( options, sect, outdir, auth )
+        await this.collectSectionData( options, sect, outdir, auth )
+      } else {
+        this.clearSectionData( sect, outdir )
       }
     }
 
     const sectFile = `${outdir}/sections.json`
-    fs.writeFileSync( sectFile, JSON.stringify(sectionlist) )
+    fs.writeFileSync( sectFile, JSON.stringify(sectionList) )
   }
 
   loadConfig() {
