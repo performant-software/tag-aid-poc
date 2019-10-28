@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import './index.css';
-import Graph from "./graph";
-import HeatMap from "./heatmap";
-import TextPane from "./text";
+// import Graph from "./graph";
+// import HeatMap from "./heatmap";
+import TextPane from "./TextPane";
 
 class App extends React.Component {
 	constructor(props, context) {
@@ -115,52 +114,25 @@ class App extends React.Component {
 		}
 	}
 
-	renderViz() {
-		return (
-			<div className="app">
-				<div className="picker">
-				  <select onChange={this.onSelectSection}>
-						<option key="0" value="">Select a section...</option>
-						{this.props.sectionList.map(
-							s => <option key={s.id} value={s.id} >{s.name}</option>)}
-					</select>
-				</div>
-				<Graph
-					section={this.state.section}
-					activeNode={this.state.activeNode}
-					onSetActiveNode={this.handleSetActiveNode}
-					highlightedNodes={this.state.highlightedNodes}
-				/>
-				<HeatMap
-					text={this.state.text}
-					activeNode={this.state.activeNode}
-					activeWitness={this.state.activeWitness}
-					onSetActiveNode={this.handleSetActiveNode}
-					highlightedNodes={this.state.highlightedNodes}
-				/>
-				<TextPane
-					text={this.state.text}
-					activeNode={this.state.activeNode}
-					activeWitness={this.state.activeWitness}
-					onSetActiveNode={this.handleSetActiveNode}
-					onSetActiveWitness={this.handleSetActiveWitness}
-					highlightedNodes={this.state.highlightedNodes}
-				/>
-			</div>
-		);
-	}
-
-	renderSectionPicker() {
-		return (
-			<div className="picker">
-				<select onChange={this.onSelectSection}>
-					<option key="0" value="">Select a section...</option>
-					{this.props.sectionList.map(
-						s => <option key={s.id} value={s.id} >{s.name}</option>)}
-				</select>
-			</div>
-		)
-	}
+	// renderViz() {
+	// 	return (
+	// 		<div>
+	// 			<Graph
+	// 				section={this.state.section}
+	// 				activeNode={this.state.activeNode}
+	// 				onSetActiveNode={this.handleSetActiveNode}
+	// 				highlightedNodes={this.state.highlightedNodes}
+	// 			/>
+	// 			<HeatMap
+	// 				text={this.state.text}
+	// 				activeNode={this.state.activeNode}
+	// 				activeWitness={this.state.activeWitness}
+	// 				onSetActiveNode={this.handleSetActiveNode}
+	// 				highlightedNodes={this.state.highlightedNodes}
+	// 			/>
+	// 		</div>
+	// 	);
+	// }
 
 	renderLegend() {
 		return (
@@ -172,7 +144,7 @@ class App extends React.Component {
 
 	renderSectionList() {
 		const sections = this.props.sectionList.map( s => 
-			<li onClick={this.onSelectSection} key={s.id} value={s.id} >{s.name}</li>
+			<li onClick={this.onSelectSection} key={s.id} value={s.id} >{s.displayName}</li>
 		)
 
 		return (
@@ -194,7 +166,6 @@ class App extends React.Component {
 					{ this.renderLegend() }
 					{ this.renderSectionList() }
 				</div>
-				<h2>{this.state.section ? this.state.section : ""}</h2>
 				<TextPane
 					text={this.state.text}
 					activeNode={this.state.activeNode}
@@ -203,6 +174,7 @@ class App extends React.Component {
 					onSetActiveWitness={this.handleSetActiveWitness}
 					highlightedNodes={this.state.highlightedNodes}
 				/>
+				<p>{this.state.section ? `section #${this.state.section}` : ""}</p>
 			</div>
 		);
 	}

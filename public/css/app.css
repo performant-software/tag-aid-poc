@@ -1,6 +1,3 @@
-@import "./graph/index.css";
-@import "./text/index.css";
-@import "./heatmap/index.css";
 
 .picker {
   top: 0;
@@ -11,9 +8,13 @@
   float: left;
 }
 
-.section-list {
-  padding: .2em;
+.section-list  {
   background: #eee;
+  padding: 10px;
+}
+
+.section-list ul {
+  list-style: none;
 }
 
 .legend {
