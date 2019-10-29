@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 // import HeatMap from "./HeatMap";
 import TextPane from "./TextPane";
 
-class App extends React.Component {
+class CriticalEdition extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 
@@ -158,6 +158,7 @@ class App extends React.Component {
 	}
 
 	render() {
+		if( !this.props.sectionList ) return null
 		return (
 			<div className="app">
 				<h1>The Critical Edition and Translation</h1>
@@ -180,9 +181,9 @@ class App extends React.Component {
 	}
 }
 
-App.propTypes = {
+CriticalEdition.propTypes = {
 	sectionList: PropTypes.array
 };
 
 
-export default App;
+export default CriticalEdition;
