@@ -23,11 +23,13 @@ function renderHeader() {
     );
 }
 
-function RenderEdition() {
+function RenderEdition(props) {
+    const { sectionID } = props.match.params;
     const sectionList = useSectionList()
+    if( !sectionList ) return null
 
     return (
-        <CriticalEdition sectionList={sectionList}></CriticalEdition>
+        <CriticalEdition sectionID={sectionID} sectionList={sectionList}></CriticalEdition>
     )
 }
 
