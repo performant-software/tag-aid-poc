@@ -2,7 +2,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import GraphSvg from "./svg";
+import GraphSvg from "./Svg";
 import cx from "classnames";
 
 class Graph extends React.Component {

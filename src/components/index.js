@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import Graph from "./graph";
-// import HeatMap from "./heatmap";
+// import Graph from "./Graph";
+// import HeatMap from "./HeatMap";
 import TextPane from "./TextPane";
 
 class App extends React.Component {
