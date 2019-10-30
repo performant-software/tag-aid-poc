@@ -1,0 +1,14 @@
+body {
+    font-family: Baskerville, ArmBoloragir;
+    background-color: rgb(255, 250, 245);
+}
+
+h1,h2,h3 {
+    font-weight: 500;
+    font-size: 1.75rem;
+}
+
+#chronicle-me #navigation {
+    float: right;
+    margin-right: 100px;
+}

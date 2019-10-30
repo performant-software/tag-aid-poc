@@ -63,8 +63,8 @@ class LemmaHTML {
       textElements.push( `<span id='text-${rdg.id}' key=${rdg.id}>${rdgtext}</span>`)
     }
 
-    const text = `<div><h2>${hyTitle}</h2><p>${textElements.join('')}</p></div>`
-    const translation = `<div><h2>${enTitle}</h2><p>${annotationElements.join(' ')}</p></div>`
+    const text = `<div><h3>${hyTitle}</h3><p>${textElements.join('')}</p></div>`
+    const translation = `<div><h3>${enTitle}</h3><p>${annotationElements.join(' ')}</p></div>`
     return { title: enTitle, text, translation }
   }
 

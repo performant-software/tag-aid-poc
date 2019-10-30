@@ -4,14 +4,17 @@
 }
 
 .text-pane .reading {
-  width: 40em;
+  width: 32em;
   padding: 5px;
-  font-size: 1.2em;
+  margin-left: 20px;
+  font-size: 1rem;
   line-height: 1.5em;
 }
 
 .text-pane .translation {
-  width: 40em;
+  width: 32em;
+  margin-right: 20px;
+  margin-left: 20px;
   padding: 5px;
 }
 

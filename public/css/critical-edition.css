@@ -1,0 +1,25 @@
+
+.critical-edition .sidebar {
+  float: left;
+}
+
+.critical-edition .section-list  {
+  background: #eee;
+  padding: 10px;
+}
+
+.critical-edition .section-list ul {
+  list-style: none;
+}
+
+.critical-edition .legend {
+  margin-bottom: 3em;
+  padding: .2em;
+  background: #eee;
+  height: 10em;
+}
+
+.picker {
+  top: 0;
+  position: absolute;
+}

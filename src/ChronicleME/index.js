@@ -8,7 +8,7 @@ import HomePage from './HomePage'
 function renderNavigation() {
     return (
         <div id="navigation">
-            <Link to='/'>Home`</Link>
+            <Link to='/'>Home</Link><span> </span>
             <Link to='/edition'>Edition</Link>
         </div>
     );
@@ -17,7 +17,6 @@ function renderNavigation() {
 function renderHeader() {
     return (
         <div id="header">
-            <div className="title"><Link to='/'>The Chronicle of Matthew of Edessa</Link></div>
             { renderNavigation() }
         </div>
     );
@@ -54,11 +53,13 @@ function renderFooter() {
 
 export function ChronicleME() {
     return (
-        <HashRouter>
-            { renderHeader() }
-            { renderContent() }
-            { renderFooter() }
-        </HashRouter>
+        <div id="chronicle-me" >
+            <HashRouter>
+                { renderHeader() }
+                { renderContent() }
+                { renderFooter() }
+            </HashRouter>
+        </div>
     );
 }
 

@@ -34,9 +34,9 @@ export default function CriticalEdition(props) {
 	const section = useSection(props.sectionID)
 
 	return (
-		<div className="app">
-			<h1>The Critical Edition and Translation</h1>
-			<p>Short abstract</p>
+		<div className="critical-edition">
+			<h2>The Critical Edition and Translation</h2>
+			<p>{`section #${props.sectionID}`}</p>
 			<div className="sidebar">
 				{ renderLegend() }
 				{ renderSectionList(props.sectionList) }
@@ -51,7 +51,6 @@ export default function CriticalEdition(props) {
 						onSetActiveWitness={()=>{}}
 						highlightedNodes={[]}
 					/>
-					<p>{`section #${section.section}`}</p>
 				</div>
 				:
 				<div></div> 
