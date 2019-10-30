@@ -9,7 +9,7 @@ function renderNavigation() {
     return (
         <div id="navigation">
             <Link to='/'>Home</Link><span> </span>
-            <Link to='/edition'>Edition</Link>
+            <Link to='/edition/1019321'>Edition</Link>
         </div>
     );
 }
