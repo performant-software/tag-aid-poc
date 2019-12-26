@@ -19,9 +19,9 @@ class TextPane extends React.Component {
 
 	htmlToReactParserOptions() {
 		var parserOptions =  {
-			 replace: function(domNode) {
+			replace: function(domNode) {
        
-				 switch (domNode.name) {
+				switch (domNode.name) {
         
           // TODO make text interactive w/viz
           // <span
@@ -34,11 +34,11 @@ class TextPane extends React.Component {
 
 						default:
 							/* Otherwise, Just pass through */
-							return domNode;
-				 }
-			 }
-		 };
-		 return parserOptions;
+              return domNode
+            }
+        }
+    }
+    return parserOptions
 	}
 
   // renderWitnessList() {

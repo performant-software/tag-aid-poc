@@ -31,7 +31,7 @@ function setText(rdglist) {
     textObj.witnesses = startRdg.witnesses;
   }
   return textObj;
-};
+}
 
 // Given a sigil and a list of readings, return an object suitable to
 // be an activeWitness.

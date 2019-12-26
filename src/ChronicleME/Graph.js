@@ -95,8 +95,8 @@ class Graph extends React.Component {
 					left: this.state.left + "px"
 				}}>
 				<GraphSvg
-					section={this.props.section}
 					onSetActiveNode={this.props.onSetActiveNode}
+					section={this.props.section}
 				/>
 			</div>
 		);
