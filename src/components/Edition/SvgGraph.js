@@ -1,6 +1,11 @@
-import React, { useEffect, useRef} from 'react'
+import React, { useEffect, useRef, useState} from 'react'
 import SVG from 'react-inlinesvg';
 import panzoom from 'panzoom'
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import ReplayIcon from '@material-ui/icons/Replay';
+import IconButton from '@material-ui/core/IconButton';
+
 
 const SvgGraph =(props)=>{
 
@@ -9,10 +14,14 @@ const SvgGraph =(props)=>{
           }=props;
     
       const svgRef = useRef(null);
-  
-          useEffect(()=>{
-                panzoom(svgRef.current)
-          },[])
+    
+      const [xCoord, setXCoord] = useState();
+      const [yCoord, setYCoord] = useState();
+      const [zoom, setZoom] =useState(1);
+
+      useEffect(()=>{
+            panzoom(svgRef.current)
+      },[])
 
       useEffect( ()=>{
             highlightAndSelect();
@@ -49,23 +58,55 @@ const SvgGraph =(props)=>{
 
 
       return (
-            <div style={{position:'relative', padding:'16px'}}>
-                  <div ref={svgRef}>
-                
-                                                <SVG 
-                                                            src= {`data/${sectionId}/graph.svg`}
-                                                            style={{cursor:'grab'}}
-                                                            onClick={handleClick}
-                                                            onLoad = { defaultStart }
-                                                />   
-                                          
-                                 
-                              
-                
+            <React.Fragment>
+
+            <div >
+                  <div style={{height:'60px', zIndex:'999',position:'fixed', }}>
+                        <IconButton style={{outline:'none'}} onClick={zoomIn}>
+                              <ZoomInIcon />
+                        </IconButton>
+                        <IconButton style={{outline:'none'}} onClick={zoomOut}>
+                              <ZoomOutIcon />
+                        </IconButton>
+                        <IconButton style={{outline:'none'}} onClick={reset}>
+                              <ReplayIcon />
+                        </IconButton>
                   </div>
-            </div>  
+                  <div style={{padding:'16px'}}>
+                        <div ref={svgRef}>
+                  
+                                    <SVG 
+                                                src= {`data/${sectionId}/graph.svg`}
+                                                style={{cursor:'grab'}}
+                                                onClick={handleClick}
+                                                onLoad = { defaultStart }
+                                    />                  
+                        </div>
+                  </div> 
+            </div>
+            </React.Fragment> 
        )
             
+       function zoomIn(){
+             let  pz = panzoom(svgRef.current)
+            let nextZ = zoom + .18;
+            pz.moveTo(xCoord,yCoord)
+           pz.zoomAbs(xCoord,yCoord, nextZ);
+         
+            setZoom(nextZ)
+      }
+
+      function zoomOut(){
+            let  pz = panzoom(svgRef.current)
+            let nextZ = zoom - .18;
+            pz.moveTo(xCoord,yCoord)
+            pz.zoomAbs(xCoord,yCoord, nextZ);
+            setZoom(nextZ)
+      }
+
+      function reset(){
+         
+      }
 
       function handleClick(ev){
             const nodeGroup = ev.target; 
@@ -138,8 +179,21 @@ const SvgGraph =(props)=>{
       }
 
       function zoomToNode(domNode){
-             if(domNode)
-                        domNode.scrollIntoView({behavior:'smooth', inline:'center',block:'center'});
+            if(domNode){
+                  if (domNode.childNodes){
+                        let x="";
+                        let y="";
+                        domNode.childNodes.forEach(  item=>{
+                              if(item.cx){
+                                    x = item.cx.baseVal.valueAsString;
+                                    y = item.cy.baseVal.valueAsString;
+                              }
+                        })
+                        setXCoord(x);
+                        setYCoord(y);
+                  }
+                  domNode.scrollIntoView({behavior:'smooth', inline:'center',block:'center'});
+            }     
       }
 
       function getGraphDOMNode(nodeId){
