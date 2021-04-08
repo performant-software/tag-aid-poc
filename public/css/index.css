@@ -2,4 +2,5 @@
 @import "./site.css";
 @import "./svg.css";
 @import "./text-pane.css";
-@import "./tei.css"
+@import "./tei.css";
+@import "./tippy.css";
