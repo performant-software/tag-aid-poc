@@ -63,6 +63,16 @@ export const getPlaces = async ( sectionId, onListReceived )=>{
       }
 }
 
+export const getComments = async ( sectionId, onListReceived ) => {
+  const commentListURL = `${localUrl}data/${sectionId}/comments.json`;
+  try {
+    const result = await axios.get(commentListURL);
+    onListReceived(result.data)
+  } catch(error) {
+      console.log(error)
+  }
+}
+
 export const getDates = async ( sectionId, onListReceived )=>{
       const dateListURL = `${localUrl}data/${sectionId}/dates.json`;
       try{

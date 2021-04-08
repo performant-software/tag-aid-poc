@@ -28,6 +28,7 @@ const Edition = ( props)=>{
       const [personList, setPersonList] = useState([]);
       const [placeList, setPlaceList] = useState([]);
       const [dateList, setDateList] = useState([]);
+      const [commentList, setCommentList] = useState([]);
       const [nodeHash, setNodeHash] =useState();
       const [nodeArray, setNodeArray] = useState([]);
       const [graphVisible, setGraphVisible] = useState(false);
@@ -97,6 +98,12 @@ const Edition = ( props)=>{
            else
                  setPlaceList([])
       },[placesVisible, sectionID])
+
+      useEffect(()=>{
+        DataApi.getComments(sectionID, (list) => {
+          setCommentList(list)
+        });
+      },[sectionID])
 
       useEffect(()=>{
             if(datesVisible)
@@ -216,6 +223,7 @@ const Edition = ( props)=>{
                                                             sectionId={sectionID}
                                                             persons={personList}
                                                             places = {placeList}
+                                                            comments = {commentList}
                                                             dates = { dateList}
                                                             reading = {leftReading}
                                                             graphVisible={graphVisible}
