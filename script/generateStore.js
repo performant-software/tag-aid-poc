@@ -111,7 +111,16 @@ async function generateStore(timestamp) {
                         })
                   });
 
-                  let placeArray = new Promise( resolve =>{ 
+                  let commentArray = new Promise(resolve => {
+                    getComments(sectionId)
+                    .then(comments => {
+                      if(comments)
+                        writeAnnotationList(comments, sectionId, 'comments')
+                      resolve();
+                    })
+                  });
+
+                  let placeArray = new Promise( resolve =>{
                         getPlaces(sectionId)
                         .then( places =>{
                               if(places) 
@@ -129,7 +138,7 @@ async function generateStore(timestamp) {
                               resolve();
                         })
                   });
-                 return data =  await Promise.all( [allReadings,titleArray,personArray,placeArray] )
+                 return data =  await Promise.all( [allReadings,titleArray,personArray,commentArray,placeArray] )
 
       }
 
@@ -172,7 +181,18 @@ async function generateStore(timestamp) {
                   console.log(`no person refs for section ${sectionId} `);
                   return null
             }
-           
+
+      }
+
+      async function getComments(sectionId) {
+        const annotationURL = `${baseURL}/section/${sectionId}/annotations`;
+        try {
+          const response = await axios.get(`${annotationURL}`, { auth, params: { label: 'COMMENT' } })
+          return response.data;
+        } catch (error){
+            console.log(`no comments for section ${sectionId} `);
+            return null
+        }
       }
 
       async function getPlaces(sectionId){
@@ -363,12 +383,15 @@ async function generateStore(timestamp) {
       function writeAnnotationList( annotations, sectionId, fileName ){
             const refs = [];
             annotations.forEach( anno =>{
-                  const beginNodeId = anno.links[0].type==="BEGIN"? anno.links[0].target : anno.links[1].target;
-                  const endNodeId = anno.links[1].type==="END"? anno.links[1].target : anno.links[0].target;
+                  const beginNodeId = anno.links.find(l => l.type == "BEGIN").target;
+                  const endNodeId = anno.links.find(l => l.type == "END").target;
                   let ref = {
-                        annotationId: anno.id,
-                        begin: beginNodeId,
-                        end: endNodeId
+                    annotationId: anno.id,
+                    begin: beginNodeId,
+                    end: endNodeId
+                  }
+                  if (anno.properties && anno.properties.text) {
+                    ref["text"] = anno.properties.text
                   }
                   refs.push(ref);
             })

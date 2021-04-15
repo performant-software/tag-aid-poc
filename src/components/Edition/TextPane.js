@@ -2,12 +2,16 @@ import React, {useState, useEffect} from "react";
 import Parser , {domToReact} from 'html-react-parser';
 import * as DataApi from '../../utils/Api';
 import Typography from '@material-ui/core/Typography'
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/animations/shift-away-extreme.css';
 
 
 const TextPane =(props) => {
 
       const {sectionId, reading, onSelectNode, onSelectLocation, selectedSentence, onSelectSentence,
-      persons, places, dates, graphVisible, searchTerm, manuscripts, nodeHash, selectedTimestamp} = props;
+      persons, places, comments, dates, graphVisible, searchTerm, manuscripts, nodeHash, selectedTimestamp} = props;
+
       const [rawText, setRawText] = useState();
       const [enTitle, setEnTitle] = useState();
       const [arTitle, setArTitle] = useState();
@@ -40,15 +44,26 @@ const TextPane =(props) => {
                                     let atRank = props.selectedRank? props.selectedRank === parseInt(rank) : false;
                                     let selected= props.selectedNode ? props.selectedNode.nodeId === nodeId : false;
                                     let person =persons? persons.find( p=>{return isWithinRange(p.begin, p.end, nodeId) }) : false ;
+                                    let comment = comments.find( c=>{return isWithinRange(c.begin, c.end, nodeId) });
                                     let place = places? places.find( p=>{return isWithinRange(p.begin, p.end, nodeId) }) : false ;
                                     let date =dates ? dates.find( d=> {return isWithinRange(d.begin, d.end, nodeId) } ) : false;
                                     let inSelectedSentence = props.selectedSentence? (parseInt(rank) >= parseInt(selectedSentence.startRank) && parseInt(rank)<= parseInt(selectedSentence.endRank) ) : false;
                                     let textStyle={
                                           color: 'black',
-                                          backgroundColor: isSearchTerm?'#D4FCA4':selected?'#D4FCA4':person ? '#D1F3FA' : place ? '#F3E3FB' : date ? '#FAD3C3' :inSelectedSentence ? '#F2F19C':atRank?'#D4FCA4':'transparent'
+                                          backgroundColor: isSearchTerm?'#D4FCA4':selected?'#D4FCA4':person ? '#D1F3FA' : place ? '#F3E3FB' : date ? '#FAD3C3' :inSelectedSentence ? '#F2F19C':atRank?'#D4FCA4': 'transparent',
+                                          borderBottom: comment ? '2px dotted blue' : 'none'
                                     }
+                                    if (comment) {
+                                      return <Tippy content={<span>{comment.text}</span>} animation={'shift-away-extreme'}>
+                                        <span style={textStyle} onClick={()=>{handleSelected({nodeId:nodeId, rank:rank, place: place})}} >
+                                            {domToReact(children,parserOptions)}
+                                          </span>
+                                      </Tippy>
+                                    } else {
                                           return <span style={textStyle} onClick={()=>{handleSelected({nodeId:nodeId, rank:rank, place: place})}} >
                                                 {domToReact(children,parserOptions)}</span>
+                                    }
+
                               }
 
                   }
