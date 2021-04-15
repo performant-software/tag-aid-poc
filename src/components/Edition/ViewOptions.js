@@ -15,14 +15,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 const ViewOptions =(props)=>{
 
       const {onToggleGraph, graphVisible, viewport,
-            witnesses, leftReading, rightReading, onSelectLeftReading, onSelectRightReading,
+            witnesses, leftReading, rightReading, timestampsList, selectedTimestamp, onTimestampSelect, onSelectLeftReading, onSelectRightReading,
             personsVisible, onTogglePersons, placesVisible, onTogglePlaces, datesVisible, onToggleDates,
-            isExpanded, setIsExpanded, manuscripts} = props;
-     
-   
+            isExpanded, setIsExpanded, manuscripts, } = props;
 
       return (
-          
+
                   <ExpansionPanel  style={{ marginLeft:'16px', marginBottom:'8px' ,minWith:'160px'}}
                         expanded={ isExpanded} onChange={ ()=>{ let ex = !isExpanded; setIsExpanded(ex)}}>
                         <ExpansionPanelSummary
@@ -43,9 +41,9 @@ const ViewOptions =(props)=>{
                                           labelPlacement='end'
                                           label="Graph"
                                     />
-                       
+
                                     <div style={{alignSelf:'flex-start'}}>
-                                          <FormControlLabel 
+                                          <FormControlLabel
                                                 control={
                                                       <Checkbox
                                                             checked={personsVisible}
@@ -56,7 +54,7 @@ const ViewOptions =(props)=>{
                                                 labelPlacement='end'
                                                 label="Persons"
                                           /><br/>
-                                          <FormControlLabel 
+                                          <FormControlLabel
                                                 control={
                                                       <Checkbox
                                                             checked={placesVisible}
@@ -67,7 +65,7 @@ const ViewOptions =(props)=>{
                                                 labelPlacement='end'
                                                 label="Places"
                                           /><br/>
-                                          <FormControlLabel 
+                                          <FormControlLabel
                                                 control={
                                                       <Checkbox
                                                             checked={datesVisible}
@@ -95,9 +93,9 @@ const ViewOptions =(props)=>{
                                                       }
                                                 </Select>
                                     </FormControl>
-                             
+
                                     <div style={{height:'8px'}}></div>
-                             
+
                                     <FormControl>
                                           <InputLabel style={{fontSize:'16px', paddingLeft: 10}}>Right Text Pane </InputLabel>
                                                 <Select style={{width:viewport.width * .14, marginBottom:'16px', fontSize: '12pt', paddingLeft: 10}}
@@ -114,14 +112,27 @@ const ViewOptions =(props)=>{
                                                       }
                                                 </Select>
                                     </FormControl>
-                            
-                             
+
+                                    <FormControl>
+                                          <InputLabel style={{fontSize:'16px', paddingLeft: 10}}> Data Version  </InputLabel>
+                                                <Select style={{width:viewport.width * .14, marginBottom:'16px', fontSize: '12pt', paddingLeft: 10}}
+                                                      value={selectedTimestamp}
+                                                      onChange={(e,v)=>{
+                                                        onTimestampSelect(e.target.value)}}
+                                                >
+                                                      {
+                                                             timestampsList.map((timestamp) => { return <MenuItem  value={timestamp.value}>{timestamp.label}</MenuItem> })
+                                                      }
+                                                </Select>
+                                    </FormControl>
+
+
 
                         </ExpansionPanelDetails>
                   </ExpansionPanel>
- 
+
       )
 
-      
+
 }
 export default ViewOptions

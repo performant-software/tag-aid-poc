@@ -19,11 +19,12 @@ class DirectoriesRead {
             this.value = this.value + 1;
             console.log(`processing file: ${this.value} of ${this.total}`)
            if(this.value == this.total)
-                  this.onComplete();
+                  this.onComplete;
      }
 };
 
-async function process(){
+async function process(timestamp){
+
       console.log(`begin processing ${moment().format('mm:ss')}`);
       const config = loadConfig();
       const baseURL=`${config.options.repository}/tradition/${config.options.tradition_id}`;
@@ -32,7 +33,7 @@ async function process(){
       const sigilLookup = [];
       const sections = await getSections();
 
-      iterateDirectories(sourcePath);
+      iterateDirectories(sourcePath, timestamp);
 
       function loadConfig() {
             const configJSON = fs.readFileSync(`script/lemma-html-config.json`, "utf8");
@@ -44,15 +45,15 @@ async function process(){
             return response.data;
       }
 
-      function iterateDirectories(sourcePath) {
+      function iterateDirectories(sourcePath, timestamp) {
             const directories = fs.readdirSync(sourcePath, {withFileTypes: true});
             DirectoriesRead.value = 0;
             DirectoriesRead.total = directories.length;
-            DirectoriesRead.onComplete = writeLookupFile;
+            DirectoriesRead.onComplete = writeLookupFile(timestamp);
 
             for( let i=0; i < directories.length; i++ ) {
                   const teiFilePath = `${sourcePath}/${directories[i].name}/${directories[i].name}.tei.xml`
-    
+
                   if(directories[i].isDirectory()){
                         fs.readFile(teiFilePath, "utf8", (err, contents)=>onReadFile( err,contents,directories[i].name) );
                   }
@@ -82,9 +83,9 @@ async function process(){
             }
             const htmlDOM = new JSDOM()
             const ceTEI = new CETEI(htmlDOM.window);
-            const xmlDOM = new JSDOM(filecontents, { contentType: "text/xml" })  
+            const xmlDOM = new JSDOM(filecontents, { contentType: "text/xml" })
             let sigil;
-            
+
             const data = ceTEI.domToHTML5(xmlDOM.window.document, (el)=>{
                   switch(el.localName){
                         case "tei-milestone":
@@ -129,23 +130,23 @@ async function process(){
                         case "tei-origplace":
                               manuscriptDescription.origPlace = el.innerHTML;
                               break;
-                  }  
+                  }
             })
-       
+
             sigilLookup.push(manuscriptDescription);
             const html =  data.innerHTML;
             DirectoriesRead.increment();
             fs.writeFileSync(htmlFilePath, html, "utf8") ;
       }
 
-      function writeLookupFile(){
-            fs.writeFileSync('public/data/sigilLookup.json', JSON.stringify(sigilLookup), "utf8") ;
+      function writeLookupFile(timestamp){
+            fs.writeFileSync(`public/data/data_${timestamp}/sigilLookup.json`, JSON.stringify(sigilLookup), "utf8") ;
             console.log(`completed processing ${moment().format('mm:ss')}`);
       }
 
-    
-        
-     
+
+
+
 }
 
-process();
+exports.process = process;

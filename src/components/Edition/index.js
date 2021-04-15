@@ -16,7 +16,7 @@ import PreviousNext from './PreviousNext';
 
 
 const Edition = ( props)=>{
-      const {sections , viewport , witnesses, onSearch, searchTerm, manuscripts} = props;
+      const {sections , viewport , witnesses, onSearch, searchTerm, manuscripts, selectedTimestamp, onTimestampSelect, timestampsList} = props;
 
       let {sectionID} = useParams();
       let {witnessID} = useParams();
@@ -37,7 +37,6 @@ const Edition = ( props)=>{
       const [leftReading, setLeftReading] = useState(witnessID? witnessID==="Lemma text"?"Lemma Text" :witnessID:'Lemma Text');
       const [rightReading, setRightReading] = useState('Translation');
       const [isExpanded, setIsExpanded] = useState(false);
-
 
       useEffect(()=>{
             setSelectedSentence(null);
@@ -77,35 +76,35 @@ const Edition = ( props)=>{
                  });
                  setNodeHash(hash);
                  setNodeArray(list);
-           });
-      },[sectionID])
+           }, selectedTimestamp);
+      },[sectionID, selectedTimestamp])
 
        useEffect(()=>{
              if(personsVisible)
             DataApi.getPersons(sectionID, (list)=>{
                   setPersonList(list)
-            });
+            }, selectedTimestamp);
             else
                   setPersonList([])
-       },[personsVisible, sectionID])
+       },[personsVisible, sectionID, selectedTimestamp])
 
        useEffect(()=>{
             if(placesVisible)
                   DataApi.getPlaces(sectionID, (list)=>{
                         setPlaceList(list)
-                  });
+                  }, selectedTimestamp);
            else
                  setPlaceList([])
-      },[placesVisible, sectionID])
+      },[placesVisible, sectionID, selectedTimestamp])
 
       useEffect(()=>{
             if(datesVisible)
                   DataApi.getDates(sectionID, (list)=>{
                         setDateList(list)
-                  });
+                  }, selectedTimestamp);
            else
                  setDateList([])
-      },[datesVisible, sectionID])
+      },[datesVisible, sectionID, selectedTimestamp])
 
       useEffect(()=>{
             if( !props.searchTerm)
@@ -142,6 +141,9 @@ const Edition = ( props)=>{
                                           onToggleDates = {handleToggleDates}
                                           leftReading = {leftReading}
                                           rightReading = { rightReading }
+                                          selectedTimestamp={selectedTimestamp}
+                                          onTimestampSelect={onTimestampSelect}
+                                          timestampsList={timestampsList}
                                           onSelectLeftReading={setLeftReading}
                                           onSelectRightReading={setRightReading}
                                           isExpanded = { isExpanded }
@@ -189,6 +191,7 @@ const Edition = ( props)=>{
                                                             selectedSentence={selectedSentence}
                                                             selectedRank = { selectedRank}
                                                             onSelectRank = {handleSelectRank}
+                                                            selectedTimestamp = {selectedTimestamp}
                                                       />
                                                 </Paper>
                                           </div>
@@ -222,6 +225,7 @@ const Edition = ( props)=>{
                                                             selectedNode={selectedNode}
                                                             selectedRank = { selectedRank }
                                                             selectedSentence={selectedSentence}
+                                                            selectedTimestamp={selectedTimestamp}
                                                             onSelectNode={handleSelectNode}
                                                             onSelectSentence={handleSelectSentence}
                                                             onSelectLocation={handleSelectLocation}
@@ -242,6 +246,7 @@ const Edition = ( props)=>{
                                                             selectedNode={selectedNode}
                                                             selectedRank = { selectedRank }
                                                             selectedSentence={selectedSentence}
+                                                            selectedTimestamp={selectedTimestamp}
                                                             onSelectNode={handleSelectNode}
                                                             onSelectSentence={handleSelectSentence}
                                                       />

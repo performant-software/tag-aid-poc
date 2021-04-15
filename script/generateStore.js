@@ -8,13 +8,13 @@ const lunr = require('lunr');
 // do add error handling please
 
 
-async function generateStore() { 
+async function generateStore(timestamp) {
       const startTime= moment();
       console.log('started', startTime.format('hh:mm:ss'));
       const config = loadConfig();
       const baseURL=`${config.options.repository}/tradition/${config.options.tradition_id}`;
       const auth = config.auth;
-      const outdir = "public/data";
+      const outdir = `public/data/data_${timestamp}`;
       const lunrIndex = [];
       const locationLookup = [];
 
@@ -432,5 +432,4 @@ async function generateStore() {
     
 }
 
-// RUN 
-generateStore();
+exports.generateStore = generateStore;

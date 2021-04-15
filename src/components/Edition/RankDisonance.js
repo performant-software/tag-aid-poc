@@ -6,16 +6,17 @@ VictoryAxis ,  } from 'victory'
 
 const RankDisonance = (props)=> {
 
-      const { 
-            sectionId, 
+      const {
+            sectionId,
             highlightedNode,
-            selectedRank, 
-            selectedSentence, 
-            onSelectRank,  
-            viewport
+            selectedRank,
+            selectedSentence,
+            onSelectRank,
+            viewport,
+            selectedTimestamp
           } = props;
       const [chartData, setChartData] = useState();
-    
+
       useEffect(()=>{
             setChartData([]);
             setChartData(null);
@@ -25,14 +26,14 @@ const RankDisonance = (props)=> {
                               return 1;
                         if( a.rank < b.rank)
                               return -1
-                        else 
+                        else
                               return 0;
                   })
 
             const formatedForChart = generateChartData(report);
             setChartData(formatedForChart)
-            });
-      },[sectionId, selectedSentence])
+          }, selectedTimestamp);
+      },[sectionId, selectedSentence, selectedTimestamp])
 
       const xaxisStyle = {
             grid:    {stroke:  "transparent", } ,
@@ -47,7 +48,7 @@ const RankDisonance = (props)=> {
             ticks: { stroke: "transparent" },
             tickLabels: {fill:"none"},
       };
-      
+
       const containerHeight = viewport.height * .12;
       const chartHeight = containerHeight * .85;
 
@@ -61,7 +62,7 @@ const RankDisonance = (props)=> {
                               title="Rank Disonance"
                               domainPadding={{ x: 6 }}
                               padding={{ top: 6, bottom: 3, left: 12, right: 12 }}
-                              containerComponent={<VictoryContainer responsive={false} 
+                              containerComponent={<VictoryContainer responsive={false}
                               /> }
                                height={chartHeight}
                                width={viewport.width > 960 ? viewport.width * .80: viewport.width * .96}
@@ -71,18 +72,18 @@ const RankDisonance = (props)=> {
                                     <VictoryAxis  dependentAxis style={yaxisStyle} ></VictoryAxis>
                                           <VictoryBar
                                                 style={{
-                                                      data: { 
-                                                            fill: ({datum})=>  getBarColor(datum) 
+                                                      data: {
+                                                            fill: ({datum})=>  getBarColor(datum)
                                                             },
                                                       parent: { border: "1px solid #ccc"},
-                                                      labels: { display:"none"}, 
+                                                      labels: { display:"none"},
                                                 }}
                                                 barRatio={.7}
                                                 data={chartData}
                                                 labels={[]}
                                                 events = {[
                                                       {
-                                                           
+
                                                             target: "data",
                                                             eventHandlers: {
                                                                   onClick: (event, props, key)=>{
@@ -104,7 +105,7 @@ const RankDisonance = (props)=> {
                                                                   },
                                                                   onMouseEnter: () => {
                                                                         return [{
-                                                                                   
+
                                                                                     mutation: (props) => {
                                                                                           return  {style: {fill: "#D4FCA4"}};
                                                                                           }
@@ -118,7 +119,7 @@ const RankDisonance = (props)=> {
                                                                                 const keyInt = parseInt(key);
                                                                                 const rangeStart = selectedSentence ?  parseInt(selectedSentence.startRank) : null;
                                                                                 const rangeEnd = selectedSentence ?  parseInt(selectedSentence.endRank) : null;
-                                                                                
+
                                                                                 if (
                                                                                   highlightedNode && keyInt === highlightedNode.rank) {
                                                                                     color = "#D4FCA4";
@@ -138,11 +139,11 @@ const RankDisonance = (props)=> {
                                           ></VictoryBar>
                         </VictoryChart>
                         </div>
-          
+
             }
             </div>
             );
-           
+
 
             function getBarColor(datum){
                   let color= "#550C18";
@@ -177,6 +178,6 @@ const RankDisonance = (props)=> {
                         data.push( dataPoint );
                   })
                   return data;
-            } 
+            }
 }
 export default RankDisonance;

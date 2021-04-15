@@ -5,13 +5,13 @@ const moment = require('moment')
 const lunr = require('lunr');    
 
 
-async function generateLunrSource() { 
+async function generateLunrSource(timestamp) {
       const startTime= moment();
       console.log('started', startTime.format('hh:mm:ss'));
       const config = loadConfig();
       const baseURL=`${config.options.repository}/tradition/${config.options.tradition_id}`;
       const auth = config.auth;
-      const outdir = "public/data";
+      const outdir = `public/data/data_${timestamp}`;
       const lunrData = [];
       const lunrIndex = [];
       const lunrArmenian = [];
@@ -241,5 +241,4 @@ async function generateLunrSource() {
     
 }
 
-// RUN 
-generateLunrSource();
+exports.generateLunrSource = generateLunrSource;

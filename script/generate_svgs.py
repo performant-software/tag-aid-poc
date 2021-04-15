@@ -10,13 +10,14 @@ from requests.auth import HTTPBasicAuth
 
 def collect_tradition_data(options, auth=None):
     '''Iterate through the given tradition, saving an SVG  for each section into the necessary output directory.'''
-    baseurl = "%s/tradition/%s" % (options.repository, options.tradition_id)
+    baseurl = "%s/tradition/%s" % (options.repository, options.tradition_id.strip())
+
     r = requests.get("%s/sections" % baseurl, auth=auth)
     r.raise_for_status()
 
     # We should put the data in ../public/data relative to this script
-    outdir = "%s/../public/data" % os.path.abspath(os.path.dirname(sys.argv[0]))
-
+    outdir = "%s/../public/data/data_%s" % (os.path.abspath(os.path.dirname(sys.argv[0])), sys.argv[len(sys.argv)-1])
+    print(outdir)
     sectionlist = []
     for sect in r.json():
         ## See if there is lemma text
@@ -41,7 +42,7 @@ def collect_section_data(options, section, outdir, auth=None):
         os.makedirs(sectiondir)
     except FileExistsError:
         pass
-    baseurl = "%s/tradition/%s/section/%s" % (options.repository, options.tradition_id, section.get('id'))
+    baseurl = "%s/tradition/%s/section/%s" % (options.repository, options.tradition_id.strip(), section.get('id'))
     # Collect the section dot and SVGify it
     dotparams = {
         'show_normal': 'true',
@@ -89,12 +90,16 @@ if __name__ == '__main__':
         action="store_true",
         help="turn on verbose output"
     )
+    parser.add_argument(
+        "timestamp",
+        help="timestamp to use when generating data directory"
+    )
 
     args = parser.parse_args()
     # Make an authentication object if we need to
     authobj = None
     if args.username is not None:
-        authobj = HTTPBasicAuth(args.username, args.password)
+        authobj = HTTPBasicAuth(args.username.strip(), args.password.strip())
 
     # Go do the work.
     collect_tradition_data(args, auth=authobj)

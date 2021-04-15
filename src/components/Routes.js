@@ -20,8 +20,7 @@ import MapView from './Visualizations/Map';
 
 const Routes = ( props)=>{
       const viewport = useWindowSize();
-      const {sections, witnesses, manuscripts} = props;
-
+      const {sections, witnesses, manuscripts, timestampsList, selectedTimestamp, onTimestampSelect} = props;
 
       const [searchTerm, setSearchTerm ] = useState('');
       const [translationDictionary, setTranslationDictionary] = useState([]);
@@ -36,51 +35,51 @@ const Routes = ( props)=>{
             if( ! translationIndex )
             DataApi.getTranslationIndex((data)=>{
                   setTranslationIndex(data )
-            })
-      },[])
+            }, selectedTimestamp)
+      },[selectedTimestamp])
 
       useEffect(()=>{
             if( translationDictionary.length===0 )
                   DataApi.getLunrData((data)=>{
                         setTranslationDictionary(data )
-            })
-      },[])
+            }, selectedTimestamp)
+      },[selectedTimestamp])
       useEffect(()=>{
             if( ! armenianIndex )
                   DataApi.getArmenianIndex((data)=>{
                         setArmenianIndex(data )
-                  })
-      },[])
+                  }, selectedTimestamp)
+      },[selectedTimestamp])
       useEffect(()=>{
             if( armenianDictionary.length===0 )
             DataApi.getLunrArmenianData((data)=>{
                   setArmenianDictionary(data )
-                  })
-      },[]);
+                }, selectedTimestamp)
+      },[selectedTimestamp]);
 
       useEffect(()=>{
             if(mapFeatures.length===0){
                   DataApi.getLocationData((data)=>{
                         setMapFeatures(data)
-                  })
+                  }, selectedTimestamp)
             }
-      }, [])
+      }, [selectedTimestamp])
 
       useEffect(()=>{
             if(locationLookup.length===0){
                   DataApi.getLocationLookup((data)=>{
                         setLocationLookup(data)
-                  })
+                  }, selectedTimestamp)
             }
-      }, [])
+      }, [selectedTimestamp])
 
       useEffect(() => {
         if(timelineDates.length === 0) {
           DataApi.getTimelineDates((data) => {
             setTimelineDates(data);
-          });
+          }, selectedTimestamp);
         }
-      }, []);
+      }, [selectedTimestamp]);
 
 
 
@@ -94,7 +93,7 @@ const Routes = ( props)=>{
                                     <Edition manuscripts = {manuscripts} onSearch={setSearchTerm} searchTerm = {searchTerm} sections={sections}  viewport={viewport} witnesses = { witnesses} />
                               </Route>
                               <Route path="/Edition/:sectionID" exact>
-                                    <Edition manuscripts = {manuscripts} onSearch={setSearchTerm}  searchTerm = {searchTerm} sections={sections}  viewport={viewport} witnesses = { witnesses} />
+                                    <Edition manuscripts = {manuscripts} onSearch={setSearchTerm}  searchTerm = {searchTerm} sections={sections}  viewport={viewport} witnesses = { witnesses} selectedTimestamp = {selectedTimestamp} onTimestampSelect={onTimestampSelect} timestampsList={timestampsList}/>
                               </Route>
                               <Route path="/Edition">
                                     <EditionLanding   sections={sections} onSearch={setSearchTerm}  />

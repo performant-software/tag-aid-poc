@@ -7,22 +7,22 @@ import Typography from '@material-ui/core/Typography'
 const TextPane =(props) => {
 
       const {sectionId, reading, onSelectNode, onSelectLocation, selectedSentence, onSelectSentence,
-      persons, places, dates, graphVisible, searchTerm, manuscripts, nodeHash} = props;
+      persons, places, dates, graphVisible, searchTerm, manuscripts, nodeHash, selectedTimestamp} = props;
       const [rawText, setRawText] = useState();
       const [enTitle, setEnTitle] = useState();
       const [arTitle, setArTitle] = useState();
       const [textHTML, setTextHTML] = useState('');
       const [manuscriptName, setManuscriptName] = useState();
       const [manuscriptPlaceDate, setManuscriptPlaceDate] = useState();
-      
+
       const parserOptions = {
             replace: function({attribs,children}) {
-          
+
                   if( attribs && attribs.id ){// the translation and armenian texts are encode with nodeId and rank
                               let rank = reading ==="Translation" ? attribs.id.split('-')[0] : attribs.key;
                               let nodeId = reading ==="Translation" ? attribs.id.split('-')[1] : attribs.id;
-                             
-// this can be further refactored - it was in transition... 
+
+// this can be further refactored - it was in transition...
                               if( reading === "Translation"){
                                     let selected= props.selectedSentence ? props.selectedSentence.startId === nodeId  : false;
                                     let searchedFor = searchTerm? children[0].data.indexOf(searchTerm) > -1 ? true:false:false;
@@ -73,9 +73,9 @@ const TextPane =(props) => {
                   setRawText(html);
                   let parsed = Parser(html, parserOptions)
                   setTextHTML(parsed)
-            });
+            }, selectedTimestamp);
             lookupManuscriptName(props.reading)
-      },[props])
+      },[props, selectedTimestamp])
 
 
       // this seems redundant - was it supposed to be removed?
@@ -102,30 +102,30 @@ const TextPane =(props) => {
                         <Typography variant="h6" style={{textAlign:'center'}}>
                               {enTitle? reading ==="Translation" ? enTitle.split("(")[1] ? enTitle.split("(")[1].replace(")","") : enTitle : arTitle.split("(")[1] ? arTitle.split("(")[1].replace(")","") :arTitle:''}
                         </Typography>
-                    
+
                       <div style={{whiteSpace:'pre-line',marginTop:'16px', marginLeft:'32px', }}>
                               <Typography variant="h6" >
                                     { textHTML }
                              </Typography>
 
                       </div>
-                           
+
            </div>
           )
 
 
       function isWithinRange(startNodeId, endNodeId, nodeId ){
             let withinRange = false;
-     
-           
+
+
             try{
             const startRank = nodeHash[startNodeId].rank;
-            if(!startRank) 
+            if(!startRank)
                   return;
             const endRank = nodeHash[endNodeId].rank;
             if(! endRank)
             return;
-  // it appears some of these are backwards in the database 
+  // it appears some of these are backwards in the database
             const validStart = startRank < endRank ? startRank:endRank;
             const validEnd = endRank > startRank ? endRank: startRank;
 if(validStart !== startRank || validEnd !== endRank)
@@ -134,7 +134,7 @@ console.log("begin end targets were reversed in section"+ sectionId )
             const nodeRank = nodeHash[nodeId].rank;
             if(! nodeRank)
             return;
-           
+
             if( nodeRank >= validStart && nodeRank <=validEnd)
                   withinRange = true;
             } catch(error){
@@ -164,10 +164,10 @@ console.log("begin end targets were reversed in section"+ sectionId )
                   if(graphVisible)
                         onSelectNode(node);
             }
-                  
+
       }
 
-      
+
 }
 
 export default TextPane;

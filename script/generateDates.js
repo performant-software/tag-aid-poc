@@ -5,13 +5,12 @@ const moment = require('moment')
 
 
 
-async function generateDates(){
+async function generateDates(timestamp){
       console.log('start read and generate date info', moment().format('mm ss'))
       const config = loadConfig();
       const auth = config.auth;
       const baseURL=`${config.options.repository}/tradition/${config.options.tradition_id}`;
-      const outdir = "public/data";
-
+      const outdir = `public/data/data_${timestamp}`;
       let wordHash = {}
       let dateList = [];
 
@@ -173,7 +172,7 @@ async function generateDates(){
                                     dateItem.translation = translationText;
                               }
                               resolve();
-                       
+
                         })
                   });
                   translationPromises.push(translationPromise);
@@ -192,26 +191,26 @@ async function generateDates(){
                   console.log( 'error fetching translation for section', sectionId)
                   return null;
             }
-           
+
       }
 
       function parseTranslation( translation, dateStart, dateEnd){
             if( translation.length === 0 )
             return;
-  
+
             for (const entry of translation ) {
                   const text = entry.properties.text;
                   const beginTextNode = entry.links[0].type==="BEGIN" ? entry.links[0].target:entry.links[1].target;
                   const endTextNode = entry.links[0].type==="END" ? entry.links[0].target:entry.links[1].target;
-              
+
                   if ( parseInt(dateStart) >= parseInt(beginTextNode) && parseInt(dateEnd) <= parseInt(endTextNode) )
                         return text;
             }
-        
+
       }
 
 
-  
+
 // these three should be in a shared util file but ... however thisway
 // scripts are standalone
       function loadConfig() {
@@ -227,8 +226,8 @@ async function generateDates(){
       }
 
       function writeFile(filePath, contents){
-            fs.writeFileSync( filePath, contents )  
+            fs.writeFileSync( filePath, contents )
       }
-}
+    }
 
-generateDates();
+exports.generateDates = generateDates;

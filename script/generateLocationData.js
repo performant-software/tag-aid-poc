@@ -2,15 +2,14 @@ const axios = require('axios');
 const fs = require('fs');
 const moment = require('moment');
 const cheerio = require('cheerio');
-const sections = require('./../public/data/sections')// make sure you generated this first
 
-async function GenerateLocationData () {
+async function GenerateLocationData (timestamp) {
       const startTime= moment();
       console.log('started', startTime.format('hh:mm:ss'));
       const config = loadConfig();
       const baseURL=`${config.options.repository}/tradition/${config.options.tradition_id}`;
       const auth = config.auth;
-      const outdir = "public/data";
+      const outdir = `public/data/data_${timestamp}`;
       const geoLocations =[];
       const locationStore = [];
 
@@ -155,14 +154,13 @@ async function GenerateLocationData () {
       async function makeDirectory(){
             if( ! fs.existsSync('public') )
                    fs.mkdirSync('public', {recursive:true});
-            if(!fs.existsSync('public/data'))
-                  fs.mkdirSync('public/data', {recursive:true});
+            if(!fs.existsSync(`public/data/data_${timestamp}`))
+                  fs.mkdirSync(`public/data/data_${timestamp}`, {recursive:true});
       }
 
       function writeFile(fileName, contents){
             fs.writeFileSync( fileName, contents )
       }
-
 }
 
-GenerateLocationData();
+exports.GenerateLocationData = GenerateLocationData;
