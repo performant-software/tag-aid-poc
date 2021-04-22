@@ -246,8 +246,9 @@ const MapView = ( props)=>{
                   if(lookup){
                         let titles = sections.find(s => s.sectionId === lookup.sectionId)
                         const sectionId = lookup.sectionId;
+                        const englishTitle = titles && titles.englishTitle ? titles.englishTitle.substring(0,12) : ""
                         const yearTitle =
-                        innerHtml +=`<li><a href='${homePath}#/Edition/${sectionId}'>${titles.englishTitle.substring(0,12)}</a></li>`
+                        innerHtml +=`<li><a href='${homePath}#/Edition/${sectionId}'>${englishTitle}</a></li>`
                   }
             })
             return innerHtml;

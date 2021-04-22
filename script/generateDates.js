@@ -1,9 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const moment = require('moment')
-
-
-
+const timestamp = process.argv[2]
 
 async function generateDates(timestamp){
       console.log('start read and generate date info', moment().format('mm ss'))
@@ -26,10 +24,10 @@ async function generateDates(timestamp){
 
 
 // a possible api call to look up the reading, you can pass a begin and end node
-// we will start with getting the translation though - 
+// we will start with getting the translation though -
       //http://www.example.com/tradition/tradId/section/sectionId/lemmatext/
 
-   
+
       function writeDateList(){
             makeDirectory();
             let filePath=`${outdir}/chronicleDates.json`
@@ -51,7 +49,7 @@ async function generateDates(timestamp){
 
             }catch( error){
                   console.log(`error fetching all readings ${error} `);
-            
+
             }
       }
 
@@ -101,7 +99,12 @@ async function generateDates(timestamp){
 
                     let beginNode = dateLinkToText.links.find((link) => link.type === "BEGIN").target;
                     let endNode = dateLinkToText.links.find((link) => link.type === "END").target;
-                    let section = wordHash[beginNode].section;
+                    let section;
+                    if (wordHash[beginNode] && wordHash[beginNode].section) {
+                      section = wordHash[beginNode].section;
+                    } else {
+                      return;
+                    }
 
                     let earliestDate, latestDate, notBefore, notAfter;
                     if( date.properties.notBefore )
@@ -230,4 +233,4 @@ async function generateDates(timestamp){
       }
     }
 
-exports.generateDates = generateDates;
+generateDates(timestamp);

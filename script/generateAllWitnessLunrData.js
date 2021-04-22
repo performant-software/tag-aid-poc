@@ -2,8 +2,8 @@ const fs = require('fs')
 const axios = require('axios');
 const moment = require('moment')
 //const CETEI = require('./../utils/CETEI')
-const lunr = require('lunr');    
-
+const lunr = require('lunr');
+const timestamp = process.argv[2];
 
 async function generateLunrSource(timestamp) {
       const startTime= moment();
@@ -34,12 +34,12 @@ async function generateLunrSource(timestamp) {
       }
 
       async function getSections(){
-            const response =   await axios.get(`${baseURL}/sections`, {auth} ) 
+            const response =   await axios.get(`${baseURL}/sections`, {auth} )
             return response.data;
       }
 
       async function getWitnesses(){
-            const response =   await axios.get(`${baseURL}/witnesses`, {auth} ) 
+            const response =   await axios.get(`${baseURL}/witnesses`, {auth} )
             return response.data;
       }
 
@@ -59,14 +59,14 @@ async function generateLunrSource(timestamp) {
             let lemmaTextFinal = await getLemmaText(sectionId);
 
             if( lemmaTextFinal.text ) {
-                 
+
                   let allReadings = new Promise( (resolve )=>{
                         getReadings(sectionId)
                         .then( readings=>{
                               witnesses.push({id:'0',sigil:'Lemma text'});
                               witnesses.forEach( witness =>{
                                     let witnessId = witness.sigil;
-                                    prepareArmenianDataIndex( readings, witnessId, sectionId); 
+                                    prepareArmenianDataIndex( readings, witnessId, sectionId);
                               })
 
                               getTranslation(sectionId)
@@ -118,7 +118,7 @@ async function generateLunrSource(timestamp) {
             lunrArmenianIndex.push({uniqueId:`${sectionId}-${witnessId}`,sectionId:sectionId,witness:witnessId, text:textJoined})
       }
 
-   
+
       function writeArmenianDataIndexFiles( ){
             var idx = lunr(function () {
                   this.pipeline.remove(lunr.trimmer)
@@ -140,7 +140,7 @@ async function generateLunrSource(timestamp) {
             const lunrIndexFile = `${outdir}/lunrArmenianIndex.json`;
             fs.writeFileSync( lunrIndexFile, JSON.stringify(idx) ) ;
 
-            console.log('lunr Armenian index file written')  
+            console.log('lunr Armenian index file written')
       }
 
 
@@ -150,7 +150,7 @@ async function generateLunrSource(timestamp) {
                   console.log('no translation for section', sectionId)
                   return;
             }
-          
+
             if( translation.length === 0 )
             return;
             let textElements = [] ;
@@ -160,7 +160,7 @@ async function generateLunrSource(timestamp) {
                   const text = entry.properties.text;
                   const beginTextNode = entry.links[0].type==="BEGIN" ? entry.links[0].target:entry.links[1].target;
                   const endTextNode = entry.links[0].type==="END" ? entry.links[0].target:entry.links[1].target;
-                  const startNode = reading.find(( r) =>   r.id === beginTextNode.toString());            
+                  const startNode = reading.find(( r) =>   r.id === beginTextNode.toString());
                   const endNode = reading.find( (r) =>   r.id === endTextNode.toString()); // could also check for join_previous and next here
                   const translationFragment = {
                         text: text,
@@ -183,15 +183,15 @@ async function generateLunrSource(timestamp) {
 
             const textJoined = `${lunrText.join(' ')}`
             lunrIndex.push({sectionId:sectionId,title:'',text:textJoined})
-        
-          
+
+
       };
-  
+
       function writeTranslationDataIndexFiles( ){
             var idx = lunr(function () {
                   this.ref('sectionId')
                   this.field('text')
-              
+
                   lunrIndex.forEach(function (doc) {
                               this.add(doc)
                         }, this)
@@ -203,7 +203,7 @@ async function generateLunrSource(timestamp) {
             const lunrIndexFile = `${outdir}/lunrIndex.json`;
             fs.writeFileSync( lunrIndexFile, JSON.stringify(idx) );
 
-            console.log('lunr translation index file written')  
+            console.log('lunr translation index file written')
       }
 
 
@@ -217,7 +217,7 @@ async function generateLunrSource(timestamp) {
       }
 
       function writeFile(fileName, contents){
-            fs.writeFileSync( fileName, contents )  
+            fs.writeFileSync( fileName, contents )
       }
 
       async function getLemmaText(sectionId){
@@ -238,7 +238,7 @@ async function generateLunrSource(timestamp) {
             return response.data;
       }
 
-    
+
 }
 
-exports.generateLunrSource = generateLunrSource;
+generateLunrSource(timestamp);

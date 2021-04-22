@@ -47,42 +47,15 @@ npm install
 
 ### Data Generation
 
-**Note** - order matters here, as some scripts rely on files generated in other scripts. The first script requires Python 3, as well as API authorization data (these are the same values added to the `lemma-html-config.json` file in the step above). Scripts may take several minutes to run.
-
-Within the `/script` directory, run the following commands (in order):
+Within the root directory, run the following command:
 
 ```
-python3 generate_svgs.py -r "https://api.editions.byzantini.st/ChronicleME/stemmarest" -u [enter API username in quotes] -p [enter API password in quotes] -t [tradition ID with NO quotes] -v
-```
-
-
-```
-node generateDates.js
-```
-
-
-```
-node generateManuscriptHtml.js
-```
-
-```
-node generateStore.js
-```
-
-```
-node generateLocationData.js
-```
-
-```
-node generateAllWitnessLunrData.js
-```
-
-```
-node generateLunrData.js
+node generateAllData.js
 ```
 
 ## Local Development
 Run the application locally:
+
 ```
 yarn start
 ```

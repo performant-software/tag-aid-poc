@@ -19,6 +19,7 @@ async function generateTimestampsList() {
   });
 
   fs.writeFileSync(`${outdir}/timestampsList.json`, JSON.stringify(sortedList));
+  console.log("Generated timestamps list")
 };
 
 const checkForMultiples = (item, arr) => {
@@ -26,5 +27,3 @@ const checkForMultiples = (item, arr) => {
 };
 
 generateTimestampsList();
-
-exports.generateTimestampsList = generateTimestampsList;

@@ -6,7 +6,7 @@ const moment = require('moment');
 const { JSDOM } = jsdom
 const {CETEI} = require("./CETEI")
 const axios = require('axios');
-
+const timestamp = process.argv[2];
 
 
 class DirectoriesRead {
@@ -23,7 +23,7 @@ class DirectoriesRead {
      }
 };
 
-async function process(timestamp){
+async function generateManuscriptHtml(timestamp){
 
       console.log(`begin processing ${moment().format('mm:ss')}`);
       const config = loadConfig();
@@ -39,9 +39,9 @@ async function process(timestamp){
             const configJSON = fs.readFileSync(`script/lemma-html-config.json`, "utf8");
             return JSON.parse(configJSON);
       }
-    
+
       async function getSections(){
-            const response =   await axios.get(`${baseURL}/sections`, {auth} ) 
+            const response =   await axios.get(`${baseURL}/sections`, {auth} )
             return response.data;
       }
 
@@ -70,7 +70,7 @@ async function process(timestamp){
             }
             convertToHTML(filecontents, destinationPath);
       }
-      
+
       function convertToHTML( filecontents,directoryName) {
             const htmlFilePath = `${sourcePath}/${directoryName}/${directoryName}.html`;
             let manuscriptDescription ={
@@ -149,4 +149,4 @@ async function process(timestamp){
 
 }
 
-exports.process = process;
+generateManuscriptHtml(timestamp);

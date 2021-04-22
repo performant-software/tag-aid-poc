@@ -23,7 +23,7 @@ const RootContainer = ( props )=>{
             DataApi.getWitnessList( setWitnessList, selectedTimestamp  )
         },[selectedTimestamp])
         useEffect(()=>{
-                  DataApi.getManuscriptLookup( setManuscriptLookup)
+                  DataApi.getManuscriptLookup( setManuscriptLookup, selectedTimestamp)
       },[selectedTimestamp])
 
       return (

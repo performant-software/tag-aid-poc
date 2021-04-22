@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const moment = require('moment');
 const cheerio = require('cheerio');
+const timestamp = process.argv[2];
 
 async function GenerateLocationData (timestamp) {
       const startTime= moment();
@@ -163,4 +164,4 @@ async function GenerateLocationData (timestamp) {
       }
 }
 
-exports.GenerateLocationData = GenerateLocationData;
+GenerateLocationData(timestamp);

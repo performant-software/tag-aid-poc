@@ -4,12 +4,12 @@ import panzoom from 'panzoom'
 
 const SvgGraph =(props)=>{
 
-      const {sectionId, highlightedNode, selectedSentence, selectedRank, onSelectNode, 
-            nodeHash, nodeList, persons, places, dates ,
+      const {sectionId, highlightedNode, selectedSentence, selectedRank, onSelectNode,
+            nodeHash, nodeList, persons, places, dates, selectedTimestamp
           }=props;
-    
+
       const svgRef = useRef(null);
-  
+
           useEffect(()=>{
                 panzoom(svgRef.current)
           },[])
@@ -51,24 +51,24 @@ const SvgGraph =(props)=>{
       return (
             <div style={{position:'relative', padding:'16px'}}>
                   <div ref={svgRef}>
-                
-                                                <SVG 
-                                                            src= {`data/${sectionId}/graph.svg`}
+
+                                                <SVG
+                                                            src= {`data/${selectedTimestamp}/${sectionId}/graph.svg`}
                                                             style={{cursor:'grab'}}
                                                             onClick={handleClick}
                                                             onLoad = { defaultStart }
-                                                />   
-                                          
-                                 
-                              
-                
+                                                />
+
+
+
+
                   </div>
-            </div>  
+            </div>
        )
-            
+
 
       function handleClick(ev){
-            const nodeGroup = ev.target; 
+            const nodeGroup = ev.target;
             if (nodeGroup != null) {
                   const id = nodeGroup.parentNode.id;
                   let trimmedId = id.replace('n','')
@@ -81,7 +81,7 @@ const SvgGraph =(props)=>{
       function highlightAndSelect() {
             let allGraphNodes = svgRef.current.querySelectorAll("g.node");
             allGraphNodes.forEach( n=>{
-                  if (n.id === "__START__" || n.id === "__END__" ) 
+                  if (n.id === "__START__" || n.id === "__END__" )
                         return;
                   let nodeId = n.id.replace('n','');
                   let rank;
@@ -101,7 +101,7 @@ const SvgGraph =(props)=>{
                   if(selectedSentence && nodeHash && rank){
                         inHighlightedSentence = rank.toString() >= selectedSentence.startRank.toString() && rank<= selectedSentence.endRank.toString();
                   }
-                       
+
                   if(persons)
                         isPerson = persons.find( p =>{return p.begin.toString() === nodeId.toString()});
                   if(places)
@@ -122,8 +122,8 @@ const SvgGraph =(props)=>{
                         classNames +=" date";
                   } else if( inHighlightedSentence ) {
                         classNames += " highlight";
-                  } 
-                  
+                  }
+
                   if( isRank ) {
                         classNames += " disonance"
                   }

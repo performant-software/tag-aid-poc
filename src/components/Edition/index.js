@@ -101,8 +101,8 @@ const Edition = ( props)=>{
       useEffect(()=>{
         DataApi.getComments(sectionID, (list) => {
           setCommentList(list)
-        });
-      },[sectionID])
+        }, selectedTimestamp);
+      },[sectionID, selectedTimestamp])
 
       useEffect(()=>{
             if(datesVisible)
@@ -186,6 +186,7 @@ const Edition = ( props)=>{
                                                             dates = { dateList}
                                                             onSelectNode={handleSelectNode}
                                                             onSelectSentence={handleSelectSentence}
+                                                            selectedTimestamp={selectedTimestamp}
                                                       />
                                                 </Paper>
                                           </div>

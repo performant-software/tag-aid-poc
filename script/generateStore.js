@@ -2,9 +2,10 @@ const fs = require('fs')
 const axios = require('axios');
 const moment = require('moment')
 //const CETEI = require('./../utils/CETEI')
-const lunr = require('lunr');    
+const lunr = require('lunr');
+const timestamp = process.argv[2];
 //https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await
-// inspired by fast async await example - everything in parallel when possible - 
+// inspired by fast async await example - everything in parallel when possible -
 // do add error handling please
 
 
@@ -37,12 +38,12 @@ async function generateStore(timestamp) {
       }
 
       async function getSections(){
-            const response =   await axios.get(`${baseURL}/sections`, {auth} ) 
+            const response =   await axios.get(`${baseURL}/sections`, {auth} )
             return response.data;
       }
 
       async function getWitnesses(){
-            const response =   await axios.get(`${baseURL}/witnesses`, {auth} ) 
+            const response =   await axios.get(`${baseURL}/witnesses`, {auth} )
             return response.data;
       }
 
@@ -62,13 +63,13 @@ async function generateStore(timestamp) {
       }
 
       async function getSectionData( sectionId, witnesses, validSections ){
-            let lemmaTextFinal = await getLemmaText(sectionId);   
-                  
+            let lemmaTextFinal = await getLemmaText(sectionId);
+
             let allReadings = new Promise( (resolve )=>{
                         getReadings(sectionId)
                         .then( readings=>{
                               writeReadingLookup(readings, sectionId);
-                              writeLemmaFile( readings, sectionId); 
+                              writeLemmaFile( readings, sectionId);
                               writeWitnessFiles(readings, witnesses, sectionId);
                                     getTranslation(sectionId)
                                     .then( translation=>{
@@ -79,7 +80,7 @@ async function generateStore(timestamp) {
 
                   });
 
-                  let titleArray = new Promise( (resolve) =>{ 
+                  let titleArray = new Promise( (resolve) =>{
                         getTitle(sectionId)
                         .then( titles =>{
                               if(titles.length === 0)
@@ -102,10 +103,10 @@ async function generateStore(timestamp) {
 
                   });
 
-                  let personArray = new Promise( resolve =>{ 
+                  let personArray = new Promise( resolve =>{
                         getPersons(sectionId)
                         .then( persons =>{
-                              if(persons) 
+                              if(persons)
                                     writeAnnotationList(persons, sectionId, 'persons')
                               resolve();
                         })
@@ -123,17 +124,17 @@ async function generateStore(timestamp) {
                   let placeArray = new Promise( resolve =>{
                         getPlaces(sectionId)
                         .then( places =>{
-                              if(places) 
+                              if(places)
                                     writeAnnotationList(places,sectionId, 'places');
                                     appendLocationLookup(sectionId, places)
                               resolve();
                         })
                   });
 
-                  let dateArray = new Promise( resolve =>{ 
+                  let dateArray = new Promise( resolve =>{
                         getDates(sectionId)
                         .then( dates =>{
-                              if(dates) 
+                              if(dates)
                                     writeAnnotationList(dates, sectionId, 'dates')
                               resolve();
                         })
@@ -225,7 +226,7 @@ async function generateStore(timestamp) {
                   htmlContainer.appendChild(data);
             });
 
-          writeFile(manuscriptFile,htmlContainer.innerHTML)  
+          writeFile(manuscriptFile,htmlContainer.innerHTML)
       }
 
       function readingToHTML( reading ){
@@ -253,7 +254,7 @@ async function generateStore(timestamp) {
                   const text = entry.properties.text;
                   const beginTextNode = entry.links[0].type==="BEGIN" ? entry.links[0].target:entry.links[1].target;
                   const endTextNode = entry.links[0].type==="END" ? entry.links[0].target:entry.links[1].target;
-                  const startNode = reading.find(( r) =>   r.id === beginTextNode.toString());            
+                  const startNode = reading.find(( r) =>   r.id === beginTextNode.toString());
                   const endNode = reading.find( (r) =>   r.id === endTextNode.toString()); // could also check for join_previous and next here
                   const translationFragment = {
                         text: text,
@@ -265,7 +266,7 @@ async function generateStore(timestamp) {
                   translationFragments.push(translationFragment)
             }
             translationFragments.sort( (a,b)=>{return a.startRank - b.startRank});
-    
+
             translationFragments.forEach( f => {
                   lunrText.push( f.text)
                   const textElement = `<span id='${f.startRank}-${f.start}' key='${f.endRank}-${f.end}'>${f.text}</span>`;
@@ -282,7 +283,7 @@ async function generateStore(timestamp) {
             let rawLemma = parseWitnessReading("Lemma text", readings);
             let htmlLemma = readingToHTML(rawLemma.readings);
             makeDirectory(sectiondir)
-            writeFile(lemmaFilePath,htmlLemma)  
+            writeFile(lemmaFilePath,htmlLemma)
       }
 
       function writeWitnessFiles(readings, witnesses, sectionId){
@@ -316,7 +317,7 @@ async function generateStore(timestamp) {
             makeDirectory(sectiondir);
             const readingFilePath = `${sectiondir}/readings.json`;
             fs.writeFileSync( readingFilePath, JSON.stringify(id_rank) );
-            
+
             writeReadingReport( id_rank, sectionId)
       }
 
@@ -328,14 +329,14 @@ async function generateStore(timestamp) {
             const rankHash = [];
            for( let i=0; i< highestRank.rank; i++){
                   const nodesAtRank = nodeHash.filter( node=> node.rank === i)
-                  rankHash.push( {'rank': i, 'instances': nodesAtRank.length }) 
+                  rankHash.push( {'rank': i, 'instances': nodesAtRank.length })
            }
            const sectiondir = `${outdir}/${sectionId}`;
            makeDirectory(sectiondir);
             const rankFilePath = `${sectiondir}/ranks.json`;
             fs.writeFileSync( rankFilePath, JSON.stringify(rankHash) )
       }
-     
+
       function parseWitnessReading(sigil, readings) {
             const filterCondition = sigil === 'Lemma text'
                   ? (r) => r.is_lemma && !r.is_start && !r.is_end
@@ -408,7 +409,7 @@ async function generateStore(timestamp) {
                         sectionId:sectionId,
                   }
                   locationLookup.push(placeEntry);
-            })          
+            })
       }
 
       async function makeDirectory(sectiondir){
@@ -421,7 +422,7 @@ async function generateStore(timestamp) {
       }
 
       function writeFile(fileName, contents){
-            fs.writeFileSync( fileName, contents )  
+            fs.writeFileSync( fileName, contents )
       }
 
       function appendLunrIndex(translation,sectionId){
@@ -433,14 +434,14 @@ async function generateStore(timestamp) {
                   this.ref('sectionId')
                   this.field('title')
                   this.field('text')
-              
+
                   lunrIndex.forEach(function (doc) {
                               this.add(doc)
                         }, this)
                   });
             const lunrFile = `${outdir}/lunrIndex.json`;
-            fs.writeFileSync( lunrFile, JSON.stringify(idx) )   
-            console.log('lunr index file written')  
+            fs.writeFileSync( lunrFile, JSON.stringify(idx) )
+            console.log('lunr index file written')
       }
 
       function writeLocationLookup(){
@@ -450,9 +451,9 @@ async function generateStore(timestamp) {
             const sectFile = `${outdir}/${fileName}.json`
             fs.writeFileSync( sectFile, JSON.stringify(locationLookup) )
       }
-     
-     
-    
+
+
+
 }
 
-exports.generateStore = generateStore;
+generateStore(timestamp);
