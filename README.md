@@ -50,7 +50,7 @@ npm install
 Within the root directory, run the following command:
 
 ```
-node generateAllData.js
+node script/generateAllData.js
 ```
 
 ## Local Development
