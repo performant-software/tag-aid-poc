@@ -12,11 +12,11 @@ async function generateDates(timestamp){
       let wordHash = {}
       let dateList = [];
 
-      await fetchReadings();
+      await fetchReadings().catch(e => console.log(e));
 
-      await fetchDateInfo();
+      await fetchDateInfo().catch(e => console.log(e));
 
-      await fetchTranslations();
+      await fetchTranslations().catch(e => console.log(e));
 
       writeDateList();
 
@@ -38,7 +38,7 @@ async function generateDates(timestamp){
       async function fetchReadings(){
 
             try{
-                  let allReadings  = await axios.get(`${baseURL}/readings`,{auth});
+                  let allReadings  = await axios.get(`${baseURL}/readings`,{auth}).catch(e => console.log(e));
                   console.log("all readings = individual word nodes fetched")
                   allReadings.data.forEach( reading=>{
                         if( reading.is_lemma)
@@ -75,7 +75,7 @@ async function generateDates(timestamp){
               });
 
 
-            let dateInfo = await Promise.all([dates, daterefs, datings]);
+            let dateInfo = await Promise.all([dates, daterefs, datings]).catch(e => console.log(e));
 
             console.log('dates, daterefs, and datings fetched')
 
@@ -131,7 +131,7 @@ async function generateDates(timestamp){
 
       async function fetchDateAnnotations(){
             try {
-                  const response = await axios.get(`${baseURL}/annotations`,{auth, params: {label: 'DATE'}});
+                  const response = await axios.get(`${baseURL}/annotations`,{auth, params: {label: 'DATE'}}).catch(e => console.log(e));
                   return response.data;
             }catch( error ) {
                   console.log(`no place refs for section ${sectionId} `);
@@ -141,7 +141,7 @@ async function generateDates(timestamp){
 
       async function fetchDateRefs(){
             try {
-                  const response = await axios.get(`${baseURL}/annotations`,{auth, params: {label: 'DATEREF'}});
+                  const response = await axios.get(`${baseURL}/annotations`,{auth, params: {label: 'DATEREF'}}).catch(e => console.log(e));
                   return response.data;
             }catch( error ) {
                   console.log(`no place refs for section ${sectionId} `);
@@ -152,7 +152,7 @@ async function generateDates(timestamp){
 
       async function fetchDatings(){
             try {
-                  const response = await axios.get(`${baseURL}/annotations`,{auth, params: {label: 'DATING'}});
+                  const response = await axios.get(`${baseURL}/annotations`,{auth, params: {label: 'DATING'}}).catch(e => console.log(e));
                   return response.data;
             }catch( error ) {
                   console.log(`no place refs for section ${sectionId} `);
@@ -181,14 +181,14 @@ async function generateDates(timestamp){
                   translationPromises.push(translationPromise);
             })
 
-            let lookedUp = await Promise.all(translationPromises)
+            let lookedUp = await Promise.all(translationPromises).catch(e => console.log(e));
             console.log( " all translations for dates look up")
       }
 
       async function fetchTranslation(sectionId){
             try{
                   const sectionURL = `${baseURL}/section/${sectionId}`;
-                  const response = await axios.get( `${sectionURL}/annotations`, {auth, params: {label: 'TRANSLATION'}})
+                  const response = await axios.get( `${sectionURL}/annotations`, {auth, params: {label: 'TRANSLATION'}}).catch(e => console.log(e));
                   return response.data;
             } catch ( error){
                   console.log( 'error fetching translation for section', sectionId)

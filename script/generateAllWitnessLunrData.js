@@ -17,7 +17,7 @@ async function generateLunrSource(timestamp) {
       const lunrArmenian = [];
       const lunrArmenianIndex = [];
 
-      await fetchData(baseURL,auth);
+      await fetchData(baseURL,auth).catch(e => console.log(e));;
       const endTime= moment();
       console.log('Done!', endTime.format('hh:mm:ss'))
 
@@ -29,17 +29,17 @@ async function generateLunrSource(timestamp) {
       async function fetchData(baseURL, auth){
             const sections = getSections();
             const witnesses =  getWitnesses();
-            let lists = await Promise.all([sections, witnesses])
-            let sectionStore= await getSectionStore(lists[0], lists[1]);
+            let lists = await Promise.all([sections, witnesses]).catch(e => console.log(e));
+            let sectionStore= await getSectionStore(lists[0], lists[1]).catch(e => console.log(e));;
       }
 
       async function getSections(){
-            const response =   await axios.get(`${baseURL}/sections`, {auth} )
+            const response =   await axios.get(`${baseURL}/sections`, {auth} ).catch(e => console.log(e));
             return response.data;
       }
 
       async function getWitnesses(){
-            const response =   await axios.get(`${baseURL}/witnesses`, {auth} )
+            const response =   await axios.get(`${baseURL}/witnesses`, {auth} ).catch(e => console.log(e));
             return response.data;
       }
 
@@ -50,13 +50,13 @@ async function generateLunrSource(timestamp) {
                   sectionData = getSectionData(section.id, witnesses);
                   sectionPromises.push(sectionData);
             });
-            sectionStore = await Promise.all(sectionPromises);
+            sectionStore = await Promise.all(sectionPromises).catch(e => console.log(e));;
             writeTranslationDataIndexFiles();
             writeArmenianDataIndexFiles();
       }
 
       async function getSectionData( sectionId, witnesses ){
-            let lemmaTextFinal = await getLemmaText(sectionId);
+            let lemmaTextFinal = await getLemmaText(sectionId).catch(e => console.log(e));;
 
             if( lemmaTextFinal.text ) {
 
@@ -78,7 +78,7 @@ async function generateLunrSource(timestamp) {
 
                   });
 
-                 return data =  await Promise.all( [allReadings,] )
+                 return data =  await Promise.all( [allReadings,] ).catch(e => console.log(e));
             }
       }
 
@@ -222,19 +222,19 @@ async function generateLunrSource(timestamp) {
 
       async function getLemmaText(sectionId){
             const url = `${baseURL}/section/${sectionId}/lemmatext`;
-            const response = await axios.get(url, { auth, params: {'final': 'true'} });
+            const response = await axios.get(url, { auth, params: {'final': 'true'} }).catch(e => console.log(e));;
             return response.data;
       }
 
       async function getReadings(sectionId){
             const sectionURL = `${baseURL}/section/${sectionId}`
-            const response = await axios.get(`${sectionURL}/readings`, {auth});
+            const response = await axios.get(`${sectionURL}/readings`, {auth}).catch(e => console.log(e));
             return response.data;
       }
 
       async function getTranslation(sectionId){
             const sectionURL = `${baseURL}/section/${sectionId}`;
-            const response = await axios.get( `${sectionURL}/annotations`, {auth, params: {label: 'TRANSLATION'}})
+            const response = await axios.get( `${sectionURL}/annotations`, {auth, params: {label: 'TRANSLATION'}}).catch(e => console.log(e));
             return response.data;
       }
 

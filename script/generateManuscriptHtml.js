@@ -31,7 +31,7 @@ async function generateManuscriptHtml(timestamp){
       const auth = config.auth;
       const sourcePath = 'public/images/mss';
       const sigilLookup = [];
-      const sections = await getSections();
+      const sections = await getSections().catch(e => console.log(e));
 
       iterateDirectories(sourcePath, timestamp);
 
@@ -41,7 +41,7 @@ async function generateManuscriptHtml(timestamp){
       }
 
       async function getSections(){
-            const response =   await axios.get(`${baseURL}/sections`, {auth} )
+            const response =   await axios.get(`${baseURL}/sections`, {auth} ).catch(e => console.log(e));
             return response.data;
       }
 

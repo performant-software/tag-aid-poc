@@ -19,7 +19,7 @@ async function generateStore(timestamp) {
       const lunrIndex = [];
       const locationLookup = [];
 
-      await fetchData(baseURL,auth);
+      await fetchData(baseURL,auth).catch(e => console.log(e));
       const endTime= moment();
       console.log('Done!', endTime.format('hh:mm:ss'))
 
@@ -32,18 +32,18 @@ async function generateStore(timestamp) {
       async function fetchData(baseURL, auth){
             const sections = getSections();
             const witnesses =  getWitnesses();
-            let lists = await Promise.all([sections, witnesses])
+            let lists = await Promise.all([sections, witnesses]).catch(e => console.log(e));
             writeWitnessList(lists[1]);
-            let sectionStore= await getSectionStore(lists[0], lists[1]);
+            let sectionStore= await getSectionStore(lists[0], lists[1]).catch(e => console.log(e));
       }
 
       async function getSections(){
-            const response =   await axios.get(`${baseURL}/sections`, {auth} )
+            const response =   await axios.get(`${baseURL}/sections`, {auth} ).catch(e => console.log(e));
             return response.data;
       }
 
       async function getWitnesses(){
-            const response =   await axios.get(`${baseURL}/witnesses`, {auth} )
+            const response =   await axios.get(`${baseURL}/witnesses`, {auth} ).catch(e => console.log(e));
             return response.data;
       }
 
@@ -55,7 +55,7 @@ async function generateStore(timestamp) {
                   sectionData = getSectionData(section.id, witnesses, validSections);
                   sectionPromises.push(sectionData);
             });
-            sectionStore = await Promise.all(sectionPromises);
+            sectionStore = await Promise.all(sectionPromises).catch(e => console.log(e));
             validSections.sort( (a,b)=>{a.milestone - b.milestone})
             writeSectionFile( validSections);
             writeLunrIndex();
@@ -63,7 +63,7 @@ async function generateStore(timestamp) {
       }
 
       async function getSectionData( sectionId, witnesses, validSections ){
-            let lemmaTextFinal = await getLemmaText(sectionId);
+            let lemmaTextFinal = await getLemmaText(sectionId).catch(e => console.log(e));
 
             let allReadings = new Promise( (resolve )=>{
                         getReadings(sectionId)
@@ -139,44 +139,44 @@ async function generateStore(timestamp) {
                               resolve();
                         })
                   });
-                 return data =  await Promise.all( [allReadings,titleArray,personArray,commentArray,placeArray] )
+                 return data =  await Promise.all( [allReadings,titleArray,personArray,commentArray,placeArray] ).catch(e => console.log(e));
 
       }
 
       async function getLemmaText(sectionId){
             const url = `${baseURL}/section/${sectionId}/lemmatext`;
-            const response = await axios.get(url, { auth, params: {'final': 'true'} });
+            const response = await axios.get(url, { auth, params: {'final': 'true'} }).catch(e => console.log(e));
             return response.data;
       }
 
       async function getReadings(sectionId){
             const sectionURL = `${baseURL}/section/${sectionId}`
-            const response = await axios.get(`${sectionURL}/readings`, {auth});
+            const response = await axios.get(`${sectionURL}/readings`, {auth}).catch(e => console.log(e));
             return response.data;
       }
 
       async function getAllReadings(){
             const allreadingsURL = `${baseURL}/readings`;
-            const response = await axios.get(allreadingsURL, {auth});
+            const response = await axios.get(allreadingsURL, {auth}).catch(e => console.log(e));
             return response.data;
       }
 
       async function getTranslation(sectionId){
             const sectionURL = `${baseURL}/section/${sectionId}`;
-            const response = await axios.get( `${sectionURL}/annotations`, {auth, params: {label: 'TRANSLATION'}})
+            const response = await axios.get( `${sectionURL}/annotations`, {auth, params: {label: 'TRANSLATION'}}).catch(e => console.log(e));
             return response.data;
       }
 
       async function getTitle(sectionId){
             const sectionURL = `${baseURL}/section/${sectionId}`;
-            const response = await axios.get( `${sectionURL}/annotations`, {auth, params: {label: 'TITLE'}})
+            const response = await axios.get( `${sectionURL}/annotations`, {auth, params: {label: 'TITLE'}}).catch(e => console.log(e));
             return response.data
       }
 
       async function getPersons( sectionId ){
             const annotationURL = `${baseURL}/section/${sectionId}/annotations`;
             try{
-                  const response = await axios.get( `${annotationURL}`, {auth, params: {label: 'PERSONREF'}})
+                  const response = await axios.get( `${annotationURL}`, {auth, params: {label: 'PERSONREF'}}).catch(e => console.log(e));
                   return response.data;
             }catch( error){
                   console.log(`no person refs for section ${sectionId} `);
@@ -188,7 +188,7 @@ async function generateStore(timestamp) {
       async function getComments(sectionId) {
         const annotationURL = `${baseURL}/section/${sectionId}/annotations`;
         try {
-          const response = await axios.get(`${annotationURL}`, { auth, params: { label: 'COMMENT' } })
+          const response = await axios.get(`${annotationURL}`, { auth, params: { label: 'COMMENT' } }).catch(e => console.log(e));
           return response.data;
         } catch (error){
             console.log(`no comments for section ${sectionId} `);
@@ -199,7 +199,7 @@ async function generateStore(timestamp) {
       async function getPlaces(sectionId){
             const annotationURL = `${baseURL}/section/${sectionId}/annotations`;
             try {
-                  const response = await axios.get( `${annotationURL}`, {auth, params: {label: 'PLACEREF'}})
+                  const response = await axios.get( `${annotationURL}`, {auth, params: {label: 'PLACEREF'}}).catch(e => console.log(e));
                   return response.data;
             }catch( error ) {
                   console.log(`no place refs for section ${sectionId} `);
@@ -209,7 +209,7 @@ async function generateStore(timestamp) {
 
       async function getDates(sectionId){
             const annotationURL = `${baseURL}/section/${sectionId}/annotations`;
-            const response = await axios.get( `${annotationURL}`, {auth, params: {label: 'DATEREF'}})
+            const response = await axios.get( `${annotationURL}`, {auth, params: {label: 'DATEREF'}}).catch(e => console.log(e));
             return response.data;
       }
 
@@ -217,7 +217,7 @@ async function generateStore(timestamp) {
             const manuscriptDir = `images/mss/${manuscriptId}`
             const manuscriptFile = `${manuscriptDir}/${manuscriptId}.html`;
             const manuscriptURL = `${manuscriptDir}/${manuscriptId}.tei.xml`;
-            const response = await axios.get( `${manuscriptURL}`)
+            const response = await axios.get( `${manuscriptURL}`).catch(e => console.log(e));
             var TEI =response;
             const CETEIcean = new CETEI();
             let htmlContainer;

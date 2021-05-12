@@ -14,7 +14,7 @@ async function GenerateLocationData (timestamp) {
       const geoLocations =[];
       const locationStore = [];
 
-      await fetchData(baseURL,auth);
+      await fetchData(baseURL,auth).catch(e => console.log(e));
       const endTime= moment();
       console.log('Done!', endTime.format('hh:mm:ss'))
 
@@ -26,7 +26,7 @@ async function GenerateLocationData (timestamp) {
       async function fetchData(){
 
             const geoRequests=[];
-            const places = await getPlaces()
+            const places = await getPlaces().catch(e => console.log(e));
 
             places.data.forEach( p =>{
                   let url = p.properties.href
@@ -46,13 +46,13 @@ async function GenerateLocationData (timestamp) {
                   }
             });
             try {
-              const all = await Promise.all(geoRequests);
+              const all = await Promise.all(geoRequests).catch(e => console.log(e));
             } catch(error) { console.log(error.message) }
             writeLocationFile();
       }
 
       async function fetchKMLLocation(url, originalUrl, place){
-            return geoData = await Promise.resolve(getGeoJson(url))
+            return geoData = await Promise.resolve(getGeoJson(url)).catch(e => console.log(e))
                   .then( openData =>{
                         const record = openData.data
                         geoLocations.push({
@@ -80,7 +80,7 @@ async function GenerateLocationData (timestamp) {
       }
 
       async function fetchSyriacLocation(url, place){
-            return geoData = await Promise.resolve(getGeoJson(url))
+            return geoData = await Promise.resolve(getGeoJson(url)).catch(e => console.log(e))
                   .then( openData =>{
                         const $ = cheerio.load(openData.data.trim())
                         let anchors = $('a');
@@ -112,7 +112,7 @@ async function GenerateLocationData (timestamp) {
       }
 
       async function fetchGeoJsonLocation(url, place){
-            return geoData = await Promise.resolve(getGeoJson(url))
+            return geoData = await Promise.resolve(getGeoJson(url)).catch(e => console.log(e))
                   .then( openData =>{
                         const record = openData.data
                         geoLocations.push({
@@ -138,7 +138,7 @@ async function GenerateLocationData (timestamp) {
       async function getPlaces(){
            // https://api.editions.byzantini.st/ChronicleME/stemmarest/tradition/4aaf8973-7ac9-402a-8df9-19a2a050e364/annotations?label=PLACE
            try{
-                  const response = await axios.get(`${baseURL}/annotations?label=PLACE`, {auth} )
+                  const response = await axios.get(`${baseURL}/annotations?label=PLACE`, {auth} ).catch(e => console.log(e));
                   return response;
 
            } catch( error ){
@@ -149,7 +149,7 @@ async function GenerateLocationData (timestamp) {
       }
 
       async function getGeoJson(url){
-           return response = await axios.get(url)
+           return response = await axios.get(url).catch(e => console.log(e));
       }
 
       async function makeDirectory(){

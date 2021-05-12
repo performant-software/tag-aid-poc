@@ -4,18 +4,18 @@ const apiAuth = require('./lemma-html-config.json');
 
 const timestamp = moment().format('YYYY-MM-DD_hh:mm:ss');
 
-spawn('python3', [`script/generate_svgs.py`, `-r https://api.editions.byzantini.st/ChronicleME/stemmarest`, `-u ${apiAuth["auth"]["username"]}`, `-p ${apiAuth["auth"]["password"]}`, `-t ${apiAuth["options"]["tradition_id"]}`, `-v`, `${timestamp}`]);
+spawn('python3', [`script/generate_svgs.py`, `-r https://api.editions.byzantini.st/ChronicleME/stemmarest`, `-u ${apiAuth["auth"]["username"]}`, `-p ${apiAuth["auth"]["password"]}`, `-t ${apiAuth["options"]["tradition_id"]}`, `-v`, `${timestamp}`]).stdout.on('data', (data) => {   process.stdout.write(data.toString()) });
 
-execSync(`node script/generateDates.js ${timestamp}`);
+execSync(`node script/generateDates.js ${timestamp}`, { stdio: 'inherit' });
 
-execSync(`node script/generateManuscriptHtml.js ${timestamp}`);
+execSync(`node script/generateManuscriptHtml.js ${timestamp}`, { stdio: 'inherit' });
 
-execSync(`node script/generateStore.js ${timestamp}`);
+execSync(`node script/generateStore.js ${timestamp}`, { stdio: 'inherit' });
 
-execSync(`node script/generateLocationData.js ${timestamp}`);
+execSync(`node script/generateLocationData.js ${timestamp}`, { stdio: 'inherit' });
 
-execSync(`node script/generateAllWitnessLunrData.js ${timestamp}`);
+execSync(`node script/generateAllWitnessLunrData.js ${timestamp}`, { stdio: 'inherit' });
 
-execSync(`node script/generateLunrData.js ${timestamp}`);
+execSync(`node script/generateLunrData.js ${timestamp}`, { stdio: 'inherit' });
 
-execSync(`node script/generateTimestampsList.js`);
+execSync(`node script/generateTimestampsList.js`, { stdio: 'inherit' });
