@@ -115,6 +115,7 @@ const ViewOptions =(props)=>{
 
                                     <FormControl>
                                           <InputLabel style={{fontSize:'16px', paddingLeft: 10}}> Data Version  </InputLabel>
+                                            {selectedTimestamp &&
                                                 <Select style={{width:viewport.width * .14, marginBottom:'16px', fontSize: '12pt', paddingLeft: 10}}
                                                       value={selectedTimestamp}
                                                       onChange={(e,v)=>{
@@ -124,6 +125,7 @@ const ViewOptions =(props)=>{
                                                              timestampsList.map((timestamp) => { return <MenuItem  value={timestamp.value}>{timestamp.label}</MenuItem> })
                                                       }
                                                 </Select>
+                                              }
                                     </FormControl>
 
 
