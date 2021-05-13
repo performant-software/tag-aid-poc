@@ -246,7 +246,7 @@ async function generateStore(timestamp) {
 
       function translationToHTML( translation, sectionId , reading){
             if( translation.length === 0 )
-            return;
+            return "No translation available";
             let textElements = [] ;
             let lunrText = [];
             const translationFragments = [];
@@ -352,7 +352,6 @@ async function generateStore(timestamp) {
       function writeTranslationFile( translation,sectionId, readings){
             if ( ! translation.length > 0 ){
                   console.log('no translation for section', sectionId)
-                  return;
             }
             const sectiondir = `${outdir}/${sectionId}`;
             const translationFilePath = `${sectiondir}/en.html`;
