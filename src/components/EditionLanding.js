@@ -65,7 +65,7 @@ const EditionLanding = ( props)=>{
                                                             <div style={{display:'flex',justifyContent:'center',margin:'6px'}}>
                                                                         <Card style={cardStyle} variant="outlined">
                                                                               <CardActions>
-                                                                                    <Button size="large" component={Link} to="/Edition/1019321" color="secondary">
+                                                                                    <Button size="large" component={Link} to="/Edition/955909" color="secondary">
                                                                                                       <Typography variant="body2">
                                                                                                             {"Book 2"}
                                                                                                       </Typography>
@@ -78,7 +78,7 @@ const EditionLanding = ( props)=>{
                                                             <div style={{display:'flex',justifyContent:'center',margin:'6px'}}>
                                                                         <Card style={cardStyle} variant="outlined">
                                                                               <CardActions>
-                                                                                    <Button size="large" component={Link} to="/Edition/1019321" color="secondary">
+                                                                                    <Button size="large" component={Link} to="/Edition/1101117" color="secondary">
                                                                                                       <Typography variant="body2">
                                                                                                             {"Book 3"}
                                                                                                       </Typography>
@@ -91,7 +91,7 @@ const EditionLanding = ( props)=>{
                                                             <div style={{display:'flex',justifyContent:'center',margin:'6px'}}>
                                                                         <Card style={cardStyle} variant="outlined">
                                                                               <CardActions>
-                                                                                    <Button size="large" component={Link} to="/Edition/1019321" color="secondary">
+                                                                                    <Button size="large" component={Link} to="/Edition/1041054" color="secondary">
                                                                                                       <Typography variant="body2">
                                                                                                             {"Continuation"}
                                                                                                       </Typography>
