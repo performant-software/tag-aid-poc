@@ -13,6 +13,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Paper from '@material-ui/core/Paper';
 import {withRouter} from 'react-router-dom';
 import PreviousNext from './PreviousNext';
+import Citation from './Citation';
 
 
 const Edition = ( props)=>{
@@ -264,6 +265,8 @@ const Edition = ( props)=>{
                                     </div>
                                     </React.Fragment>
                               }
+
+                              <Citation selectedTimestamp={selectedTimestamp} />
 
                         </div>
                   </Grid>
