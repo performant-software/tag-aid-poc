@@ -421,7 +421,10 @@ async function generateStore(timestamp) {
       }
 
       function writeFile(fileName, contents){
-            fs.writeFileSync( fileName, contents )
+            fs.writeFileSync( fileName, contents || "" )
+            if (!contents) {
+                  console.log(`Wrote empty file ${fileName}; missing contents`)
+            }
       }
 
       function appendLunrIndex(translation,sectionId){
