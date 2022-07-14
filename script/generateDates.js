@@ -107,10 +107,12 @@ async function generateDates(timestamp){
                     }
 
                     let earliestDate, latestDate, notBefore, notAfter;
-                    if( date.properties.notBefore )
-                          { notBefore = moment().year(date.properties.notBefore.year).dayOfYear(date.properties.notBefore.dayOfYear).toISOString(); };
-                     if( date.properties.notAfter)
-                          { notAfter = moment().year(date.properties.notAfter.year).dayOfYear(date.properties.notAfter.dayOfYear).toISOString(); };
+                    if( date.properties.notBefore ) {
+                        notBefore = moment(date.properties.notBefore).toISOString();
+                    };
+                     if( date.properties.notAfter) {
+                        notAfter = moment(date.properties.notAfter).toISOString();
+                    };
                     if (notBefore && notAfter) {
                       earliestDate = notBefore < notAfter ? notBefore : notAfter;
                       latestDate = notBefore > notAfter ? notBefore : notAfter;
