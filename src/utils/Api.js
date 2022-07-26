@@ -101,6 +101,10 @@ export const getReading = async ( sectionId, reading, onTextReceived, timestamp 
             const result = await axios.get(readingURL);
             onTextReceived(result.data)
       } catch( error ) {
+            if (error.response?.status === 404) {
+                  // return an empty string for reading data if reading could not be found
+                  onTextReceived("");
+            }
             console.log(error)
       }
 }

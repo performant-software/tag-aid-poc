@@ -83,13 +83,15 @@ const TextPane =(props) => {
       },[sectionId,props.sections])
 
       useEffect(()=>{
-            setRawText(null);
-            DataApi.getReading(sectionId,props.reading, (html)=>{
-                  setRawText(html);
-                  let parsed = Parser(html, parserOptions)
-                  setTextHTML(parsed)
-            }, selectedTimestamp);
-            lookupManuscriptName(props.reading)
+            if (selectedTimestamp) {
+                  setRawText(null);
+                  DataApi.getReading(sectionId,props.reading, (html)=>{
+                        setRawText(html);
+                        let parsed = Parser(html, parserOptions)
+                        setTextHTML(parsed)
+                  }, selectedTimestamp);
+                  lookupManuscriptName(props.reading)
+            }
       },[props, selectedTimestamp])
 
 

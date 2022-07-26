@@ -32,33 +32,33 @@ const Routes = ( props)=>{
       const [timelineDates, setTimelineDates] = useState([]);
 
       useEffect(()=>{
-            if( ! translationIndex )
+            if( ! translationIndex && selectedTimestamp )
             DataApi.getTranslationIndex((data)=>{
                   setTranslationIndex(data )
             }, selectedTimestamp)
       },[selectedTimestamp])
 
       useEffect(()=>{
-            if( translationDictionary.length===0 )
+            if( translationDictionary.length===0 && selectedTimestamp )
                   DataApi.getLunrData((data)=>{
                         setTranslationDictionary(data )
             }, selectedTimestamp)
       },[selectedTimestamp])
       useEffect(()=>{
-            if( ! armenianIndex )
+            if( ! armenianIndex && selectedTimestamp )
                   DataApi.getArmenianIndex((data)=>{
                         setArmenianIndex(data )
                   }, selectedTimestamp)
       },[selectedTimestamp])
       useEffect(()=>{
-            if( armenianDictionary.length===0 )
+            if( armenianDictionary.length===0 && selectedTimestamp )
             DataApi.getLunrArmenianData((data)=>{
                   setArmenianDictionary(data )
                 }, selectedTimestamp)
       },[selectedTimestamp]);
 
       useEffect(()=>{
-            if(mapFeatures.length===0){
+            if(mapFeatures.length===0 && selectedTimestamp){
                   DataApi.getLocationData((data)=>{
                         setMapFeatures(data)
                   }, selectedTimestamp)
@@ -66,7 +66,7 @@ const Routes = ( props)=>{
       }, [selectedTimestamp])
 
       useEffect(()=>{
-            if(locationLookup.length===0){
+            if(locationLookup.length===0 && selectedTimestamp){
                   DataApi.getLocationLookup((data)=>{
                         setLocationLookup(data)
                   }, selectedTimestamp)
@@ -74,7 +74,7 @@ const Routes = ( props)=>{
       }, [selectedTimestamp])
 
       useEffect(() => {
-        if(timelineDates.length === 0) {
+        if(timelineDates.length === 0 && selectedTimestamp) {
           DataApi.getTimelineDates((data) => {
             setTimelineDates(data);
           }, selectedTimestamp);
