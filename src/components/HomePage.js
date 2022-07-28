@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 
 const HomePage = (props)=> {
-      const {sections, onSearch} = props;
+      const { sections, onSearch, selectedTimestamp } = props;
 
     return (
 
@@ -36,34 +36,36 @@ const HomePage = (props)=> {
 
             </div> 
             <div style={{display:'flex', justifyContent:'center',margin:'24px 0px'}}>
-                        <img src="images/edessa_line.png" style={{width:'70%'}}  alt="line graphic" />
+                        <img alt="line graphic" src="images/edessa_line.png"  style={{width:'70%'}} />
             </div>  
             <div style={{display:'flex',justifyContent:'center'}}>
 
                                     <Grid container spacing={4}>
-                                          <Grid item xs={12} md={6}>
+                                          <Grid item md={6} xs={12}>
                                                 <TextPane 
-                                                      sections = { sections}
-                                                      sectionId={'1019321'}
-                                                      reading = {'Lemma Text'}
-                                                      selectedNodes= {[]}
-                                                      onSelectNode={()=>{}}
-                                                      onDeselectNode={()=>{}}
+                                                      onSelectLocation={() => {}}
+                                                      onSelectNode={() => {}}
+                                                      onSelectSentence={() => {}}
+                                                      reading="Lemma Text"
+                                                      sectionId="1019321"
+                                                      sections={sections}
+                                                      selectedTimestamp={selectedTimestamp}
                                                 />
                                           </Grid>
 
-                                          <Grid item xs={12} md={6}>
+                                          <Grid item md={6} xs={12}>
                                                 <TextPane 
-                                                      sections = { sections}
-                                                      sectionId={'1019321'}
-                                                      reading = { 'Translation'}
-                                                      selectedNodes= {[]}
-                                                      onSelectNode={()=>{}}
-                                                      onDeselectNode={()=>{}}
+                                                      onSelectLocation={() => {}}
+                                                      onSelectNode={() => {}}
+                                                      onSelectSentence={() => {}}
+                                                      reading="Translation"
+                                                      sectionId="1019321"
+                                                      sections={sections}
+                                                      selectedTimestamp={selectedTimestamp}
                                                 />
                                           </Grid>
-                                          <Grid  item xs={12} style={{textAlign:'center', marginBottom:'48px'}}>
-                                                <Button size="large" component={Link} to="/Edition/1019321" color="secondary">
+                                          <Grid  item style={{textAlign:'center', marginBottom:'48px'}} xs={12}>
+                                                <Button color="secondary" component={Link} size="large" to="/Edition/1019321">
                                                       <Typography variant="h5">
                                                             {"Read on..."}
                                                       </Typography>
