@@ -18,6 +18,7 @@ const MapView = ( props)=>{
 
 
       useEffect( ()=>{
+        if (geoData.length > 0) {
             const Edessa = [37.1747759,38.7708186];
             let selectedLocation;
             if( locationId){
@@ -164,8 +165,8 @@ const MapView = ( props)=>{
 
 
             })// end on load handler
-
-      })
+        }
+      }, [geoData])
 
 
       return(
