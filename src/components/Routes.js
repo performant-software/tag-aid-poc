@@ -111,7 +111,7 @@ const Routes = ( props)=>{
                                     <ManuscriptView onSearch={setSearchTerm}   />
                               </Route>
                               <Route path="/Home" exact>
-                                    <HomePage sections={sections} onSearch={setSearchTerm} />
+                                    <HomePage sections={sections} onSearch={setSearchTerm} selectedTimestamp={selectedTimestamp} />
                               </Route>
                               <Route path="/Search" exact>
                                     <SearchResults

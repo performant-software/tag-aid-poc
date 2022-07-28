@@ -44,7 +44,7 @@ const TextPane =(props) => {
                                     let atRank = props.selectedRank? props.selectedRank === parseInt(rank) : false;
                                     let selected= props.selectedNode ? props.selectedNode.nodeId === nodeId : false;
                                     let person =persons? persons.find( p=>{return isWithinRange(p.begin, p.end, nodeId) }) : false ;
-                                    let comment = comments.find( c=>{return isWithinRange(c.begin, c.end, nodeId) });
+                                    let comment = comments ? comments.find( c=>{return isWithinRange(c.begin, c.end, nodeId) }) : false;
                                     let place = places? places.find( p=>{return isWithinRange(p.begin, p.end, nodeId) }) : false ;
                                     let date =dates ? dates.find( d=> {return isWithinRange(d.begin, d.end, nodeId) } ) : false;
                                     let inSelectedSentence = props.selectedSentence? (parseInt(rank) >= parseInt(selectedSentence.startRank) && parseInt(rank)<= parseInt(selectedSentence.endRank) ) : false;
@@ -84,7 +84,7 @@ const TextPane =(props) => {
 
       useEffect(()=>{
             setRawText(null);
-            DataApi.getReading(sectionId,props.reading, (html)=>{
+            DataApi.getReading(sectionId, props.reading, (html)=>{
                   setRawText(html);
                   let parsed = Parser(html, parserOptions)
                   setTextHTML(parsed)
