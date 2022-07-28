@@ -1,7 +1,6 @@
 const fs = require('fs')
 const axios = require('axios');
 const moment = require('moment')
-//const CETEI = require('./../utils/CETEI')
 const lunr = require('lunr');
 const timestamp = process.argv[2];
 //https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await
@@ -30,11 +29,13 @@ async function generateStore(timestamp) {
       }
 
       async function fetchData(baseURL, auth){
-            const sections = getSections();
-            const witnesses =  getWitnesses();
-            let lists = await Promise.all([sections, witnesses]).catch(e => console.log(e));
-            writeWitnessList(lists[1]);
-            let sectionStore= await getSectionStore(lists[0], lists[1]).catch(e => console.log(e));
+            try {
+                  let lists = await Promise.all([getSections(), getWitnesses()]);
+                  writeWitnessList(lists[1]);
+                  await getSectionStore(lists[0], lists[1]);
+            } catch (e) {
+                  console.log(e);
+            };
       }
 
       async function getSections(){
@@ -48,21 +49,26 @@ async function generateStore(timestamp) {
       }
 
        async function getSectionStore(sections, witnesses){
-            const sectionPromises = [];
             const validSections = [];
-            sections.forEach( section =>{
+            await Promise.all(sections.map(async (section, index) =>{
                   console.log("fetching manuscripts with section", section.id);
-                  sectionData = getSectionData(section.id, witnesses, validSections);
-                  sectionPromises.push(sectionData);
-            });
-            sectionStore = await Promise.all(sectionPromises).catch(e => console.log(e));
-            validSections.sort( (a,b)=>{a.milestone - b.milestone})
-            writeSectionFile( validSections);
+                  try {
+                        // keep track of index to ensure order is as returned from endpoint
+                        sectionData = await getSectionData(section.id, index, witnesses, validSections);
+                        return Promise.resolve(sectionData);
+                  } catch (err) {
+                        return Promise.reject(err);
+                  }
+            }));
+            // fyi - sectionIds have nothing to do with it, they are not sequential
+            // should not be chronological; should sort by index as returned from endpoint
+            validSections.sort((a, b) => (parseInt(a.index) - parseInt(b.index)));
+            writeSectionFile(validSections);
             writeLunrIndex();
             writeLocationLookup()
       }
 
-      async function getSectionData( sectionId, witnesses, validSections ){
+      async function getSectionData( sectionId, index, witnesses, validSections ){
             let lemmaTextFinal = await getLemmaText(sectionId).catch(e => console.log(e));
 
             let allReadings = new Promise( (resolve )=>{
@@ -82,7 +88,7 @@ async function generateStore(timestamp) {
 
                   let titleArray = new Promise( (resolve) =>{
                         getTitle(sectionId)
-                        .then( titles =>{
+                        .then(titles =>{
                               if(titles.length === 0)
                                     console.log('no title for section: ', sectionId);
                               else {
@@ -94,7 +100,8 @@ async function generateStore(timestamp) {
                                           sectionId: sectionId,
                                           englishTitle: englishTitle,
                                           armenianTitle: armenianTitle,
-                                          milestone: milestone
+                                          milestone: milestone,
+                                          index,
                                     }
                                     validSections.push(validSection);
                               }
@@ -113,12 +120,12 @@ async function generateStore(timestamp) {
                   });
 
                   let commentArray = new Promise(resolve => {
-                    getComments(sectionId)
-                    .then(comments => {
-                      if(comments)
+                        getComments(sectionId)
+                        .then(comments => {
+                        if(comments)
                         writeAnnotationList(comments, sectionId, 'comments')
-                      resolve();
-                    })
+                        resolve();
+                        })
                   });
 
                   let placeArray = new Promise( resolve =>{
@@ -139,8 +146,7 @@ async function generateStore(timestamp) {
                               resolve();
                         })
                   });
-                 return data =  await Promise.all( [allReadings,titleArray,personArray,commentArray,placeArray] ).catch(e => console.log(e));
-
+                  return data =  await Promise.all( [allReadings,titleArray,personArray,commentArray,placeArray] ).catch(e => console.log(e));
       }
 
       async function getLemmaText(sectionId){
@@ -362,13 +368,7 @@ async function generateStore(timestamp) {
 
       function writeSectionFile( validSections ){
             const sectFile = `${outdir}/sections.json`;
-            // fyi - sectionIds have nothing to do with it, they are not sequential
-            validSections.sort( (a,b)=>{
-                  const aYear = a.englishTitle.match(/(\d+)/)[0];
-                  const bYear = b.englishTitle.match(/(\d+)/)[0];
-                  return ( parseInt(aYear) - parseInt(bYear))
-            })
-            fs.writeFileSync( sectFile, JSON.stringify(validSections) )
+            fs.writeFileSync(sectFile, JSON.stringify(validSections));
       }
 
       function writeWitnessList( witnesses ) {
