@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
 const HomePage = (props) => {
-    const { sections, onSearch } = props;
+    const { sections, onSearch, selectedTimestamp } = props;
 
     return (
         <Fragment>
@@ -46,47 +46,49 @@ const HomePage = (props) => {
                     }}
                 >
                     <img
+                        alt="line graphic"
                         src="images/edessa_line.png"
                         style={{ width: "70%" }}
-                        alt="line graphic"
                     />
                 </div>
                 <div style={{ display: "flex", justifyContent: "center" }}>
                     <Grid container spacing={4}>
-                        <Grid item xs={12} md={6}>
+                        <Grid item md={6} xs={12}>
                             <TextPane
-                                sections={sections}
-                                sectionId={"1019321"}
-                                reading={"Lemma Text"}
-                                selectedNodes={[]}
+                                onSelectLocation={() => {}}
                                 onSelectNode={() => {}}
-                                onDeselectNode={() => {}}
+                                onSelectSentence={() => {}}
+                                reading="Lemma Text"
+                                sectionId="1019321"
+                                sections={sections}
+                                selectedTimestamp={selectedTimestamp}
                             />
                         </Grid>
 
-                        <Grid item xs={12} md={6}>
+                        <Grid item md={6} xs={12}>
                             <TextPane
-                                sections={sections}
-                                sectionId={"1019321"}
-                                reading={"Translation"}
-                                selectedNodes={[]}
+                                onSelectLocation={() => {}}
                                 onSelectNode={() => {}}
-                                onDeselectNode={() => {}}
+                                onSelectSentence={() => {}}
+                                reading="Translation"
+                                sectionId="1019321"
+                                sections={sections}
+                                selectedTimestamp={selectedTimestamp}
                             />
                         </Grid>
                         <Grid
                             item
-                            xs={12}
                             style={{
                                 textAlign: "center",
                                 marginBottom: "48px",
                             }}
+                            xs={12}
                         >
                             <Button
-                                size="large"
-                                component={Link}
-                                to="/Edition/1019321"
                                 color="secondary"
+                                component={Link}
+                                size="large"
+                                to="/Edition/1019321"
                             >
                                 <Typography variant="h5">
                                     {"Read on..."}

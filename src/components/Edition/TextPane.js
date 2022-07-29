@@ -94,9 +94,11 @@ const TextPane = (props) => {
                               return isWithinRange(p.begin, p.end, nodeId);
                           })
                         : false;
-                    let comment = comments.find((c) => {
-                        return isWithinRange(c.begin, c.end, nodeId);
-                    });
+                    let comment = comments
+                        ? comments.find((c) => {
+                              return isWithinRange(c.begin, c.end, nodeId);
+                          })
+                        : false;
                     let place = places
                         ? places.find((p) => {
                               return isWithinRange(p.begin, p.end, nodeId);
