@@ -1,75 +1,73 @@
 body {
-      font-family: Baskerville, ArmBoloragir;
-      background-color: rgb(255, 250, 245);
-    }
-    
- 
-    a {
-      color: #550C18;
-    }
-    
-    a:hover {
-      color: #A4243B;
-    }
+    font-family: Baskerville, ArmBoloragir;
+    background-color: rgb(255, 250, 245);
+}
 
-     /* a:hover {
+a {
+    color: #550c18;
+}
+
+a:hover {
+    color: #a4243b;
+}
+
+/* a:hover {
       color: #0e8a79;
     } 
      */
-    
-    code {
-      color: #212529;
-    }
-    
-    .framed {
-      margin: 10px;
-      padding: 10px;
-      border: 1px solid #212529;
-    }
-    
-    .content .row {
-      padding-top: 20px;
-    }
-    
-    .divider img {
-      width: 95%;
-      margin: 20px;
-    }
-    
-    .btn-continue {
-      opacity: 0.5;
-    }
-    
-    .btn-primary {
-      background-color: rgb(92, 90, 137);
-      border-color: rgb(92, 90, 137);
-    }
-    
-    .btn-primary:hover {
-      background-color: rgb(131, 28, 35);
-      border-color: rgb(131, 28, 35);
-    }
-    
-    .card-text {
-      height: 72px;
-    }
-    
-    .footer {
-      border-top: 1px solid black;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      padding-top: 20px;
-    }
-    
-    #banner-logo {
-      width: 80%;
-      margin: 50px;
-    }
 
-    #manuscript-container img {
-          object-fit:cover !important;
-         max-height:250px !important;
-          overflow-y:hidden !important;
-          max-height:250 !important;
-    }
-    
+code {
+    color: #212529;
+}
+
+.framed {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #212529;
+}
+
+.content .row {
+    padding-top: 20px;
+}
+
+.divider img {
+    width: 95%;
+    margin: 20px;
+}
+
+.btn-continue {
+    opacity: 0.5;
+}
+
+.btn-primary {
+    background-color: rgb(92, 90, 137);
+    border-color: rgb(92, 90, 137);
+}
+
+.btn-primary:hover {
+    background-color: rgb(131, 28, 35);
+    border-color: rgb(131, 28, 35);
+}
+
+.card-text {
+    height: 72px;
+}
+
+.footer {
+    border-top: 1px solid black;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+#banner-logo {
+    width: 80%;
+    margin: 50px;
+}
+
+#manuscript-container img {
+    object-fit: cover !important;
+    max-height: 250px !important;
+    overflow-y: hidden !important;
+    max-height: 250 !important;
+}
