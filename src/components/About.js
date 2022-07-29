@@ -23,7 +23,7 @@ const AboutPage = ( props )=>{
 
             <div className="row divider">
                   <div className="col-md-12">
-                        <img src="images/edessa_line.png" />
+                        <img src="images/edessa_line.png" alt=""  />
                   </div>
             </div>
 
@@ -115,8 +115,8 @@ const AboutPage = ( props )=>{
                   <p>Created with the generous support of:</p>
                   </div>
                   <div className="col-md-auto">
-                        <img src="images/SNF_RGB_E_POS.png" height="50px"/>
-                        <img src="images/univie_logo.jpg" height="50px"/>
+                        <img src="images/SNF_RGB_E_POS.png" alt="FNSNF logo" height="50px"/>
+                        <img src="images/univie_logo.jpg" alt="Universität Wien logo" height="50px"/>
                   </div>
             </div>
 

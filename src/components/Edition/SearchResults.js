@@ -127,7 +127,7 @@ return (
                                                       let value;
                                                       let section = r.witnesses[0].sectionId;
                                                       let dataResult = dataDictionary.find(d => { return d.sectionId === section });
-                                                      if (!dataResult) { return }
+                                                      if (!dataResult) { return <></> }
                                                       value = dataResult.text;
                                                       let  foundSection = sections.find(s=>{return s.sectionId === section});
                                                       let label = foundSection ? foundSection.englishTitle : "Untitled";

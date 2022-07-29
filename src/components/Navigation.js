@@ -2,7 +2,6 @@ import React,{useState, useEffect,Fragment} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -32,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 const Navigation= ( props)=>{
 
       const {onSearch} = props;
-      const classes = useStyles();
+      useStyles();
       const [tabIndex, setTabIndex]=useState(0)
       const [isExpanded, setIsExpanded]= useState(false);
       const [searchQuery, setSearchQuery] = useState('');

@@ -15,7 +15,6 @@ const ManuscriptView = ( props ) =>{
 
       const [imageUrl, setImageUrl] = useState();
       const [imageTop, setImageTop] = useState();
-      const [imageVisible, setImageVisible] = useState('none')
 
       useEffect(()=>{
             if(!manuscriptId)

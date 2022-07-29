@@ -48,7 +48,7 @@ const MapView = ( props)=>{
                               'type':'geojson',
                               'data' : pointData
                         });
-                  let pointLayer =    mapInstance.addLayer(
+                  mapInstance.addLayer(
                         {
                               'id':'cities',
                               'type':'symbol',
@@ -203,9 +203,6 @@ const MapView = ( props)=>{
                   const g = f.geometry[0];
 
                   if(g && g.geometry && g.geometry.type === "Point"){
-
-                        let feature = f;
-                        let geometry = g;
                         const linkText = g.properties.link.indexOf('pleiades') > -1? "Pleiades": g.properties.link.indexOf("geonames" )>-1?"Geonames":"Other"
                         const sectionLinks = generateSectionLink(f.links);
 
@@ -246,9 +243,8 @@ const MapView = ( props)=>{
                   if(lookup){
                         let titles = sections.find(s => s.sectionId === lookup.sectionId)
                         const sectionId = lookup.sectionId;
-                        const englishTitle = titles && titles.englishTitle ? titles.englishTitle.substring(0,12) : ""
-                        const yearTitle =
-                        innerHtml +=`<li><a href='${homePath}#/Edition/${sectionId}'>${englishTitle}</a></li>`
+                        const englishTitle = titles && titles.englishTitle ? titles.englishTitle.substring(0,12) : "";
+                        innerHtml +=`<li><a href='${homePath}#/Edition/${sectionId}'>${englishTitle}</a></li>`;
                   }
             })
             return innerHtml;

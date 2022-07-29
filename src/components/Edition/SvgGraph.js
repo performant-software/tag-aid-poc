@@ -16,7 +16,7 @@ const SvgGraph =(props)=>{
 
       useEffect( ()=>{
             highlightAndSelect();
-      },[persons, places,dates])
+      },[persons, places, dates])
 
       useEffect( ()=>{
             if( props.selectedRank){

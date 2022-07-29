@@ -26,11 +26,11 @@ return (
           <hr />
           <h5>Manuscript transcription</h5>
           <p>We have obtained digital images of most of the extant manuscripts; although we do not, generally speaking, have the rights to publish these, we have been able to use them as the basis of our transcriptions.</p>
-          <img className="framed" src="images/tpen_interface.jpg" width="500" />
+          <img className="framed" src="images/tpen_interface.jpg" width="500" alt="T-PEN user interface" />
           <p>Transcription was done using <a href="http://t-pen.org/TPEN/">T-PEN</a>, a freely available online tool provided by the Center for Digital Theology at St. Louis University. Each line of text is associated with a region of a manuscript image; selected elements of the <a href="https://tei-c.org/">Text Encoding Initiative</a> were used to capture certain features of the text. (For more information on the transcription, see the "Guidelines for transcription" below.) </p>
           <hr />
           <h5>The continuous integration pipeline</h5>
-          <img className="framed" src="images/concourse_pipeline.png" width="100%" />
+          <img className="framed" src="images/concourse_pipeline.png" width="100%" alt="Continuous integration pipeline" />
           <h6><code>tpen-backup</code></h6>
           <p>Our pipeline process begins each day with export of the T-PEN data in its native Shared Canvas JSON format.</p>
           <h6><code>tpen2tei</code></h6>
@@ -51,7 +51,7 @@ return (
       </div>
       <div className="row divider">
         <div className="col-md-12">
-          <img src="images/edessa_line.png" />
+          <img src="images/edessa_line.png" alt="" />
         </div>
       </div>
       <div className="row">
@@ -117,7 +117,7 @@ return (
       </div>
       <div className="row divider">
         <div className="col-md-12">
-          <img src="images/edessa_line.png" />
+          <img src="images/edessa_line.png" alt="" />
         </div>
       </div>
       <div className="row">
@@ -144,8 +144,8 @@ return (
           <p>Created with the generous support of:</p>
         </div>
         <div className="col-md-auto">
-          <img src="images/SNF_RGB_E_POS.png" height="50px" />
-          <img src="images/univie_logo.jpg" height="50px" />
+          <img src="images/SNF_RGB_E_POS.png" alt="FNSNF logo" height="50px" />
+          <img src="images/univie_logo.jpg" alt="Universität Wien logo" height="50px" />
         </div>
       </div>
     </div>

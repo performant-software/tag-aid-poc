@@ -12,7 +12,6 @@ const TextPane =(props) => {
       const {sectionId, reading, onSelectNode, onSelectLocation, selectedSentence, onSelectSentence,
       persons, places, comments, dates, graphVisible, searchTerm, manuscripts, nodeHash, selectedTimestamp} = props;
 
-      const [rawText, setRawText] = useState();
       const [enTitle, setEnTitle] = useState();
       const [arTitle, setArTitle] = useState();
       const [textHTML, setTextHTML] = useState('');
@@ -83,25 +82,12 @@ const TextPane =(props) => {
       },[sectionId,props.sections])
 
       useEffect(()=>{
-            setRawText(null);
             DataApi.getReading(sectionId,props.reading, (html)=>{
-                  setRawText(html);
                   let parsed = Parser(html, parserOptions)
                   setTextHTML(parsed)
             }, selectedTimestamp);
             lookupManuscriptName(props.reading)
       },[props, selectedTimestamp])
-
-
-      // this seems redundant - was it supposed to be removed?
-      // useEffect(()=>{
-      //
-      //       setTextHTML(null);
-      //       if(! rawText )
-      //             return;
-      //       let parsed =  Parser(rawText, parserOptions);
-      //       setTextHTML(parsed);
-      // })
 
       return (
            <div style={{marginRight:'12px'}}>

@@ -5,7 +5,6 @@ import { Redirect, withRouter } from 'react-router-dom';
 
 const Timeline = (props) => {
   const {
-    onSearch,
     timelineData
   } = props;
 
@@ -20,7 +19,7 @@ const Timeline = (props) => {
     if (event.earliestDate === null) {
       event.earliestDate = event.latestDate;
     } else if (event.latestDate === null) {
-      event.latestDate = event.latestDate;
+      event.latestDate = event.earliestDate;
     }
   })
 
