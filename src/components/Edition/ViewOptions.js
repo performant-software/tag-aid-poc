@@ -143,7 +143,7 @@ const ViewOptions = ({
                     </Select>
                 </FormControl>
 
-                <div style={{ height: "8px" }}></div>
+                <div style={{ height: "8px" }} />
 
                 <FormControl>
                     <InputLabel style={{ fontSize: "16px", paddingLeft: 10 }}>

@@ -60,7 +60,7 @@ const ManuscriptView = (props) => {
                         marginLeft: 20,
                         overflowWrap: "break-word",
                     }}
-                ></Typography>
+                 />
             </Grid>
             <Hidden xsDown>
                 <Grid item md={6}>

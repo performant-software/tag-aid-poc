@@ -88,11 +88,8 @@ const RankDisonance = ({
                         }
                         scale={{ x: "linear", y: "linear" }}
                     >
-                        <VictoryAxis crossAxis style={xaxisStyle}></VictoryAxis>
-                        <VictoryAxis
-                            dependentAxis
-                            style={yaxisStyle}
-                        ></VictoryAxis>
+                        <VictoryAxis crossAxis style={xaxisStyle} />
+                        <VictoryAxis dependentAxis style={yaxisStyle} />
                         <VictoryBar
                             style={{
                                 data: {
@@ -201,7 +198,7 @@ const RankDisonance = ({
                                     }, // end event handlers
                                 },
                             ]}
-                        ></VictoryBar>
+                        />
                     </VictoryChart>
                 </div>
             )}

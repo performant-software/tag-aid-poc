@@ -192,7 +192,7 @@ const MapView = ({ geoData, locationLookup, sections, onSearch }) => {
                     top: "0px",
                     width: "100%",
                 }}
-            ></div>
+            />
             <Paper
                 elevation={2}
                 style={{
