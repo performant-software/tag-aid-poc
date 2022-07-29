@@ -312,7 +312,7 @@ const TextPane = (props) => {
 TextPane.propTypes = {
     comments: PropTypes.array,
     dates: PropTypes.array,
-    graphVisible: PropTypes.boolean,
+    graphVisible: PropTypes.bool,
     manuscripts: PropTypes.array,
     nodeHash: PropTypes.array,
     onSelectLocation: PropTypes.func,
