@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import Header from "../Header";
 import { Link } from "react-router-dom";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 
-const ManuscriptPage = (props) => {
-    const { onSearch } = props;
+const ManuscriptPage = ({ onSearch }) => {
     return (
         <Fragment>
             <Header onSearch={onSearch} />
@@ -1101,4 +1101,9 @@ const ManuscriptPage = (props) => {
         </Fragment>
     );
 };
+
+ManuscriptPage.propTypes = {
+    onSearch: PropTypes.func,
+};
+
 export default ManuscriptPage;

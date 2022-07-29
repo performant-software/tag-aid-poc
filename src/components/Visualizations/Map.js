@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import PropTypes from "prop-types";
 import mapboxgl from "mapbox-gl";
 import EditionHeader from "./../Edition/EditionHeader";
 import { withRouter } from "react-router-dom";
@@ -8,9 +9,8 @@ import Paper from "@material-ui/core/Paper";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
-const MapView = (props) => {
+const MapView = ({ geoData, locationLookup, sections, onSearch }) => {
     const mapRef = useRef();
-    const { geoData, locationLookup, sections, onSearch } = props;
     const homePath =
         window.location.hostname === "localhost"
             ? "/"
@@ -349,4 +349,12 @@ const MapView = (props) => {
         return polygonArray;
     }
 };
+
+MapView.propTypes = {
+    geoData: PropTypes.array,
+    locationLookup: PropTypes.array,
+    onSearch: PropTypes.func,
+    sections: PropTypes.array,
+};
+
 export default withRouter(MapView);

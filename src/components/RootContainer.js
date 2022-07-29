@@ -3,7 +3,7 @@ import * as DataApi from "./../utils/Api";
 import Routes from "./Routes";
 import { HashRouter as Router } from "react-router-dom";
 
-const RootContainer = (props) => {
+const RootContainer = () => {
     const [sectionList, setSectionList] = useState([]);
     const [witnessList, setWitnessList] = useState([]);
     const [manuscriptLookup, setManuscriptLookup] = useState([]);

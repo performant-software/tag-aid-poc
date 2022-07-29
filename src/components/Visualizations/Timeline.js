@@ -1,11 +1,10 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import EditionHeader from "./../Edition/EditionHeader";
 import Chart from "react-google-charts";
 import { Redirect, withRouter } from "react-router-dom";
 
-const Timeline = (props) => {
-    const { timelineData } = props;
-
+const Timeline = ({ onSearch, timelineData }) => {
     const [redirectPath, setRedirectPath] = useState();
 
     // only want to show events that have an earliest and/or latest date -- can't show
@@ -67,7 +66,7 @@ const Timeline = (props) => {
 
     return (
         <>
-            <EditionHeader onSearch={props.onSearch} />
+            <EditionHeader onSearch={onSearch} />
             <h1 style={{ margin: 40, textAlign: "center" }}>
                 {" "}
                 <i>Timeline</i>
@@ -114,6 +113,11 @@ const Timeline = (props) => {
             />
         </>
     );
+};
+
+Timeline.propTypes = {
+    onSearch: PropTypes.func,
+    timelineData: PropTypes.array,
 };
 
 export default withRouter(Timeline);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import AboutPage from "./About";
 import MethodsPage from "./Methods";
 import ManuscriptPage from "./Manuscript";
@@ -16,16 +17,15 @@ import Visualizations from "./Visualizations";
 import Timeline from "./Visualizations/Timeline";
 import MapView from "./Visualizations/Map";
 
-const Routes = (props) => {
+const Routes = ({
+    sections,
+    witnesses,
+    manuscripts,
+    timestampsList,
+    selectedTimestamp,
+    onTimestampSelect,
+}) => {
     const viewport = useWindowSize();
-    const {
-        sections,
-        witnesses,
-        manuscripts,
-        timestampsList,
-        selectedTimestamp,
-        onTimestampSelect,
-    } = props;
 
     const [searchTerm, setSearchTerm] = useState("");
     const [translationDictionary, setTranslationDictionary] = useState([]);
@@ -193,4 +193,14 @@ const Routes = (props) => {
         </ThemeProvider>
     );
 };
+
+Routes.propTypes = {
+    manuscripts: PropTypes.array,
+    onTimestampSelect: PropTypes.func,
+    sections: PropTypes.array,
+    selectedTimestamp: PropTypes.string,
+    timestampsList: PropTypes.array,
+    witnesses: PropTypes.array,
+};
+
 export default Routes;

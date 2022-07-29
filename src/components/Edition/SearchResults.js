@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import EditionHeader from "./EditionHeader";
 import Paper from "@material-ui/core/Paper";
@@ -12,16 +13,15 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-const SearchResults = (props) => {
-    const {
-        searchTerm,
-        onSearch,
-        translationDictionary,
-        translationIndex,
-        armenianDictionary,
-        armenianIndex,
-        sections,
-    } = props;
+const SearchResults = ({
+    searchTerm,
+    onSearch,
+    translationDictionary,
+    translationIndex,
+    armenianDictionary,
+    armenianIndex,
+    sections,
+}) => {
     const [groupedResults, setGroupedResults] = useState([]);
     const [dataDictionary, setDataDictionary] = useState([]);
     const [isArmenian, setIsArmenian] = useState();
@@ -319,6 +319,16 @@ const SearchResults = (props) => {
 
         setGroupedResults(groupedYears);
     }
+};
+
+SearchResults.propTypes = {
+    armenianDictionary: PropTypes.array,
+    armenianIndex: PropTypes.object,
+    onSearch: PropTypes.func,
+    searchTerm: PropTypes.string,
+    sections: PropTypes.array,
+    translationDictionary: PropTypes.array,
+    translationIndex: PropTypes.object,
 };
 
 export default SearchResults;

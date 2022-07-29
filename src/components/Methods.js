@@ -1,9 +1,8 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import Header from "./Header";
 
-const MethodsPage = (props) => {
-    const { onSearch } = props;
-
+const MethodsPage = ({ onSearch }) => {
     const dejaVuStyle = {
         fontFamily: "Menlo, Consolas, DejaVu Sans Mono monospace",
     };
@@ -469,4 +468,9 @@ const MethodsPage = (props) => {
         </Fragment>
     );
 };
+
+MethodsPage.propTypes = {
+    onSearch: PropTypes.func,
+};
+
 export default MethodsPage;

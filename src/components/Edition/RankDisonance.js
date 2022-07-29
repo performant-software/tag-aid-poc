@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import * as DataApi from "../../utils/Api";
 import {
     VictoryChart,
@@ -7,16 +8,15 @@ import {
     VictoryAxis,
 } from "victory";
 
-const RankDisonance = (props) => {
-    const {
-        sectionId,
-        highlightedNode,
-        selectedRank,
-        selectedSentence,
-        onSelectRank,
-        viewport,
-        selectedTimestamp,
-    } = props;
+const RankDisonance = ({
+    sectionId,
+    highlightedNode,
+    selectedRank,
+    selectedSentence,
+    onSelectRank,
+    viewport,
+    selectedTimestamp,
+}) => {
     const [chartData, setChartData] = useState();
 
     useEffect(() => {
@@ -245,5 +245,24 @@ const RankDisonance = (props) => {
         });
         return data;
     }
+};
+RankDisonance.propTypes = {
+    highlightedNode: PropTypes.shape({
+        nodeId: PropTypes.string,
+        rank: PropTypes.number,
+    }),
+    onSelectRank: PropTypes.func,
+    sectionId: PropTypes.string,
+    selectedRank: PropTypes.number,
+    selectedSentence: PropTypes.shape({
+        startId: PropTypes.string,
+        startRank: PropTypes.number,
+        endRank: PropTypes.number,
+    }),
+    selectedTimestamp: PropTypes.string,
+    viewport: PropTypes.shape({
+        width: PropTypes.number,
+        height: PropTypes.number,
+    }),
 };
 export default RankDisonance;

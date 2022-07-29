@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -12,30 +13,28 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
-const ViewOptions = (props) => {
-    const {
-        onToggleGraph,
-        graphVisible,
-        viewport,
-        witnesses,
-        leftReading,
-        rightReading,
-        timestampsList,
-        selectedTimestamp,
-        onTimestampSelect,
-        onSelectLeftReading,
-        onSelectRightReading,
-        personsVisible,
-        onTogglePersons,
-        placesVisible,
-        onTogglePlaces,
-        datesVisible,
-        onToggleDates,
-        isExpanded,
-        setIsExpanded,
-        manuscripts,
-    } = props;
-
+const ViewOptions = ({
+    onToggleGraph,
+    graphVisible,
+    viewport,
+    witnesses,
+    leftReading,
+    rightReading,
+    timestampsList,
+    selectedTimestamp,
+    onTimestampSelect,
+    onSelectLeftReading,
+    onSelectRightReading,
+    personsVisible,
+    onTogglePersons,
+    placesVisible,
+    onTogglePlaces,
+    datesVisible,
+    onToggleDates,
+    isExpanded,
+    setIsExpanded,
+    manuscripts,
+}) => {
     return (
         <ExpansionPanel
             style={{
@@ -216,5 +215,30 @@ const ViewOptions = (props) => {
             </ExpansionPanelDetails>
         </ExpansionPanel>
     );
+};
+ViewOptions.propTypes = {
+    datesVisible: PropTypes.bool,
+    graphVisible: PropTypes.bool,
+    isExpanded: PropTypes.bool,
+    leftReading: PropTypes.string,
+    manuscripts: PropTypes.array,
+    onSelectLeftReading: PropTypes.func,
+    onSelectRightReading: PropTypes.func,
+    onTimestampSelect: PropTypes.func,
+    onToggleDates: PropTypes.func,
+    onToggleGraph: PropTypes.func,
+    onTogglePersons: PropTypes.func,
+    onTogglePlaces: PropTypes.func,
+    personsVisible: PropTypes.bool,
+    placesVisible: PropTypes.bool,
+    rightReading: PropTypes.string,
+    selectedTimestamp: PropTypes.string,
+    setIsExpanded: PropTypes.func,
+    timestampsList: PropTypes.array,
+    viewport: PropTypes.shape({
+        width: PropTypes.number,
+        height: PropTypes.number,
+    }),
+    witnesses: PropTypes.array,
 };
 export default ViewOptions;

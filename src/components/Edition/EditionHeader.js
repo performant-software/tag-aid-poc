@@ -1,11 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import Navigation from "./../Navigation";
 
-const EditionHeader = (props) => {
-    const { onSearch } = props;
-
+const EditionHeader = ({ onSearch }) => {
     return (
         <Grid container spacing={0} style={{ maxHeight: "112px" }}>
             <Grid item xs={12} className="header">
@@ -32,5 +31,8 @@ const EditionHeader = (props) => {
             </Grid>
         </Grid>
     );
+};
+EditionHeader.propTypes = {
+    onSearch: PropTypes.func,
 };
 export default EditionHeader;

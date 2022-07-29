@@ -1,10 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import Navigation from "./Navigation";
 
-const Header = (props) => {
-    const { onSearch } = props;
-
+const Header = ({ onSearch }) => {
     return (
         <Grid container spacing={0}>
             <Grid item xs={12}>
@@ -26,4 +25,9 @@ const Header = (props) => {
         </Grid>
     );
 };
+
+Header.propTypes = {
+    onSearch: PropTypes.func,
+};
+
 export default Header;
