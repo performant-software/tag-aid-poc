@@ -1,26 +1,19 @@
-import { createMuiTheme } from '@material-ui/core/styles';
-
+import { createMuiTheme } from "@material-ui/core/styles";
 
 const ChronicleTheme = createMuiTheme({
-      typography: {
-            useNextVariants: true,
-            fontFamily: ['Baskerville, ArmBoloragir'],
+    typography: {
+        useNextVariants: true,
+        fontFamily: ["Baskerville, ArmBoloragir"],
+    },
+    palette: {
+        primary: {
+            main: "#AB5526",
+        },
 
-      },
-      palette : {
+        secondary: {
+            main: "#A193AC",
+        },
+    },
+});
 
-            primary:{
-                  main: '#AB5526'
-            },
-
-            secondary:{
-                  
-                  main: '#A193AC'
-            }
-      }
-     
-      
-})
-
-export default ChronicleTheme
-
+export default ChronicleTheme;
