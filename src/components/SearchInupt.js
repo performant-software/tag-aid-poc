@@ -1,108 +1,95 @@
-import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
+import React from "react";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import InputBase from "@material-ui/core/InputBase";
+import SearchIcon from "@material-ui/icons/Search";
 
-
-
-const useStyles = makeStyles(theme => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
+const useStyles = makeStyles((theme) => ({
+    grow: {
+        flexGrow: 1,
     },
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade('#778811', 0.15),
-    '&:hover': {
-      backgroundColor: fade('#778811', 0.25),
+    menuButton: {
+        marginRight: theme.spacing(2),
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
+    title: {
+        display: "none",
+        [theme.breakpoints.up("sm")]: {
+            display: "block",
+        },
     },
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputRoot: {
-    color: 'rgb(92, 90, 137)',
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: 200,
+    search: {
+        position: "relative",
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade("#778811", 0.15),
+        "&:hover": {
+            backgroundColor: fade("#778811", 0.25),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: "100%",
+        [theme.breakpoints.up("sm")]: {
+            marginLeft: theme.spacing(3),
+            width: "auto",
+        },
     },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
+    searchIcon: {
+        width: theme.spacing(7),
+        height: "100%",
+        position: "absolute",
+        pointerEvents: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+    inputRoot: {
+        color: "rgb(92, 90, 137)",
     },
-  },
+    inputInput: {
+        padding: theme.spacing(1, 1, 1, 7),
+        transition: theme.transitions.create("width"),
+        width: "100%",
+        [theme.breakpoints.up("md")]: {
+            width: 200,
+        },
+    },
+    sectionDesktop: {
+        display: "none",
+        [theme.breakpoints.up("md")]: {
+            display: "flex",
+        },
+    },
+    sectionMobile: {
+        display: "flex",
+        [theme.breakpoints.up("md")]: {
+            display: "none",
+        },
+    },
 }));
 
 export default function SearchInput(props) {
-     
-      const classes = useStyles();
-      const {onPressEnter,onChange, searchQuery} = props;
+    const classes = useStyles();
+    const { onPressEnter, onChange, searchQuery } = props;
 
-  return (
-   
- 
-          <div className={classes.search}>
+    return (
+        <div className={classes.search}>
             <div className={classes.searchIcon}>
-                  <SearchIcon />
+                <SearchIcon />
             </div>
             <InputBase
-                  placeholder="Search…"
-                  classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                        }}
-                       
-                        
-              inputProps={{ 
-                    onKeyPress : handleKeyPress,
-                  value:searchQuery,
+                placeholder="Search…"
+                classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                }}
+                inputProps={{
+                    onKeyPress: handleKeyPress,
+                    value: searchQuery,
                     onChange: onChange,
-                   }}
+                }}
             />
-          </div>
+        </div>
+    );
 
-    
-  );
-
-
-            function handleKeyPress( e){
-                  if(e.key ==="Enter")
-                 onPressEnter()
-            }
-
-
+    function handleKeyPress(e) {
+        if (e.key === "Enter") onPressEnter();
+    }
 }
