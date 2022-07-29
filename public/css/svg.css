@@ -1,51 +1,49 @@
 svg {
-  height: 100%;
+    height: 100%;
 }
 svg g.node {
-  stroke: #000;
-  transition: stroke 700ms;
+    stroke: #000;
+    transition: stroke 700ms;
 }
 svg g.node:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
-svg  g.node.highlight ellipse{
-      fill:#F2F19C ;
+svg g.node.highlight ellipse {
+    fill: #f2f19c;
 }
 
-svg g.node.person ellipse{
-      fill:#D1F3FA;
+svg g.node.person ellipse {
+    fill: #d1f3fa;
 }
 
-svg g.node.place ellipse{
-      fill:#F3E3FB;
+svg g.node.place ellipse {
+    fill: #f3e3fb;
 }
 
-svg g.node.date ellipse{
-      fill:#FAD3C3;
+svg g.node.date ellipse {
+    fill: #fad3c3;
 }
 
-svg  g.node.highlight.active ellipse{
-      /* stroke: red; */
-      fill:#F2F19C ;
+svg g.node.highlight.active ellipse {
+    /* stroke: red; */
+    fill: #f2f19c;
 }
 
-svg  g.node.highlight.start ellipse{
-      fill:#d1f30d ;  
+svg g.node.highlight.start ellipse {
+    fill: #d1f30d;
 }
 
-svg  g.node.disonance ellipse{
-      fill: #D4FCA4 ;
+svg g.node.disonance ellipse {
+    fill: #d4fca4;
 }
-svg  g.node.disonance.active ellipse{
-      stroke: red;
-      stroke-width: 3;
-      fill:#D4FCA4;
+svg g.node.disonance.active ellipse {
+    stroke: red;
+    stroke-width: 3;
+    fill: #d4fca4;
 }
-
-
 
 svg g.edge path {
-  fill: none;
-  stroke: #000;
+    fill: none;
+    stroke: #000;
 }

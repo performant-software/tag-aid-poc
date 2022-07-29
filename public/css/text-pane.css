@@ -1,23 +1,22 @@
 .text-pane {
-  display: flex;
+    display: flex;
 }
 
 .horizontal-spacer {
-      width: 32px;
+    width: 32px;
 }
 
 .text-pane .reading {
-  width: 32em;
-  padding: 5px;
-  margin-left: 20px;
-  font-size: 1rem;
-  line-height: 1.5em;
+    width: 32em;
+    padding: 5px;
+    margin-left: 20px;
+    font-size: 1rem;
+    line-height: 1.5em;
 }
 
 .text-pane .translation {
-  width: 32em;
-  margin-right: 20px;
-  margin-left: 20px;
-  padding: 5px;
+    width: 32em;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding: 5px;
 }
-
