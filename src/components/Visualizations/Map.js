@@ -18,7 +18,7 @@ const MapView = (props) => {
     let { locationId } = useParams();
 
     useEffect(() => {
-        if (geoData.length > 0) {
+        if (geoData?.length > 0) {
             const Edessa = [37.1747759, 38.7708186];
             let selectedLocation;
             if (locationId) {
@@ -191,7 +191,7 @@ const MapView = (props) => {
                 }); // end for each poly
             }); // end on load handler
         }
-    });
+    }, [geoData]);
 
     return (
         <React.Fragment>
