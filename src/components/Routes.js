@@ -134,10 +134,10 @@ const Routes = ({
                 <Route path="/Methods">
                     <MethodsPage onSearch={setSearchTerm} />
                 </Route>
-                <Route path="/Manuscripts">
+                <Route path="/Manuscripts" exact>
                     <ManuscriptPage onSearch={setSearchTerm} />
                 </Route>
-                <Route path="/ManuscriptView/:manuscriptId" exact>
+                <Route path="/Manuscripts/:manuscriptId" exact>
                     <ManuscriptView onSearch={setSearchTerm} />
                 </Route>
                 <Route path="/Home" exact>
