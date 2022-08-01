@@ -145,7 +145,7 @@ async function generateDates(timestamp) {
                 .catch((e) => console.log(e));
             return response.data;
         } catch (error) {
-            console.log(`no place refs for section ${sectionId} `);
+            console.log("error fetching all date annotations", error);
             return null;
         }
     }
@@ -160,7 +160,7 @@ async function generateDates(timestamp) {
                 .catch((e) => console.log(e));
             return response.data;
         } catch (error) {
-            console.log(`no place refs for section ${sectionId} `);
+            console.log("error fetching all date refs", error);
             return null;
         }
     }
@@ -175,7 +175,7 @@ async function generateDates(timestamp) {
                 .catch((e) => console.log(e));
             return response.data;
         } catch (error) {
-            console.log(`no place refs for section ${sectionId} `);
+            console.log("error fetching all datings", error);
             return null;
         }
     }

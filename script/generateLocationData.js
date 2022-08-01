@@ -58,7 +58,7 @@ async function GenerateLocationData(timestamp) {
     }
 
     async function fetchKMLLocation(url, originalUrl, place) {
-        return (geoData = await Promise.resolve(getGeoJson(url))
+        return await Promise.resolve(getGeoJson(url))
             .catch((e) => console.log(e))
             .then((openData) => {
                 const record = openData.data;
@@ -85,11 +85,11 @@ async function GenerateLocationData(timestamp) {
             })
             .catch((error) => {
                 console.log(error);
-            }));
+            });
     }
 
     async function fetchSyriacLocation(url, place) {
-        return (geoData = await Promise.resolve(getGeoJson(url))
+        return await Promise.resolve(getGeoJson(url))
             .catch((e) => console.log(e))
             .then((openData) => {
                 const $ = cheerio.load(openData.data.trim());
@@ -119,11 +119,11 @@ async function GenerateLocationData(timestamp) {
                     });
                 }
             })
-            .catch((error) => console.log(error)));
+            .catch((error) => console.log(error));
     }
 
     async function fetchGeoJsonLocation(url, place) {
-        return (geoData = await Promise.resolve(getGeoJson(url))
+        return await Promise.resolve(getGeoJson(url))
             .catch((e) => console.log(e))
             .then((openData) => {
                 const record = openData.data;
@@ -137,7 +137,7 @@ async function GenerateLocationData(timestamp) {
                     links: place.links,
                 });
             })
-            .catch((error) => console.log(error)));
+            .catch((error) => console.log(error));
     }
 
     function writeLocationFile() {
@@ -160,7 +160,7 @@ async function GenerateLocationData(timestamp) {
     }
 
     async function getGeoJson(url) {
-        return (response = await axios.get(url).catch((e) => console.log(e)));
+        return await axios.get(url).catch((e) => console.log(e));
     }
 
     async function makeDirectory() {

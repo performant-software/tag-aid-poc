@@ -59,12 +59,10 @@ async function generateLunrSource(timestamp) {
         const sectionPromises = [];
         const validSections = [];
         sections.forEach((section) => {
-            sectionData = getSectionData(section.id);
+            let sectionData = getSectionData(section.id);
             sectionPromises.push(sectionData);
         });
-        sectionStore = await Promise.all(sectionPromises).catch((e) =>
-            console.log(e)
-        );
+        await Promise.all(sectionPromises).catch((e) => console.log(e));
         writeTranslationDataIndexFiles();
         writeLemmaDataIndexFiles();
     }
@@ -90,9 +88,9 @@ async function generateLunrSource(timestamp) {
                 });
             });
 
-            return (data = await Promise.all([allReadings]).catch((e) =>
+            return await Promise.all([allReadings]).catch((e) =>
                 console.log(e)
-            ));
+            );
         }
     }
 

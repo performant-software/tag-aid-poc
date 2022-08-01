@@ -1,7 +1,6 @@
 const fs = require("fs");
 const axios = require("axios");
 const moment = require("moment");
-//const CETEI = require('./../utils/CETEI')
 const lunr = require("lunr");
 const timestamp = process.argv[2];
 //https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await
@@ -61,12 +60,11 @@ async function generateStore(timestamp) {
         const validSections = [];
         sections.forEach((section) => {
             console.log("fetching manuscripts with section", section.id);
-            sectionData = getSectionData(section.id, witnesses, validSections);
-            sectionPromises.push(sectionData);
+            sectionPromises.push(
+                getSectionData(section.id, witnesses, validSections)
+            );
         });
-        sectionStore = await Promise.all(sectionPromises).catch((e) =>
-            console.log(e)
-        );
+        await Promise.all(sectionPromises).catch((e) => console.log(e));
         validSections.sort((a, b) => {
             a.milestone - b.milestone;
         });
@@ -148,13 +146,13 @@ async function generateStore(timestamp) {
                 resolve();
             });
         });
-        return (data = await Promise.all([
+        return await Promise.all([
             allReadings,
             titleArray,
             personArray,
             commentArray,
             placeArray,
-        ]).catch((e) => console.log(e)));
+        ]).catch((e) => console.log(e));
     }
 
     async function getLemmaText(sectionId) {
@@ -254,24 +252,6 @@ async function generateStore(timestamp) {
             .get(`${annotationURL}`, { auth, params: { label: "DATEREF" } })
             .catch((e) => console.log(e));
         return response.data;
-    }
-
-    async function getManuscript(manuscriptId) {
-        const manuscriptDir = `images/mss/${manuscriptId}`;
-        const manuscriptFile = `${manuscriptDir}/${manuscriptId}.html`;
-        const manuscriptURL = `${manuscriptDir}/${manuscriptId}.tei.xml`;
-        const response = await axios
-            .get(`${manuscriptURL}`)
-            .catch((e) => console.log(e));
-        var TEI = response;
-        const CETEIcean = new CETEI();
-        let htmlContainer;
-        CETEIcean.makeHTML5(TEI, function (data) {
-            htmlContainer = document.createElement("div");
-            htmlContainer.appendChild(data);
-        });
-
-        writeFile(manuscriptFile, htmlContainer.innerHTML);
     }
 
     function readingToHTML(reading) {
