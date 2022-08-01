@@ -314,7 +314,7 @@ TextPane.propTypes = {
     dates: PropTypes.array,
     graphVisible: PropTypes.bool,
     manuscripts: PropTypes.array,
-    nodeHash: PropTypes.array,
+    nodeHash: PropTypes.object,
     onSelectLocation: PropTypes.func,
     onSelectNode: PropTypes.func,
     onSelectSentence: PropTypes.func,

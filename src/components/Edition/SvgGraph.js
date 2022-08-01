@@ -182,7 +182,7 @@ SvgGraph.propTypes = {
         nodeId: PropTypes.string,
         rank: PropTypes.number,
     }),
-    nodeHash: PropTypes.array,
+    nodeHash: PropTypes.object,
     nodeList: PropTypes.array,
     onSelectNode: PropTypes.func,
     persons: PropTypes.array,
