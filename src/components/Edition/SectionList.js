@@ -89,7 +89,7 @@ const SectionList = ({ list, sectionId, height, witnessId }) => {
     );
 };
 SectionList.propTypes = {
-    height: PropTypes.number,
+    height: PropTypes.string,
     list: PropTypes.array,
     sectionId: PropTypes.string,
     witnessId: PropTypes.string,
