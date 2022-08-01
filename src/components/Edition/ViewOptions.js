@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -36,7 +36,7 @@ const ViewOptions = ({
     manuscripts,
 }) => {
     return (
-        <ExpansionPanel
+        <Accordion
             style={{
                 marginLeft: "16px",
                 marginBottom: "8px",
@@ -48,10 +48,10 @@ const ViewOptions = ({
                 setIsExpanded(ex);
             }}
         >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="h6">{"View Options"}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails
+            </AccordionSummary>
+            <AccordionDetails
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -204,7 +204,10 @@ const ViewOptions = ({
                         >
                             {timestampsList.map((timestamp) => {
                                 return (
-                                    <MenuItem value={timestamp.value}>
+                                    <MenuItem
+                                        key={timestamp.value}
+                                        value={timestamp.value}
+                                    >
                                         {timestamp.label}
                                     </MenuItem>
                                 );
@@ -212,8 +215,8 @@ const ViewOptions = ({
                         </Select>
                     )}
                 </FormControl>
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
+            </AccordionDetails>
+        </Accordion>
     );
 };
 ViewOptions.propTypes = {

@@ -8,9 +8,9 @@ import Typography from "@material-ui/core/Typography";
 import Parser, { domToReact } from "html-react-parser";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const SearchResults = ({
@@ -145,8 +145,8 @@ const SearchResults = ({
                                                 key={r.year}
                                                 style={{ marginBottom: "16px" }}
                                             >
-                                                <ExpansionPanel>
-                                                    <ExpansionPanelSummary
+                                                <Accordion>
+                                                    <AccordionSummary
                                                         expandIcon={
                                                             <ExpandMoreIcon />
                                                         }
@@ -160,8 +160,8 @@ const SearchResults = ({
                                                                 ? `Witness`
                                                                 : `Witnesses`}
                                                         </Typography>
-                                                    </ExpansionPanelSummary>
-                                                    <ExpansionPanelDetails
+                                                    </AccordionSummary>
+                                                    <AccordionDetails
                                                         style={{
                                                             display: "flex",
                                                             flexDirection:
@@ -201,8 +201,8 @@ const SearchResults = ({
                                                                 );
                                                             }
                                                         )}
-                                                    </ExpansionPanelDetails>
-                                                </ExpansionPanel>
+                                                    </AccordionDetails>
+                                                </Accordion>
                                             </div>
                                         );
                                     })
