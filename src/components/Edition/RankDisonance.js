@@ -155,15 +155,11 @@ const RankDisonance = ({
                                                                 parseInt(key);
                                                             const rangeStart =
                                                                 selectedSentence
-                                                                    ? parseInt(
-                                                                          selectedSentence.startRank
-                                                                      )
+                                                                    ? selectedSentence.startRank
                                                                     : null;
                                                             const rangeEnd =
                                                                 selectedSentence
-                                                                    ? parseInt(
-                                                                          selectedSentence.endRank
-                                                                      )
+                                                                    ? selectedSentence.endRank
                                                                     : null;
 
                                                             if (

@@ -41,8 +41,8 @@ const TextPane = (props) => {
                 // the translation and armenian texts are encode with nodeId and rank
                 let rank =
                     reading === "Translation"
-                        ? attribs.id.split("-")[0]
-                        : attribs.key;
+                        ? parseInt(attribs.id.split("-")[0])
+                        : parseInt(attribs.key);
                 let nodeId =
                     reading === "Translation"
                         ? attribs.id.split("-")[1]
@@ -87,9 +87,7 @@ const TextPane = (props) => {
                             : false
                         : false;
                     if (isSearchTerm) onSelectNode(nodeId);
-                    let atRank = selectedRank
-                        ? selectedRank === parseInt(rank)
-                        : false;
+                    let atRank = selectedRank ? selectedRank === rank : false;
                     let selected = selectedNode
                         ? selectedNode.nodeId === nodeId
                         : false;
@@ -114,9 +112,8 @@ const TextPane = (props) => {
                           })
                         : false;
                     let inSelectedSentence = selectedSentence
-                        ? parseInt(rank) >=
-                              parseInt(selectedSentence.startRank) &&
-                          parseInt(rank) <= parseInt(selectedSentence.endRank)
+                        ? rank >= selectedSentence.startRank &&
+                          rank <= selectedSentence.endRank
                         : false;
                     let textStyle = {
                         color: "black",

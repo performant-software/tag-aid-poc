@@ -358,14 +358,14 @@ const Edition = (props) => {
                 setSelectedRank(null);
                 return;
             }
-        setSelectedRank(node.rank);
+        setSelectedRank(parseInt(node.rank));
         setSelectedNode(node);
     }
 
     function handleSelectSentence(start, end) {
-        const startRank = start.split("-")[0];
+        const startRank = parseInt(start.split("-")[0]);
         const startNodeId = start.split("-")[1];
-        const endRank = end.split("-")[0];
+        const endRank = parseInt(end.split("-")[0]);
         const endNodeId = end.split("-")[1];
 
         if (selectedSentence) {
@@ -411,7 +411,7 @@ const Edition = (props) => {
             return;
         }
         setSelectedNode(null);
-        setSelectedRank(rank);
+        setSelectedRank(parseInt(rank));
     }
 
     function nextSection() {
