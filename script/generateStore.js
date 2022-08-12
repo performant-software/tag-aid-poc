@@ -277,7 +277,7 @@ async function generateStore(timestamp) {
     }
 
     function translationToHTML(translation, sectionId, reading) {
-        if (translation.length === 0) return "No translation available";
+        if (translation.length === 0) return null;
         let textElements = [];
         let lunrText = [];
         const translationFragments = [];
