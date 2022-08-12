@@ -18,168 +18,180 @@ const MapView = ({ geoData, locationLookup, sections, onSearch }) => {
     let { locationId } = useParams();
 
     useEffect(() => {
-        const Edessa = [37.1747759, 38.7708186];
-        let selectedLocation;
-        if (locationId) {
-            let place = geoData.find((g) =>
-                g.links.find(
-                    (l) => l.target.toString() === locationId.toString()
-                )
-            );
-            if (
-                place &&
-                place.geometry &&
-                place.geometry[0] &&
-                place.geometry[0].geometry
-            ) {
-                if (place.geometry[0].geometry.type === "Point")
-                    selectedLocation = place.geometry[0].geometry.coordinates;
-                if (place.geometry[0].geometry.type === "Polygon")
-                    selectedLocation = place.representativePoint;
+        if (geoData?.length > 0) {
+            const Edessa = [37.1747759, 38.7708186];
+            let selectedLocation;
+            if (locationId) {
+                let place = geoData.find((g) =>
+                    g.links.find(
+                        (l) => l.target.toString() === locationId.toString()
+                    )
+                );
+                if (
+                    place &&
+                    place.geometry &&
+                    place.geometry[0] &&
+                    place.geometry[0].geometry
+                ) {
+                    if (place.geometry[0].geometry.type === "Point")
+                        selectedLocation =
+                            place.geometry[0].geometry.coordinates;
+                    if (place.geometry[0].geometry.type === "Polygon")
+                        selectedLocation = place.representativePoint;
+                }
             }
-        }
 
-        const mapInstance = new mapboxgl.Map({
-            attributionControl: false,
-            container: mapRef.current,
-            style: "mapbox://styles/mapbox/satellite-v9",
-            center: selectedLocation ? selectedLocation : Edessa,
-            zoom: selectedLocation ? 11 : 5,
-            maxZoom: 11,
-        });
-
-        mapInstance.on("load", () => {
-            const pointData = parsePoints();
-            mapInstance.addSource("cities", {
-                type: "geojson",
-                data: pointData,
-            });
-            mapInstance.addLayer({
-                id: "cities",
-                type: "symbol",
-                source: "cities",
-                layout: {
-                    "icon-image": "{icon}-15",
-                    "icon-allow-overlap": true,
-                    "text-field": ["get", "title"],
-                    "text-font": ["Open Sans Bold"],
-                    "text-size": 20,
-                    "text-offset": [0, 0.5],
-                    "text-anchor": "top",
-                },
-                paint: {
-                    "text-color": "#c4ed1f",
-                },
+            const mapInstance = new mapboxgl.Map({
+                attributionControl: false,
+                container: mapRef.current,
+                style: "mapbox://styles/mapbox/satellite-v9",
+                center: selectedLocation ? selectedLocation : Edessa,
+                zoom: selectedLocation ? 11 : 5,
+                maxZoom: 11,
             });
 
-            mapInstance.on("click", "cities", function (e) {
-                var coordinates = e.features[0].geometry.coordinates.slice();
-                var description = e.features[0].properties.description;
+            mapInstance.on("load", () => {
+                const pointData = parsePoints();
+                mapInstance.addSource("cities", {
+                    type: "geojson",
+                    data: pointData,
+                });
+                mapInstance.addLayer({
+                    id: "cities",
+                    type: "symbol",
+                    source: "cities",
+                    layout: {
+                        "icon-image": "{icon}-15",
+                        "icon-allow-overlap": true,
+                        "text-field": ["get", "title"],
+                        "text-font": ["Open Sans Bold"],
+                        "text-size": 20,
+                        "text-offset": [0, 0.5],
+                        "text-anchor": "top",
+                    },
+                    paint: {
+                        "text-color": "#c4ed1f",
+                    },
+                });
 
-                // Ensure that if the map is zoomed out such that multiple
-                // copies of the feature are visible, the popup appears
-                // over the copy being pointed to.
-                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    coordinates[0] +=
-                        e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
+                mapInstance.on("click", "cities", function (e) {
+                    var coordinates =
+                        e.features[0].geometry.coordinates.slice();
+                    var description = e.features[0].properties.description;
 
-                new mapboxgl.Popup()
-                    .setLngLat(coordinates)
-                    .setHTML(description)
-                    .addTo(mapInstance);
-            });
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] +=
+                            e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
 
-            mapInstance.on("mouseenter", "cities", function () {
-                mapInstance.getCanvas().style.cursor = "pointer";
-            });
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(description)
+                        .addTo(mapInstance);
+                });
 
-            mapInstance.on("mouseleave", "cities", function () {
-                mapInstance.getCanvas().style.cursor = "";
-            });
+                mapInstance.on("mouseenter", "cities", function () {
+                    mapInstance.getCanvas().style.cursor = "pointer";
+                });
 
-            // to do generate another point layer rather than polygon
-            const polygons = parsePolygons();
-            polygons.forEach((p) => {
-                try {
-                    let stupid = Math.random();
-                    mapInstance.addSource(`${p.title}-${stupid.toString()}`, {
-                        type: "geojson",
-                        data: {
-                            type: "Feature",
-                            geometry: {
-                                type: "Point",
-                                coordinates: p.representativePoint,
-                            },
-                            properties: {
-                                title: p.title,
-                                description: p.data.properties.description,
-                            },
-                        },
-                    });
+                mapInstance.on("mouseleave", "cities", function () {
+                    mapInstance.getCanvas().style.cursor = "";
+                });
 
-                    mapInstance.addLayer({
-                        id: `${p.title}-${stupid.toString()}`,
-                        type: "symbol",
-                        source: `${p.title}-${stupid.toString()}`,
-                        layout: {
-                            "text-field": ["get", "title"],
-                            "text-size": 26,
-                            "text-font": ["Open Sans Bold"],
-                            "text-offset": [0, 0.6],
-                            "text-anchor": "top",
-                        },
-                        paint: {
-                            "text-color": "#f29685",
-                        },
-                    });
-
-                    mapInstance.on(
-                        "click",
-                        `${p.title}-${stupid.toString()}`,
-                        function (e) {
-                            var coordinates = e.lngLat;
-                            var description =
-                                e.features[0].properties.description;
-
-                            // Ensure that if the map is zoomed out such that multiple
-                            // copies of the feature are visible, the popup appears
-                            // over the copy being pointed to.
-                            while (
-                                Math.abs(e.lngLat.lng - coordinates[0]) > 180
-                            ) {
-                                coordinates[0] +=
-                                    e.lngLat.lng > coordinates[0] ? 360 : -360;
+                // to do generate another point layer rather than polygon
+                const polygons = parsePolygons();
+                polygons.forEach((p) => {
+                    try {
+                        let stupid = Math.random();
+                        mapInstance.addSource(
+                            `${p.title}-${stupid.toString()}`,
+                            {
+                                type: "geojson",
+                                data: {
+                                    type: "Feature",
+                                    geometry: {
+                                        type: "Point",
+                                        coordinates: p.representativePoint,
+                                    },
+                                    properties: {
+                                        title: p.title,
+                                        description:
+                                            p.data.properties.description,
+                                    },
+                                },
                             }
+                        );
 
-                            new mapboxgl.Popup()
-                                .setLngLat(coordinates)
-                                .setHTML(description)
-                                .addTo(mapInstance);
-                        }
-                    );
+                        mapInstance.addLayer({
+                            id: `${p.title}-${stupid.toString()}`,
+                            type: "symbol",
+                            source: `${p.title}-${stupid.toString()}`,
+                            layout: {
+                                "text-field": ["get", "title"],
+                                "text-size": 26,
+                                "text-font": ["Open Sans Bold"],
+                                "text-offset": [0, 0.6],
+                                "text-anchor": "top",
+                            },
+                            paint: {
+                                "text-color": "#f29685",
+                            },
+                        });
 
-                    mapInstance.on(
-                        "mouseenter",
-                        `${p.title}-${stupid.toString()}`,
-                        function () {
-                            mapInstance.getCanvas().style.cursor = "pointer";
-                        }
-                    );
+                        mapInstance.on(
+                            "click",
+                            `${p.title}-${stupid.toString()}`,
+                            function (e) {
+                                var coordinates = e.lngLat;
+                                var description =
+                                    e.features[0].properties.description;
 
-                    mapInstance.on(
-                        "mouseleave",
-                        `${p.title}-${stupid.toString()}`,
-                        function () {
-                            mapInstance.getCanvas().style.cursor = "";
-                        }
-                    );
-                } catch (error) {
-                    console.log(error);
-                }
-            }); // end for each poly
-        }); // end on load handler
-    });
+                                // Ensure that if the map is zoomed out such that multiple
+                                // copies of the feature are visible, the popup appears
+                                // over the copy being pointed to.
+                                while (
+                                    Math.abs(e.lngLat.lng - coordinates[0]) >
+                                    180
+                                ) {
+                                    coordinates[0] +=
+                                        e.lngLat.lng > coordinates[0]
+                                            ? 360
+                                            : -360;
+                                }
+
+                                new mapboxgl.Popup()
+                                    .setLngLat(coordinates)
+                                    .setHTML(description)
+                                    .addTo(mapInstance);
+                            }
+                        );
+
+                        mapInstance.on(
+                            "mouseenter",
+                            `${p.title}-${stupid.toString()}`,
+                            function () {
+                                mapInstance.getCanvas().style.cursor =
+                                    "pointer";
+                            }
+                        );
+
+                        mapInstance.on(
+                            "mouseleave",
+                            `${p.title}-${stupid.toString()}`,
+                            function () {
+                                mapInstance.getCanvas().style.cursor = "";
+                            }
+                        );
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }); // end for each poly
+            }); // end on load handler
+        }
+    }, [geoData]);
 
     return (
         <React.Fragment>

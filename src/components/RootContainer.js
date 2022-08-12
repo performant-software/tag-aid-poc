@@ -14,13 +14,19 @@ const RootContainer = () => {
         DataApi.getTimestampsList(setTimestampsList, setSelectedTimestamp);
     }, []);
     useEffect(() => {
-        DataApi.getSectionList(setSectionList, selectedTimestamp);
+        if (selectedTimestamp) {
+            DataApi.getSectionList(setSectionList, selectedTimestamp);
+        }
     }, [selectedTimestamp]);
     useEffect(() => {
-        DataApi.getWitnessList(setWitnessList, selectedTimestamp);
+        if (selectedTimestamp) {
+            DataApi.getWitnessList(setWitnessList, selectedTimestamp);
+        }
     }, [selectedTimestamp]);
     useEffect(() => {
-        DataApi.getManuscriptLookup(setManuscriptLookup, selectedTimestamp);
+        if (selectedTimestamp) {
+            DataApi.getManuscriptLookup(setManuscriptLookup, selectedTimestamp);
+        }
     }, [selectedTimestamp]);
 
     return (

@@ -30,15 +30,13 @@ async function generateStore(timestamp) {
     }
 
     async function fetchData(baseURL, auth) {
-        const sections = getSections();
-        const witnesses = getWitnesses();
-        let lists = await Promise.all([sections, witnesses]).catch((e) =>
-            console.log(e)
-        );
-        writeWitnessList(lists[1]);
-        let sectionStore = await getSectionStore(lists[0], lists[1]).catch(
-            (e) => console.log(e)
-        );
+        try {
+            let lists = await Promise.all([getSections(), getWitnesses()]);
+            writeWitnessList(lists[1]);
+            await getSectionStore(lists[0], lists[1]);
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     async function getSections() {
@@ -56,27 +54,34 @@ async function generateStore(timestamp) {
     }
 
     async function getSectionStore(sections, witnesses) {
-        const sectionPromises = [];
         const validSections = [];
-        sections.forEach((section) => {
-            console.log("fetching manuscripts with section", section.id);
-            sectionPromises.push(
-                getSectionData(section.id, witnesses, validSections)
-            );
-        });
-        await Promise.all(sectionPromises).catch((e) => console.log(e));
-        validSections.sort((a, b) => {
-            a.milestone - b.milestone;
-        });
+        await Promise.all(
+            sections.map(async (section, index) => {
+                console.log("fetching manuscripts with section", section.id);
+                try {
+                    // keep track of index to ensure order is as returned from endpoint
+                    let sectionData = await getSectionData(
+                        section.id,
+                        index,
+                        witnesses,
+                        validSections
+                    );
+                    return Promise.resolve(sectionData);
+                } catch (err) {
+                    return Promise.reject(err);
+                }
+            })
+        );
+        // fyi - sectionIds have nothing to do with it, they are not sequential
+        // should not be chronological; should sort by index as returned from endpoint
+        validSections.sort((a, b) => parseInt(a.index) - parseInt(b.index));
         writeSectionFile(validSections);
         writeLunrIndex();
         writeLocationLookup();
     }
 
-    async function getSectionData(sectionId, witnesses, validSections) {
-        let lemmaTextFinal = await getLemmaText(sectionId).catch((e) =>
-            console.log(e)
-        );
+    async function getSectionData(sectionId, index, witnesses, validSections) {
+        await getLemmaText(sectionId).catch((e) => console.log(e));
 
         let allReadings = new Promise((resolve) => {
             getReadings(sectionId).then((readings) => {
@@ -110,6 +115,7 @@ async function generateStore(timestamp) {
                         englishTitle: englishTitle,
                         armenianTitle: armenianTitle,
                         milestone: milestone,
+                        index,
                     };
                     validSections.push(validSection);
                 }
@@ -410,12 +416,6 @@ async function generateStore(timestamp) {
 
     function writeSectionFile(validSections) {
         const sectFile = `${outdir}/sections.json`;
-        // fyi - sectionIds have nothing to do with it, they are not sequential
-        validSections.sort((a, b) => {
-            const aYear = a.englishTitle.match(/(\d+)/)[0];
-            const bYear = b.englishTitle.match(/(\d+)/)[0];
-            return parseInt(aYear) - parseInt(bYear);
-        });
         fs.writeFileSync(sectFile, JSON.stringify(validSections));
     }
 
@@ -471,9 +471,10 @@ async function generateStore(timestamp) {
     }
 
     function writeFile(fileName, contents) {
-        fs.writeFileSync(fileName, contents || "");
-        if (!contents) {
-            console.log(`Wrote empty file ${fileName}; missing contents`);
+        if (contents) {
+            fs.writeFileSync(fileName, contents);
+        } else {
+            console.log(`Did not write file ${fileName}; missing contents`);
         }
     }
 
