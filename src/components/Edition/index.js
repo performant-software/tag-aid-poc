@@ -68,35 +68,37 @@ const Edition = (props) => {
     }, [graphVisible]);
 
     useEffect(() => {
-        let hash = {};
-        const list = [];
-        setNodeHash(hash);
-        DataApi.getNodeLookup(
-            sectionID,
-            (nodelist) => {
-                nodelist.sort((a, b) => {
-                    if (parseInt(a.rank) > parseInt(b.rank)) return 1;
-                    if (parseInt(a.rank) < parseInt(b.rank)) return -1;
-                    else return 0;
-                });
-                nodelist.forEach((node) => {
-                    const value = {
-                        id: node.id,
-                        rank: node.rank,
-                        witnesses: node.witnesses,
-                    };
-                    hash[node.id] = value;
-                    list.push(value);
-                });
-                setNodeHash(hash);
-                setNodeArray(list);
-            },
-            selectedTimestamp
-        );
+        if (selectedTimestamp) {
+            let hash = {};
+            const list = [];
+            setNodeHash(hash);
+            DataApi.getNodeLookup(
+                sectionID,
+                (nodelist) => {
+                    nodelist.sort((a, b) => {
+                        if (parseInt(a.rank) > parseInt(b.rank)) return 1;
+                        if (parseInt(a.rank) < parseInt(b.rank)) return -1;
+                        else return 0;
+                    });
+                    nodelist.forEach((node) => {
+                        const value = {
+                            id: node.id,
+                            rank: node.rank,
+                            witnesses: node.witnesses,
+                        };
+                        hash[node.id] = value;
+                        list.push(value);
+                    });
+                    setNodeHash(hash);
+                    setNodeArray(list);
+                },
+                selectedTimestamp
+            );
+        }
     }, [sectionID, selectedTimestamp]);
 
     useEffect(() => {
-        if (personsVisible)
+        if (personsVisible && selectedTimestamp)
             DataApi.getPersons(
                 sectionID,
                 (list) => {
@@ -108,7 +110,7 @@ const Edition = (props) => {
     }, [personsVisible, sectionID, selectedTimestamp]);
 
     useEffect(() => {
-        if (placesVisible)
+        if (placesVisible && selectedTimestamp)
             DataApi.getPlaces(
                 sectionID,
                 (list) => {
@@ -120,17 +122,19 @@ const Edition = (props) => {
     }, [placesVisible, sectionID, selectedTimestamp]);
 
     useEffect(() => {
-        DataApi.getComments(
-            sectionID,
-            (list) => {
-                setCommentList(list);
-            },
-            selectedTimestamp
-        );
+        if (selectedTimestamp) {
+            DataApi.getComments(
+                sectionID,
+                (list) => {
+                    setCommentList(list);
+                },
+                selectedTimestamp
+            );
+        }
     }, [sectionID, selectedTimestamp]);
 
     useEffect(() => {
-        if (datesVisible)
+        if (datesVisible && selectedTimestamp)
             DataApi.getDates(
                 sectionID,
                 (list) => {

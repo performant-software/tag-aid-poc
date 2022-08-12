@@ -186,16 +186,18 @@ const TextPane = (props) => {
     }, [sectionId, props.sections]);
 
     useEffect(() => {
-        DataApi.getReading(
-            sectionId,
-            props.reading,
-            (html) => {
-                let parsed = Parser(html, parserOptions);
-                setTextHTML(parsed);
-            },
-            selectedTimestamp
-        );
-        lookupManuscriptName(props.reading);
+        if (selectedTimestamp) {
+            DataApi.getReading(
+                sectionId,
+                props.reading,
+                (html) => {
+                    let parsed = Parser(html, parserOptions);
+                    setTextHTML(parsed);
+                },
+                selectedTimestamp
+            );
+            lookupManuscriptName(props.reading);
+        }
     }, [props, selectedTimestamp]);
 
     return (

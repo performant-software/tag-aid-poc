@@ -491,9 +491,10 @@ async function generateStore(timestamp) {
     }
 
     function writeFile(fileName, contents) {
-        fs.writeFileSync(fileName, contents || "");
-        if (!contents) {
-            console.log(`Wrote empty file ${fileName}; missing contents`);
+        if (contents) {
+            fs.writeFileSync(fileName, contents);
+        } else {
+            console.log(`Did not write file ${fileName}; missing contents`);
         }
     }
 
