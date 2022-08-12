@@ -387,7 +387,7 @@ const Edition = (props) => {
     }
 
     function handleSelectLocation(node) {
-        props.history.push(`/Map/${node.place.annotationId}`);
+        props.history.push(`/Visualizations/Map/${node.place.annotationId}`);
     }
 
     function handleToggleGraph() {

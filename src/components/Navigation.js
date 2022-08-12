@@ -34,10 +34,6 @@ const Navigation = (props) => {
     const [tabIndex, setTabIndex] = useState(0);
     const [isExpanded, setIsExpanded] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-    const homePath =
-        window.location.hostname === "localhost" || "157.245.255.111"
-            ? "/"
-            : process.env.REACT_APP_HOMEPATH;
 
     useEffect(() => {
         let pageName = window.location.hash.split("/")[1];
@@ -150,8 +146,8 @@ const Navigation = (props) => {
                         >
                             <StyledTab
                                 label="Home"
-                                href={`${homePath}#/home`}
-                                value={`#/home`}
+                                href="#/home"
+                                value="#/home"
                             />
                             <StyledTab
                                 label="About"
