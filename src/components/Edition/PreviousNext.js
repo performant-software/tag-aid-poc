@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import PlayCircleOutlineOutlinedIcon from "@material-ui/icons/PlayCircleOutlineOutlined";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -10,9 +11,7 @@ const buttonStyles = {
     },
 };
 
-const PreviousNext = (props) => {
-    const { onPrevious, onNext, sections, sectionId } = props;
-
+const PreviousNext = ({ onPrevious, onNext, sections, sectionId }) => {
     const [title, setTitle] = useState();
 
     useEffect(() => {
@@ -69,6 +68,13 @@ const PreviousNext = (props) => {
             </IconButton>
         </div>
     );
+};
+
+PreviousNext.propTypes = {
+    onNext: PropTypes.func,
+    onPrevious: PropTypes.func,
+    sectionId: PropTypes.string,
+    sections: PropTypes.array,
 };
 
 export default withStyles(buttonStyles)(PreviousNext);

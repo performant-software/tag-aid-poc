@@ -1,8 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -12,32 +13,30 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
-const ViewOptions = (props) => {
-    const {
-        onToggleGraph,
-        graphVisible,
-        viewport,
-        witnesses,
-        leftReading,
-        rightReading,
-        timestampsList,
-        selectedTimestamp,
-        onTimestampSelect,
-        onSelectLeftReading,
-        onSelectRightReading,
-        personsVisible,
-        onTogglePersons,
-        placesVisible,
-        onTogglePlaces,
-        datesVisible,
-        onToggleDates,
-        isExpanded,
-        setIsExpanded,
-        manuscripts,
-    } = props;
-
+const ViewOptions = ({
+    onToggleGraph,
+    graphVisible,
+    viewport,
+    witnesses,
+    leftReading,
+    rightReading,
+    timestampsList,
+    selectedTimestamp,
+    onTimestampSelect,
+    onSelectLeftReading,
+    onSelectRightReading,
+    personsVisible,
+    onTogglePersons,
+    placesVisible,
+    onTogglePlaces,
+    datesVisible,
+    onToggleDates,
+    isExpanded,
+    setIsExpanded,
+    manuscripts,
+}) => {
     return (
-        <ExpansionPanel
+        <Accordion
             style={{
                 marginLeft: "16px",
                 marginBottom: "8px",
@@ -49,10 +48,10 @@ const ViewOptions = (props) => {
                 setIsExpanded(ex);
             }}
         >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="h6">{"View Options"}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails
+            </AccordionSummary>
+            <AccordionDetails
                 style={{
                     display: "flex",
                     flexDirection: "column",
@@ -144,7 +143,7 @@ const ViewOptions = (props) => {
                     </Select>
                 </FormControl>
 
-                <div style={{ height: "8px" }}></div>
+                <div style={{ height: "8px" }} />
 
                 <FormControl>
                     <InputLabel style={{ fontSize: "16px", paddingLeft: 10 }}>
@@ -205,7 +204,10 @@ const ViewOptions = (props) => {
                         >
                             {timestampsList.map((timestamp) => {
                                 return (
-                                    <MenuItem value={timestamp.value}>
+                                    <MenuItem
+                                        key={timestamp.value}
+                                        value={timestamp.value}
+                                    >
                                         {timestamp.label}
                                     </MenuItem>
                                 );
@@ -213,8 +215,33 @@ const ViewOptions = (props) => {
                         </Select>
                     )}
                 </FormControl>
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
+            </AccordionDetails>
+        </Accordion>
     );
+};
+ViewOptions.propTypes = {
+    datesVisible: PropTypes.bool,
+    graphVisible: PropTypes.bool,
+    isExpanded: PropTypes.bool,
+    leftReading: PropTypes.string,
+    manuscripts: PropTypes.array,
+    onSelectLeftReading: PropTypes.func,
+    onSelectRightReading: PropTypes.func,
+    onTimestampSelect: PropTypes.func,
+    onToggleDates: PropTypes.func,
+    onToggleGraph: PropTypes.func,
+    onTogglePersons: PropTypes.func,
+    onTogglePlaces: PropTypes.func,
+    personsVisible: PropTypes.bool,
+    placesVisible: PropTypes.bool,
+    rightReading: PropTypes.string,
+    selectedTimestamp: PropTypes.string,
+    setIsExpanded: PropTypes.func,
+    timestampsList: PropTypes.array,
+    viewport: PropTypes.shape({
+        width: PropTypes.number,
+        height: PropTypes.number,
+    }),
+    witnesses: PropTypes.array,
 };
 export default ViewOptions;

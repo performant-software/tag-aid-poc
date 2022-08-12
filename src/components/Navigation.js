@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -193,7 +194,7 @@ const Navigation = (props) => {
         setSearchQuery(e.target.value);
     }
 
-    function handlePressEnter(e, value) {
+    function handlePressEnter() {
         onSearch(searchQuery);
         setSearchQuery("");
         props.history.push("/Search");
@@ -203,4 +204,12 @@ const Navigation = (props) => {
         setTabIndex(value);
     }
 };
+
+Navigation.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+    }).isRequired,
+    onSearch: PropTypes.func,
+};
+
 export default withRouter(Navigation);

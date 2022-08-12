@@ -1,13 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import { Link } from "react-router-dom";
 
-const SectionList = (props) => {
-    const { list, sectionId, height, witnessId } = props;
-
+const SectionList = ({ list, sectionId, height, witnessId }) => {
     const titleDisplay = (title) => {
         const wordArray = title.split(" ");
         const firstThreeWords = wordArray.slice(0, 3).join(" ");
@@ -21,7 +20,7 @@ const SectionList = (props) => {
     return (
         <Paper
             elevation={2}
-            style={{ marginLeft: "16px", height: height, overflowY: "auto" }}
+            style={{ marginLeft: "16px", height, overflowY: "auto" }}
         >
             <Typography variant="h6" style={{ margin: "16px 24px 0px" }}>
                 {"Index"}
@@ -88,5 +87,11 @@ const SectionList = (props) => {
             </div>
         </Paper>
     );
+};
+SectionList.propTypes = {
+    height: PropTypes.string,
+    list: PropTypes.array,
+    sectionId: PropTypes.string,
+    witnessId: PropTypes.string,
 };
 export default SectionList;

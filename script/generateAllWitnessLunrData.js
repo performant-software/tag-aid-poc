@@ -58,12 +58,10 @@ async function generateLunrSource(timestamp) {
         const sectionPromises = [];
         const validSections = [];
         sections.forEach((section) => {
-            sectionData = getSectionData(section.id, witnesses);
+            let sectionData = getSectionData(section.id, witnesses);
             sectionPromises.push(sectionData);
         });
-        sectionStore = await Promise.all(sectionPromises).catch((e) =>
-            console.log(e)
-        );
+        await Promise.all(sectionPromises).catch((e) => console.log(e));
         writeTranslationDataIndexFiles();
         writeArmenianDataIndexFiles();
     }
@@ -97,9 +95,9 @@ async function generateLunrSource(timestamp) {
                 });
             });
 
-            return (data = await Promise.all([allReadings]).catch((e) =>
+            return await Promise.all([allReadings]).catch((e) =>
                 console.log(e)
-            ));
+            );
         }
     }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import withWidth from "@material-ui/core/withWidth"; // used by grid
 import SectionList from "./SectionList";
@@ -361,14 +362,14 @@ const Edition = (props) => {
                 setSelectedRank(null);
                 return;
             }
-        setSelectedRank(node.rank);
+        setSelectedRank(parseInt(node.rank));
         setSelectedNode(node);
     }
 
     function handleSelectSentence(start, end) {
-        const startRank = start.split("-")[0];
+        const startRank = parseInt(start.split("-")[0]);
         const startNodeId = start.split("-")[1];
-        const endRank = end.split("-")[0];
+        const endRank = parseInt(end.split("-")[0]);
         const endNodeId = end.split("-")[1];
 
         if (selectedSentence) {
@@ -414,7 +415,7 @@ const Edition = (props) => {
             return;
         }
         setSelectedNode(null);
-        setSelectedRank(rank);
+        setSelectedRank(parseInt(rank));
     }
 
     function nextSection() {
@@ -435,4 +436,23 @@ const Edition = (props) => {
         props.history.push(`/Edition/${previous.sectionId}`);
     }
 };
+
+Edition.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+    }).isRequired,
+    manuscripts: PropTypes.array,
+    onSearch: PropTypes.func,
+    onTimestampSelect: PropTypes.func,
+    searchTerm: PropTypes.string,
+    sections: PropTypes.array,
+    selectedTimestamp: PropTypes.string,
+    timestampsList: PropTypes.array,
+    viewport: PropTypes.shape({
+        width: PropTypes.number,
+        height: PropTypes.number,
+    }),
+    witnesses: PropTypes.array,
+};
+
 export default withWidth()(withRouter(Edition));

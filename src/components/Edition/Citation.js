@@ -1,8 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const Citation = (props) => {
-    const { selectedTimestamp } = props;
-
+const Citation = ({ selectedTimestamp }) => {
     const citationDate = selectedTimestamp
         ? new Date(selectedTimestamp.split("_").slice(1)).toLocaleString(
               "default",
@@ -27,6 +26,10 @@ const Citation = (props) => {
             </p>
         </div>
     );
+};
+
+Citation.propTypes = {
+    selectedTimestamp: PropTypes.string,
 };
 
 export default Citation;

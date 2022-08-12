@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import EditionHeader from "./EditionHeader";
 import Paper from "@material-ui/core/Paper";
@@ -7,21 +8,20 @@ import Typography from "@material-ui/core/Typography";
 import Parser, { domToReact } from "html-react-parser";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-const SearchResults = (props) => {
-    const {
-        searchTerm,
-        onSearch,
-        translationDictionary,
-        translationIndex,
-        armenianDictionary,
-        armenianIndex,
-        sections,
-    } = props;
+const SearchResults = ({
+    searchTerm,
+    onSearch,
+    translationDictionary,
+    translationIndex,
+    armenianDictionary,
+    armenianIndex,
+    sections,
+}) => {
     const [groupedResults, setGroupedResults] = useState([]);
     const [dataDictionary, setDataDictionary] = useState([]);
     const [isArmenian, setIsArmenian] = useState();
@@ -145,8 +145,8 @@ const SearchResults = (props) => {
                                                 key={r.year}
                                                 style={{ marginBottom: "16px" }}
                                             >
-                                                <ExpansionPanel>
-                                                    <ExpansionPanelSummary
+                                                <Accordion>
+                                                    <AccordionSummary
                                                         expandIcon={
                                                             <ExpandMoreIcon />
                                                         }
@@ -160,8 +160,8 @@ const SearchResults = (props) => {
                                                                 ? `Witness`
                                                                 : `Witnesses`}
                                                         </Typography>
-                                                    </ExpansionPanelSummary>
-                                                    <ExpansionPanelDetails
+                                                    </AccordionSummary>
+                                                    <AccordionDetails
                                                         style={{
                                                             display: "flex",
                                                             flexDirection:
@@ -201,8 +201,8 @@ const SearchResults = (props) => {
                                                                 );
                                                             }
                                                         )}
-                                                    </ExpansionPanelDetails>
-                                                </ExpansionPanel>
+                                                    </AccordionDetails>
+                                                </Accordion>
                                             </div>
                                         );
                                     })
@@ -319,6 +319,16 @@ const SearchResults = (props) => {
 
         setGroupedResults(groupedYears);
     }
+};
+
+SearchResults.propTypes = {
+    armenianDictionary: PropTypes.array,
+    armenianIndex: PropTypes.object,
+    onSearch: PropTypes.func,
+    searchTerm: PropTypes.string,
+    sections: PropTypes.array,
+    translationDictionary: PropTypes.array,
+    translationIndex: PropTypes.object,
 };
 
 export default SearchResults;

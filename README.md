@@ -2,34 +2,43 @@ This is an experimental interface for viewing variant text. Development was begu
 
 This fork has updated the original proof of concept to use live data, and reworked it to be supported by the [Create React App](https://github.com/facebook/create-react-app) infrastructure.
 
+## Requirements
+
+-   Node.JS 14+, npm 7+
+-   Python 3
+-   [Graphviz](https://graphviz.org/)
+
 ## Setup
 
 ### Install Dependencies
 
-Within the root directory, install dependencies required to run the application:  
-```
+Within the root directory, install dependencies required to run the application:
+
+```sh
 npm install
 ```
 
 ### Environment Variables
+
 1. Within the root directory, create a new file named `.env`. **It is highly recommended that this file be git-ignored in order to avoid committing sensitive data into version control.**
 
 2. In the newly created `.env` file, add the following environment variables:
-* **`PUBLIC_URL`**
-  * Ex: `PUBLIC_URL=enter_url_here_with_no_spaces_or_quotes`
-* **`REACT_APP_MAPBOX_TOKEN`**
-  * Ex: `REACT_APP_MAPBOX_TOKEN=enter_token_here_with_no_spaces_or_quotes`
-  * A Mapbox token can be obtained from the [Mapbox website](www.mapbox.com) - see the "Access tokens" section of your Mapbox account page.
-* **`REACT_APP_HOMEPATH`**
-  * Ex: `REACT_APP_HOMEPATH=/ChronicleME/`
 
+-   **`PUBLIC_URL`**
+    -   Ex: `PUBLIC_URL=enter_url_here_with_no_spaces_or_quotes`
+-   **`REACT_APP_MAPBOX_TOKEN`**
+    -   Ex: `REACT_APP_MAPBOX_TOKEN=enter_token_here_with_no_spaces_or_quotes`
+    -   A Mapbox token can be obtained from the [Mapbox website](www.mapbox.com) - see the "Access tokens" section of your Mapbox account page.
+-   **`REACT_APP_HOMEPATH`**
+    -   Ex: `REACT_APP_HOMEPATH=/ChronicleME/`
 
 ### API Configuration
-1. Within the `/script` directory, create a new file named `lemma-html-config.json`.  **It is highly recommended that this file be git-ignored in order to avoid committing sensitive data into version control** - this is why we provide an example file (`lemma-html-config.json.example`), rather than the file itself, on GitHub.
+
+1. Within the `/script` directory, create a new file named `lemma-html-config.json`. **It is highly recommended that this file be git-ignored in order to avoid committing sensitive data into version control** - this is why we provide an example file (`lemma-html-config.json.example`), rather than the file itself, on GitHub.
 
 2. In the newly created `lemma-html-config.json` file, add a JSON object with the following keys (be sure to update with your own values):
 
-```
+```json
 {
     "options": {
         "repository": "repository URL goes inside these quotes",
@@ -44,31 +53,36 @@ npm install
 
 **Note** - an example file, `lemma-html-config.json.example`, has been provided as an example.
 
-
 ### Data Generation
 
 Within the root directory, run the following command:
 
-```
+```sh
 node script/generateAllData.js
 ```
 
 ## Local Development
+
 Run the application locally:
 
-```
-yarn start
+```sh
+npm run start
 ```
 
 ## Deploying
+
 **Within the project root directory:**
+
 ```
-yarn build   
+npm run build
 zip -r <buildID> build
-scp <buildID>.zip edition@monitor.stemmaweb.net:.
+scp <buildID>.zip <user>:<pass>@<hostname>:<path>
 ```
 
-**On the server:**  
+For Stemmaweb, the final argument should be something like `edition@monitor.stemmaweb.net:.`.
+
+**On the server:**
+
 ```rm -rf build
 unzip <buildID>
 rm -rf www/*

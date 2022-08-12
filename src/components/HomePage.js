@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import TextPane from "./Edition/TextPane";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
@@ -6,9 +7,7 @@ import Header from "./Header";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
-const HomePage = (props) => {
-    const { sections, onSearch, selectedTimestamp } = props;
-
+const HomePage = ({ sections, onSearch, selectedTimestamp }) => {
     return (
         <Fragment>
             <Header onSearch={onSearch} />
@@ -101,4 +100,11 @@ const HomePage = (props) => {
         </Fragment>
     );
 };
+
+HomePage.propTypes = {
+    onSearch: PropTypes.func,
+    sections: PropTypes.array,
+    selectedTimestamp: PropTypes.string,
+};
+
 export default HomePage;

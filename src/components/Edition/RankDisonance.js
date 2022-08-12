@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import * as DataApi from "../../utils/Api";
 import {
     VictoryChart,
@@ -7,16 +8,15 @@ import {
     VictoryAxis,
 } from "victory";
 
-const RankDisonance = (props) => {
-    const {
-        sectionId,
-        highlightedNode,
-        selectedRank,
-        selectedSentence,
-        onSelectRank,
-        viewport,
-        selectedTimestamp,
-    } = props;
+const RankDisonance = ({
+    sectionId,
+    highlightedNode,
+    selectedRank,
+    selectedSentence,
+    onSelectRank,
+    viewport,
+    selectedTimestamp,
+}) => {
     const [chartData, setChartData] = useState();
 
     useEffect(() => {
@@ -88,11 +88,8 @@ const RankDisonance = (props) => {
                         }
                         scale={{ x: "linear", y: "linear" }}
                     >
-                        <VictoryAxis crossAxis style={xaxisStyle}></VictoryAxis>
-                        <VictoryAxis
-                            dependentAxis
-                            style={yaxisStyle}
-                        ></VictoryAxis>
+                        <VictoryAxis crossAxis style={xaxisStyle} />
+                        <VictoryAxis dependentAxis style={yaxisStyle} />
                         <VictoryBar
                             style={{
                                 data: {
@@ -158,15 +155,11 @@ const RankDisonance = (props) => {
                                                                 parseInt(key);
                                                             const rangeStart =
                                                                 selectedSentence
-                                                                    ? parseInt(
-                                                                          selectedSentence.startRank
-                                                                      )
+                                                                    ? selectedSentence.startRank
                                                                     : null;
                                                             const rangeEnd =
                                                                 selectedSentence
-                                                                    ? parseInt(
-                                                                          selectedSentence.endRank
-                                                                      )
+                                                                    ? selectedSentence.endRank
                                                                     : null;
 
                                                             if (
@@ -201,7 +194,7 @@ const RankDisonance = (props) => {
                                     }, // end event handlers
                                 },
                             ]}
-                        ></VictoryBar>
+                        />
                     </VictoryChart>
                 </div>
             )}
@@ -245,5 +238,24 @@ const RankDisonance = (props) => {
         });
         return data;
     }
+};
+RankDisonance.propTypes = {
+    highlightedNode: PropTypes.shape({
+        nodeId: PropTypes.string,
+        rank: PropTypes.number,
+    }),
+    onSelectRank: PropTypes.func,
+    sectionId: PropTypes.string,
+    selectedRank: PropTypes.number,
+    selectedSentence: PropTypes.shape({
+        startId: PropTypes.string,
+        startRank: PropTypes.number,
+        endRank: PropTypes.number,
+    }),
+    selectedTimestamp: PropTypes.string,
+    viewport: PropTypes.shape({
+        width: PropTypes.number,
+        height: PropTypes.number,
+    }),
 };
 export default RankDisonance;

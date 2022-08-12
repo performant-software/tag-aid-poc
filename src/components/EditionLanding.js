@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
@@ -7,13 +8,11 @@ import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 
-const EditionLanding = (props) => {
+const EditionLanding = ({ onSearch }) => {
     const cardStyle = {
         width: "210px",
         height: "210px",
     };
-
-    const { onSearch } = props;
 
     return (
         <Grid container>
@@ -174,6 +173,10 @@ const EditionLanding = (props) => {
                   </Grid> */}
         </Grid>
     );
+};
+
+EditionLanding.propTypes = {
+    onSearch: PropTypes.func,
 };
 
 export default EditionLanding;

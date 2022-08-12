@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
@@ -65,9 +66,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SearchInput(props) {
+export default function SearchInput({ onPressEnter, onChange, searchQuery }) {
     const classes = useStyles();
-    const { onPressEnter, onChange, searchQuery } = props;
 
     return (
         <div className={classes.search}>
@@ -93,3 +93,9 @@ export default function SearchInput(props) {
         if (e.key === "Enter") onPressEnter();
     }
 }
+
+SearchInput.propTypes = {
+    onChange: PropTypes.func,
+    onPressEnter: PropTypes.func,
+    searchQuery: PropTypes.string,
+};

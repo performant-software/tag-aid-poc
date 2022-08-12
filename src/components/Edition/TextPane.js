@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import Parser, { domToReact } from "html-react-parser";
 import * as DataApi from "../../utils/Api";
 import Typography from "@material-ui/core/Typography";
@@ -23,6 +24,9 @@ const TextPane = (props) => {
         manuscripts,
         nodeHash,
         selectedTimestamp,
+        selectedRank,
+        selectedNode,
+        sections,
     } = props;
 
     const [enTitle, setEnTitle] = useState();
@@ -37,8 +41,8 @@ const TextPane = (props) => {
                 // the translation and armenian texts are encode with nodeId and rank
                 let rank =
                     reading === "Translation"
-                        ? attribs.id.split("-")[0]
-                        : attribs.key;
+                        ? parseInt(attribs.id.split("-")[0])
+                        : parseInt(attribs.key);
                 let nodeId =
                     reading === "Translation"
                         ? attribs.id.split("-")[1]
@@ -46,8 +50,8 @@ const TextPane = (props) => {
 
                 // this can be further refactored - it was in transition...
                 if (reading === "Translation") {
-                    let selected = props.selectedSentence
-                        ? props.selectedSentence.startId === nodeId
+                    let selected = selectedSentence
+                        ? selectedSentence.startId === nodeId
                         : false;
                     let searchedFor = searchTerm
                         ? children[0].data.indexOf(searchTerm) > -1
@@ -83,11 +87,9 @@ const TextPane = (props) => {
                             : false
                         : false;
                     if (isSearchTerm) onSelectNode(nodeId);
-                    let atRank = props.selectedRank
-                        ? props.selectedRank === parseInt(rank)
-                        : false;
-                    let selected = props.selectedNode
-                        ? props.selectedNode.nodeId === nodeId
+                    let atRank = selectedRank ? selectedRank === rank : false;
+                    let selected = selectedNode
+                        ? selectedNode.nodeId === nodeId
                         : false;
                     let person = persons
                         ? persons.find((p) => {
@@ -109,10 +111,9 @@ const TextPane = (props) => {
                               return isWithinRange(d.begin, d.end, nodeId);
                           })
                         : false;
-                    let inSelectedSentence = props.selectedSentence
-                        ? parseInt(rank) >=
-                              parseInt(selectedSentence.startRank) &&
-                          parseInt(rank) <= parseInt(selectedSentence.endRank)
+                    let inSelectedSentence = selectedSentence
+                        ? rank >= selectedSentence.startRank &&
+                          rank <= selectedSentence.endRank
                         : false;
                     let textStyle = {
                         color: "black",
@@ -175,15 +176,15 @@ const TextPane = (props) => {
     };
 
     useEffect(() => {
-        if (!props.sections) return;
-        const selectedSection = props.sections.find((s) => {
+        if (!sections) return;
+        const selectedSection = sections.find((s) => {
             return s.sectionId === sectionId;
         });
         if (selectedSection) {
             setEnTitle(selectedSection.englishTitle);
             setArTitle(selectedSection.armenianTitle);
         }
-    }, [sectionId, props.sections]);
+    }, [sectionId, sections]);
 
     useEffect(() => {
         if (selectedTimestamp) {
@@ -305,6 +306,34 @@ const TextPane = (props) => {
             if (graphVisible) onSelectNode(node);
         }
     }
+};
+
+TextPane.propTypes = {
+    comments: PropTypes.array,
+    dates: PropTypes.array,
+    graphVisible: PropTypes.bool,
+    manuscripts: PropTypes.array,
+    nodeHash: PropTypes.object,
+    onSelectLocation: PropTypes.func,
+    onSelectNode: PropTypes.func,
+    onSelectSentence: PropTypes.func,
+    persons: PropTypes.array,
+    places: PropTypes.array,
+    reading: PropTypes.string,
+    searchTerm: PropTypes.string,
+    sectionId: PropTypes.string,
+    sections: PropTypes.array,
+    selectedNode: PropTypes.shape({
+        nodeId: PropTypes.string,
+        rank: PropTypes.number,
+    }),
+    selectedRank: PropTypes.number,
+    selectedSentence: PropTypes.shape({
+        startId: PropTypes.string,
+        startRank: PropTypes.number,
+        endRank: PropTypes.number,
+    }),
+    selectedTimestamp: PropTypes.string,
 };
 
 export default TextPane;

@@ -1,6 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Header from "../Header";
-
 import {
     Container,
     Card,
@@ -11,9 +11,7 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 
-const Visualizations = (props) => {
-    const { onSearch } = props;
-
+const Visualizations = ({ onSearch }) => {
     const smallScreen = useMediaQuery("(min-width:600px)");
 
     const containerStyle = {
@@ -97,6 +95,10 @@ const Visualizations = (props) => {
             </Container>
         </>
     );
+};
+
+Visualizations.propTypes = {
+    onSearch: PropTypes.func,
 };
 
 export default Visualizations;

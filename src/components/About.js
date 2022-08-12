@@ -1,9 +1,8 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import Header from "./Header";
 
-const AboutPage = (props) => {
-    const { onSearch } = props;
-
+const AboutPage = ({ onSearch }) => {
     return (
         <Fragment>
             <Header onSearch={onSearch} />
@@ -346,4 +345,9 @@ const AboutPage = (props) => {
         </Fragment>
     );
 };
+
+AboutPage.propTypes = {
+    onSearch: PropTypes.func,
+};
+
 export default AboutPage;

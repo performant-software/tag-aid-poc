@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import Header from "../Header";
 import { Link } from "react-router-dom";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 
-const ManuscriptPage = (props) => {
-    const { onSearch } = props;
+const ManuscriptPage = ({ onSearch }) => {
     return (
         <Fragment>
             <Header onSearch={onSearch} />
@@ -42,7 +42,7 @@ const ManuscriptPage = (props) => {
                                             width: "80px",
                                             marginLeft: "24px",
                                         }}
-                                        to="/ManuscriptView/Bz430"
+                                        to="/Manuscripts/Bz430"
                                     >
                                         {"read transcription"}
                                     </Link>
@@ -73,7 +73,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/Bz449"
+                                    to="/Manuscripts/Bz449"
                                 >
                                     {"read transcription"}
                                 </Link>
@@ -103,7 +103,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/Bz644"
+                                    to="/Manuscripts/Bz644"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -141,7 +141,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/L5260"
+                                    to="/Manuscripts/L5260"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -180,7 +180,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M1731"
+                                    to="/Manuscripts/M1731"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -211,7 +211,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M1767"
+                                    to="/Manuscripts/M1767"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -242,7 +242,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M1768"
+                                    to="/Manuscripts/M1768"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -273,7 +273,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M1769"
+                                    to="/Manuscripts/M1769"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -307,7 +307,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M1775"
+                                    to="/Manuscripts/M1775"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -339,7 +339,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M1896"
+                                    to="/Manuscripts/M1896"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -370,7 +370,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M2644"
+                                    to="/Manuscripts/M2644"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -402,7 +402,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M2855"
+                                    to="/Manuscripts/M2855"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -436,7 +436,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M2899"
+                                    to="/Manuscripts/M2899"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -467,7 +467,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M3071"
+                                    to="/Manuscripts/M3071"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -501,7 +501,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M3380"
+                                    to="/Manuscripts/M3380"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -532,7 +532,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M3519"
+                                    to="/Manuscripts/M3519"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -566,7 +566,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M3520"
+                                    to="/Manuscripts/M3520"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -597,7 +597,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M5587"
+                                    to="/Manuscripts/M5587"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -628,7 +628,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M6605"
+                                    to="/Manuscripts/M6605"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -660,7 +660,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M6686"
+                                    to="/Manuscripts/M6686"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -693,7 +693,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/M8232"
+                                    to="/Manuscripts/M8232"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -733,7 +733,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/Ox-e.32"
+                                    to="/Manuscripts/Ox-e.32"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -772,7 +772,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/V913"
+                                    to="/Manuscripts/V913"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -803,7 +803,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/V901"
+                                    to="/Manuscripts/V901"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -835,7 +835,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/V913"
+                                    to="/Manuscripts/V913"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -867,7 +867,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/V917"
+                                    to="/Manuscripts/V917"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -906,7 +906,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/W243"
+                                    to="/Manuscripts/W243"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -938,7 +938,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/W246"
+                                    to="/Manuscripts/W246"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -969,7 +969,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/W574"
+                                    to="/Manuscripts/W574"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -1007,7 +1007,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/W574"
+                                    to="/Manuscripts/W574"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -1037,7 +1037,7 @@ const ManuscriptPage = (props) => {
                                         width: "80px",
                                         marginLeft: "24px",
                                     }}
-                                    to="/ManuscriptView/W574"
+                                    to="/Manuscripts/W574"
                                     color="secondary"
                                 >
                                     {"read transcription"}
@@ -1101,4 +1101,9 @@ const ManuscriptPage = (props) => {
         </Fragment>
     );
 };
+
+ManuscriptPage.propTypes = {
+    onSearch: PropTypes.func,
+};
+
 export default ManuscriptPage;

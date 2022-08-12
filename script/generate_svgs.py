@@ -48,10 +48,17 @@ def collect_section_data(options, section, outdir, auth=None):
         'show_normal': 'true',
         'normalise': 'spelling'
     }
-    r = requests.get("%s/dot" % baseurl, params=dotparams, auth=auth)
+    try:
+        r = requests.get("%s/dot" % baseurl, params=dotparams, auth=auth)
+    except Exception:
+        print("error with request: %s/dot" % baseurl)
     r.raise_for_status()
     dot = r.text
-    dotresult = subprocess.run(["dot", "-Tsvg"], input=r.text, stdout=subprocess.PIPE, encoding='utf-8')
+    try:
+        dotresult = subprocess.run(["dot", "-Tsvg"], input=r.text, check=True, stdout=subprocess.PIPE, encoding='utf-8')
+    except subprocess.CalledProcessError as e:
+        print(e)
+
     dotresult.check_returncode()
     with open('%s/graph.svg' % sectiondir, 'w', encoding='utf-8') as svg:
         svg.write(dotresult.stdout)
@@ -103,4 +110,4 @@ if __name__ == '__main__':
 
     # Go do the work.
     collect_tradition_data(args, auth=authobj)
-    print("Done!")
+    print("Done generating SVGs")

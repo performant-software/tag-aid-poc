@@ -1,22 +1,21 @@
 import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import SVG from "react-inlinesvg";
 import panzoom from "panzoom";
 
-const SvgGraph = (props) => {
-    const {
-        sectionId,
-        highlightedNode,
-        selectedSentence,
-        selectedRank,
-        onSelectNode,
-        nodeHash,
-        nodeList,
-        persons,
-        places,
-        dates,
-        selectedTimestamp,
-    } = props;
-
+const SvgGraph = ({
+    sectionId,
+    highlightedNode,
+    selectedSentence,
+    selectedRank,
+    onSelectNode,
+    nodeHash,
+    nodeList,
+    persons,
+    places,
+    dates,
+    selectedTimestamp,
+}) => {
     const svgRef = useRef(null);
 
     useEffect(() => {
@@ -28,9 +27,9 @@ const SvgGraph = (props) => {
     }, [persons, places, dates]);
 
     useEffect(() => {
-        if (props.selectedRank) {
+        if (selectedRank) {
             let nodesAtRank = nodeList.filter(
-                (n) => n.rank === parseInt(props.selectedRank)
+                (n) => n.rank === parseInt(selectedRank)
             );
             for (let i = 0; i < nodesAtRank.length; i++) {
                 const zoomNode = getGraphDOMNode(nodesAtRank[i].id);
@@ -41,21 +40,21 @@ const SvgGraph = (props) => {
             }
         }
         highlightAndSelect();
-    }, [props.selectedRank, nodeList]);
+    }, [selectedRank, nodeList]);
 
     useEffect(() => {
-        if (props.selectedSentence) {
-            const domNode = getGraphDOMNode(props.selectedSentence.startId);
+        if (selectedSentence) {
+            const domNode = getGraphDOMNode(selectedSentence.startId);
             zoomToNode(domNode);
         }
         highlightAndSelect();
-    }, [props.selectedSentence]);
+    }, [selectedSentence]);
 
     useEffect(() => {
-        if (!props.highlightedNode) return;
-        const domNode = getGraphDOMNode(props.highlightedNode.nodeId);
+        if (!highlightedNode) return;
+        const domNode = getGraphDOMNode(highlightedNode.nodeId);
         zoomToNode(domNode);
-    }, [props.highlightedNode]);
+    }, [highlightedNode]);
 
     return (
         <div style={{ position: "relative", padding: "16px" }}>
@@ -176,4 +175,26 @@ const SvgGraph = (props) => {
         return found;
     }
 };
+
+SvgGraph.propTypes = {
+    dates: PropTypes.array,
+    highlightedNode: PropTypes.shape({
+        nodeId: PropTypes.string,
+        rank: PropTypes.number,
+    }),
+    nodeHash: PropTypes.object,
+    nodeList: PropTypes.array,
+    onSelectNode: PropTypes.func,
+    persons: PropTypes.array,
+    places: PropTypes.array,
+    sectionId: PropTypes.string,
+    selectedRank: PropTypes.number,
+    selectedSentence: PropTypes.shape({
+        startId: PropTypes.string,
+        startRank: PropTypes.number,
+        endRank: PropTypes.number,
+    }),
+    selectedTimestamp: PropTypes.string,
+};
+
 export default SvgGraph;
