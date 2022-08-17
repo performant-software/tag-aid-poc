@@ -184,11 +184,21 @@ const Routes = ({
                     <Visualizations onSearch={setSearchTerm} />
                 </Route>
                 <Route path="/" exact>
-                    <HomePage onSearch={setSearchTerm} sections={sections} />
+                    <HomePage
+                        onSearch={setSearchTerm}
+                        sections={sections}
+                        selectedTimestamp={selectedTimestamp}
+                    />
                 </Route>
-                <Route path="/ChronicleME" exact>
-                    <HomePage onSearch={setSearchTerm} sections={sections} />
-                </Route>
+                {process.env.REACT_APP_HOMEPATH && (
+                    <Route path={process.env.REACT_APP_HOMEPATH} exact>
+                        <HomePage
+                            onSearch={setSearchTerm}
+                            sections={sections}
+                            selectedTimestamp={selectedTimestamp}
+                        />
+                    </Route>
+                )}
             </Switch>
         </ThemeProvider>
     );
