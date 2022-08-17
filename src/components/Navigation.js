@@ -38,7 +38,11 @@ const Navigation = (props) => {
 
     useEffect(() => {
         let pageName = window.location.hash.split("/")[1];
-        setTabIndex(`#/${pageName}`);
+        if (!pageName || pageName.includes(process.env.REACT_APP_HOMEPATH)) {
+            setTabIndex(`#/Home`);
+        } else {
+            setTabIndex(`#/${pageName}`);
+        }
     }, []);
 
     const StyledTabs = withStyles({
@@ -147,8 +151,8 @@ const Navigation = (props) => {
                         >
                             <StyledTab
                                 label="Home"
-                                href="#/home"
-                                value="#/home"
+                                href="#/Home"
+                                value="#/Home"
                             />
                             <StyledTab
                                 label="About"
