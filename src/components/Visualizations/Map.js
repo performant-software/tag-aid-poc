@@ -290,7 +290,7 @@ const MapView = ({ geoData, locationLookup, sections, onSearch }) => {
         let innerHtml = "";
         links.forEach((link) => {
             const lookup = locationLookup.find(
-                (l) => l.placeRefId.toString() === link.target.toString()
+                (l) => l.annotationRefId.toString() === link.target.toString()
             );
 
             if (lookup) {
