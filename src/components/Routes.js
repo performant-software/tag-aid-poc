@@ -16,6 +16,7 @@ import * as DataApi from "./../utils/Api";
 import Visualizations from "./Visualizations";
 import Timeline from "./Visualizations/Timeline";
 import MapView from "./Visualizations/Map";
+import PersonsList from "./Visualizations/Persons";
 
 const Routes = ({
     sections,
@@ -178,7 +179,7 @@ const Routes = ({
                     />
                 </Route>
                 <Route path="/Visualizations/Persons" exact>
-                    <MapView
+                    <PersonsList
                         onSearch={setSearchTerm}
                         persons={persons}
                         personLookup={personLookup}
@@ -186,7 +187,7 @@ const Routes = ({
                     />
                 </Route>
                 <Route path="/Visualizations/Persons/:personId" exact>
-                    <MapView
+                    <PersonsList
                         onSearch={setSearchTerm}
                         persons={persons}
                         personLookup={personLookup}
