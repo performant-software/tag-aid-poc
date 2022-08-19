@@ -80,7 +80,7 @@ const Navigation = (props) => {
             container
             spacing={0}
             style={{ maxHeight: "112px", width: "100%" }}
-            justify="flex-end"
+            justifyContent="flex-end"
         >
             <Hidden mdUp>
                 <Grid item>
