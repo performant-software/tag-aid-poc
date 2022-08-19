@@ -34,55 +34,58 @@ const Routes = ({
     const [armenianIndex, setArmenianIndex] = useState();
     const [mapFeatures, setMapFeatures] = useState([]);
     const [locationLookup, setLocationLookup] = useState([]);
+    const [persons, setPersons] = useState([]);
+    const [personLookup, setPersonLookup] = useState([]);
     const [timelineDates, setTimelineDates] = useState([]);
 
     useEffect(() => {
-        if (!translationIndex && selectedTimestamp)
-            DataApi.getTranslationIndex((data) => {
-                setTranslationIndex(data);
-            }, selectedTimestamp);
-    }, [selectedTimestamp]);
-
-    useEffect(() => {
-        if (translationDictionary.length === 0 && selectedTimestamp)
-            DataApi.getLunrData((data) => {
-                setTranslationDictionary(data);
-            }, selectedTimestamp);
-    }, [selectedTimestamp]);
-    useEffect(() => {
-        if (!armenianIndex && selectedTimestamp)
-            DataApi.getArmenianIndex((data) => {
-                setArmenianIndex(data);
-            }, selectedTimestamp);
-    }, [selectedTimestamp]);
-    useEffect(() => {
-        if (armenianDictionary.length === 0 && selectedTimestamp)
-            DataApi.getLunrArmenianData((data) => {
-                setArmenianDictionary(data);
-            }, selectedTimestamp);
-    }, [selectedTimestamp]);
-
-    useEffect(() => {
-        if (mapFeatures.length === 0 && selectedTimestamp) {
-            DataApi.getLocationData((data) => {
-                setMapFeatures(data);
-            }, selectedTimestamp);
-        }
-    }, [selectedTimestamp]);
-
-    useEffect(() => {
-        if (locationLookup.length === 0 && selectedTimestamp) {
-            DataApi.getLocationLookup((data) => {
-                setLocationLookup(data);
-            }, selectedTimestamp);
-        }
-    }, [selectedTimestamp]);
-
-    useEffect(() => {
-        if (timelineDates.length === 0 && selectedTimestamp) {
-            DataApi.getTimelineDates((data) => {
-                setTimelineDates(data);
-            }, selectedTimestamp);
+        // fetch data when selectedTimestamp loads or is changed
+        if (selectedTimestamp) {
+            if (!translationIndex) {
+                DataApi.getTranslationIndex((data) => {
+                    setTranslationIndex(data);
+                }, selectedTimestamp);
+            }
+            if (!translationDictionary.length) {
+                DataApi.getLunrData((data) => {
+                    setTranslationDictionary(data);
+                }, selectedTimestamp);
+            }
+            if (!armenianIndex) {
+                DataApi.getArmenianIndex((data) => {
+                    setArmenianIndex(data);
+                }, selectedTimestamp);
+            }
+            if (!armenianDictionary.length) {
+                DataApi.getLunrArmenianData((data) => {
+                    setArmenianDictionary(data);
+                }, selectedTimestamp);
+            }
+            if (!mapFeatures.length) {
+                DataApi.getLocationData((data) => {
+                    setMapFeatures(data);
+                }, selectedTimestamp);
+            }
+            if (!locationLookup.length) {
+                DataApi.getLocationLookup((data) => {
+                    setLocationLookup(data);
+                }, selectedTimestamp);
+            }
+            if (!persons.length) {
+                DataApi.getPersonData((data) => {
+                    setPersons(data);
+                }, selectedTimestamp);
+            }
+            if (!personLookup.length) {
+                DataApi.getPersonLookup((data) => {
+                    setPersonLookup(data);
+                }, selectedTimestamp);
+            }
+            if (!timelineDates.length) {
+                DataApi.getTimelineDates((data) => {
+                    setTimelineDates(data);
+                }, selectedTimestamp);
+            }
         }
     }, [selectedTimestamp]);
 
@@ -171,6 +174,22 @@ const Routes = ({
                         onSearch={setSearchTerm}
                         geoData={mapFeatures}
                         locationLookup={locationLookup}
+                        sections={sections}
+                    />
+                </Route>
+                <Route path="/Visualizations/Persons" exact>
+                    <MapView
+                        onSearch={setSearchTerm}
+                        persons={persons}
+                        personLookup={personLookup}
+                        sections={sections}
+                    />
+                </Route>
+                <Route path="/Visualizations/Persons/:personId" exact>
+                    <MapView
+                        onSearch={setSearchTerm}
+                        persons={persons}
+                        personLookup={personLookup}
                         sections={sections}
                     />
                 </Route>
