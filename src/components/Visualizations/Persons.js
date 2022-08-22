@@ -5,10 +5,11 @@ import { withRouter } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Button from "@material-ui/core/Button";
 
 const processLinks = (links, personLookup, sections) => {
     return [
@@ -72,6 +73,7 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                         textAlign: "center",
                         margin: "30px 0px 10px 0px",
                     }}
+                    component="h2"
                 >
                     Persons
                 </Typography>
@@ -89,124 +91,116 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                             )
                         )
                         .map((person) => (
-                            <React.Fragment key={person.id}>
-                                <ListItem
-                                    ref={
-                                        personId &&
-                                        person.links.find(
-                                            (l) =>
-                                                l.target.toString() ===
-                                                personId.toString()
-                                        )
-                                            ? selectedPerson
-                                            : null
-                                    }
-                                    id={person.id}
-                                    alignItems="center"
-                                >
-                                    <ListItemText
-                                        primary={person.properties.identifier}
-                                        primaryTypographyProps={{
-                                            variant: "h6",
-                                        }}
-                                        secondary={
-                                            <React.Fragment>
-                                                {person.properties.href && (
-                                                    <Typography
-                                                        component="span"
-                                                        variant="body2"
-                                                        color="textPrimary"
-                                                    >
-                                                        Data source:{" "}
-                                                        <a
-                                                            href={
-                                                                person
-                                                                    .properties
-                                                                    .href
-                                                            }
-                                                        >
-                                                            {person.properties
-                                                                .datasource
-                                                                ? person
-                                                                      .properties
-                                                                      .datasource
-                                                                : "external resource"}
-                                                        </a>
-                                                    </Typography>
-                                                )}
-                                                {!person.properties.href &&
-                                                    person.properties
-                                                        .datasource && (
-                                                        <Typography
-                                                            component="span"
-                                                            variant="body2"
-                                                            color="textPrimary"
-                                                        >
-                                                            Data source:{" "}
-                                                            {
-                                                                person
-                                                                    .properties
-                                                                    .datasource
-                                                            }
-                                                        </Typography>
-                                                    )}
-                                                {processLinks(
-                                                    person.links,
-                                                    personLookup,
-                                                    sections
-                                                ).length > 0 && (
-                                                    <>
-                                                        {(person.properties
-                                                            .href ||
-                                                            person.properties
-                                                                .datasource) && (
-                                                            <br />
-                                                        )}
-                                                        <Typography
-                                                            component="span"
-                                                            variant="body2"
-                                                            color="textPrimary"
-                                                        >
-                                                            Textual references:
-                                                        </Typography>
-                                                        <ul>
-                                                            {processLinks(
-                                                                person.links,
-                                                                personLookup,
-                                                                sections
-                                                            ).map((link) => (
-                                                                <li
-                                                                    key={
-                                                                        link.sectionId
-                                                                    }
-                                                                    ref={
-                                                                        childRef
-                                                                    }
+                            <li
+                                style={{
+                                    paddingTop: "20px",
+                                }}
+                                key={person.id}
+                                ref={
+                                    personId &&
+                                    person.links.find(
+                                        (l) =>
+                                            l.target.toString() ===
+                                            personId.toString()
+                                    )
+                                        ? selectedPerson
+                                        : null
+                                }
+                                id={person.id}
+                            >
+                                <Card>
+                                    <CardContent>
+                                        <Typography
+                                            gutterBottom
+                                            variant="h5"
+                                            component="h3"
+                                        >
+                                            {person.properties.identifier}
+                                        </Typography>
+                                        {processLinks(
+                                            person.links,
+                                            personLookup,
+                                            sections
+                                        ).length > 0 && (
+                                            <>
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textPrimary"
+                                                >
+                                                    In edition:
+                                                    <ul>
+                                                        {processLinks(
+                                                            person.links,
+                                                            personLookup,
+                                                            sections
+                                                        ).map((link) => (
+                                                            <li
+                                                                key={
+                                                                    link.sectionId
+                                                                }
+                                                                ref={childRef}
+                                                            >
+                                                                <a
+                                                                    href={`/#/Edition/${link.sectionId}`}
                                                                 >
-                                                                    <a
-                                                                        href={`/#/Edition/${link.sectionId}`}
-                                                                    >
-                                                                        {
-                                                                            link.title
-                                                                        }
-                                                                    </a>{" "}
-                                                                    (
-                                                                    {link.type.toLowerCase()}
-                                                                    )
-                                                                </li>
-                                                            ))}
-                                                        </ul>
-                                                    </>
-                                                )}
-                                            </React.Fragment>
-                                        }
-                                        secondaryTypographyProps={{
-                                            component: "span",
+                                                                    {link.title}
+                                                                </a>{" "}
+                                                                (
+                                                                {link.type.toLowerCase()}
+                                                                )
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </Typography>
+                                            </>
+                                        )}
+                                    </CardContent>
+                                    <CardActions
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "space-between",
                                         }}
-                                    />
-                                </ListItem>
-                                <Divider />
-                            </React.Fragment>
+                                    >
+                                        {person.properties.href && (
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                color="textSecondary"
+                                            >
+                                                Data source:{" "}
+                                                {person.properties.datasource
+                                                    ? person.properties
+                                                          .datasource
+                                                    : "external resource"}
+                                            </Typography>
+                                        )}
+                                        {!person.properties.href &&
+                                            person.properties.datasource && (
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="textSecondary"
+                                                >
+                                                    Data source:{" "}
+                                                    {
+                                                        person.properties
+                                                            .datasource
+                                                    }
+                                                </Typography>
+                                            )}
+                                        {person.properties.href && (
+                                            <Button
+                                                size="small"
+                                                color="primary"
+                                                href={person.properties.href}
+                                            >
+                                                Learn More
+                                            </Button>
+                                        )}
+                                    </CardActions>
+                                </Card>
+                            </li>
                         ))}
                 </List>
             </Container>
