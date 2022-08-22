@@ -13,6 +13,7 @@ const TextPane = (props) => {
         reading,
         onSelectNode,
         onSelectLocation,
+        onSelectPerson,
         selectedSentence,
         onSelectSentence,
         persons,
@@ -144,9 +145,10 @@ const TextPane = (props) => {
                                     style={textStyle}
                                     onClick={() => {
                                         handleSelected({
-                                            nodeId: nodeId,
-                                            rank: rank,
-                                            place: place,
+                                            nodeId,
+                                            rank,
+                                            person,
+                                            place,
                                         });
                                     }}
                                 >
@@ -160,9 +162,10 @@ const TextPane = (props) => {
                                 style={textStyle}
                                 onClick={() => {
                                     handleSelected({
-                                        nodeId: nodeId,
-                                        rank: rank,
-                                        place: place,
+                                        nodeId,
+                                        rank,
+                                        person,
+                                        place,
                                     });
                                 }}
                             >
@@ -302,6 +305,7 @@ const TextPane = (props) => {
 
     function handleSelected(node) {
         if (node.place) onSelectLocation(node);
+        else if (node.person) onSelectPerson(node);
         else {
             if (graphVisible) onSelectNode(node);
         }
@@ -316,6 +320,7 @@ TextPane.propTypes = {
     nodeHash: PropTypes.object,
     onSelectLocation: PropTypes.func,
     onSelectNode: PropTypes.func,
+    onSelectPerson: PropTypes.func,
     onSelectSentence: PropTypes.func,
     persons: PropTypes.array,
     places: PropTypes.array,

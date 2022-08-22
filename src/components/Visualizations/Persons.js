@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useLayoutEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import EditionHeader from "./../Edition/EditionHeader";
 import { withRouter } from "react-router-dom";
@@ -44,15 +44,18 @@ const processLinks = (links, personLookup, sections) => {
 
 const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
     const { personId } = useParams();
-    const scrollToPerson = useCallback((node) => {
-        if (node !== null) {
-            // FIXME: Needs to only trigger when all children have rendered
+
+    const selectedPerson = useRef(null);
+    const childRef = useRef(null);
+
+    useLayoutEffect(() => {
+        if (selectedPerson.current && childRef.current) {
+            // wait to scroll until selected person and children have been rendered
             window.scrollTo({
-                top: node.getBoundingClientRect().top,
-                behavior: "smooth",
+                top: selectedPerson.current.getBoundingClientRect().top,
             });
         }
-    }, []);
+    }, [selectedPerson.current, childRef.current]);
 
     return (
         <React.Fragment>
@@ -70,8 +73,12 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                             <ListItem
                                 ref={
                                     personId &&
-                                    personId.toString() === person.id.toString()
-                                        ? scrollToPerson
+                                    person.links.find(
+                                        (l) =>
+                                            l.target.toString() ===
+                                            personId.toString()
+                                    )
+                                        ? selectedPerson
                                         : null
                                 }
                                 id={person.id}
@@ -96,7 +103,10 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                                                     personLookup,
                                                     sections
                                                 ).map((link) => (
-                                                    <li key={link.sectionId}>
+                                                    <li
+                                                        key={link.sectionId}
+                                                        ref={childRef}
+                                                    >
                                                         <a
                                                             href={`/#/Edition/${link.sectionId}`}
                                                         >

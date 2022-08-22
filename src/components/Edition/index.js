@@ -318,6 +318,7 @@ const Edition = (props) => {
                                             onSelectLocation={
                                                 handleSelectLocation
                                             }
+                                            onSelectPerson={handleSelectPerson}
                                         />
                                     </Grid>
 
@@ -389,6 +390,12 @@ const Edition = (props) => {
 
     function handleSelectLocation(node) {
         props.history.push(`/Visualizations/Map/${node.place.annotationId}`);
+    }
+
+    function handleSelectPerson(node) {
+        props.history.push(
+            `/Visualizations/Persons/${node.person.annotationId}`
+        );
     }
 
     function handleToggleGraph() {
