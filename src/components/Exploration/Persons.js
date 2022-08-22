@@ -59,6 +59,8 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                     selectedPerson.current.getBoundingClientRect().top +
                     window.scrollY,
             });
+        } else if (childRef.current && !personId) {
+            window.scrollTo({ top: 0 });
         }
     }, [selectedPerson.current, childRef.current]);
 

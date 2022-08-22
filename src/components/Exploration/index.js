@@ -2,93 +2,122 @@ import React from "react";
 import PropTypes from "prop-types";
 import Header from "../Header";
 import {
-    Container,
+    Grid,
     Card,
     CardMedia,
     CardActionArea,
     CardContent,
     Typography,
-    useMediaQuery,
+    Container,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-const Exploration = ({ onSearch }) => {
-    const smallScreen = useMediaQuery("(min-width:600px)");
-
-    const containerStyle = {
-        display: "flex",
-        flexDirection: smallScreen ? "row" : "column",
-        justifyContent: "space-between",
+const useStyles = makeStyles((theme) => ({
+    root: {
         paddingTop: 40,
-    };
-
-    const cardStyle = {
-        width: smallScreen ? "48%" : "98%",
-        marginBottom: smallScreen ? 0 : 20,
-    };
-
-    const titleStyle = {
+        paddingBottom: 40,
+    },
+    title: {
         color: "darkred",
         textDecoration: "none",
         fontSize: "2rem",
         marginBottom: 0,
-    };
-
-    const linkStyle = {
+        fontStyle: "italic",
+    },
+    link: {
         textDecoration: "none",
-    };
+    },
+}));
 
+const Exploration = ({ onSearch }) => {
+    const classes = useStyles();
     return (
         <>
             <Header onSearch={onSearch} />
-            <Container fixed style={containerStyle}>
-                <Card style={cardStyle}>
-                    <CardActionArea href="#/Exploration/Map" style={linkStyle}>
-                        <CardContent>
-                            <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                                align={"center"}
-                                style={titleStyle}
+            <Container className={classes.root}>
+                <Grid container spacing={4}>
+                    <Grid item xs={12} sm={6}>
+                        <Card>
+                            <CardActionArea
+                                href="#/Exploration/Map"
+                                className={classes.link}
                             >
-                                <i> Map </i>
-                            </Typography>
-                        </CardContent>
-                        <CardMedia
-                            component="img"
-                            alt="Map"
-                            height="200"
-                            image="images/Map.png"
-                            title="Map"
-                        />
-                    </CardActionArea>
-                </Card>
-
-                <Card style={cardStyle}>
-                    <CardActionArea
-                        href="#/Exploration/Timeline"
-                        style={linkStyle}
-                    >
-                        <CardContent>
-                            <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                                align={"center"}
-                                style={titleStyle}
+                                <CardContent>
+                                    <Typography
+                                        gutterBottom
+                                        variant="h5"
+                                        component="h2"
+                                        align={"center"}
+                                        className={classes.title}
+                                    >
+                                        Map
+                                    </Typography>
+                                </CardContent>
+                                <CardMedia
+                                    component="img"
+                                    alt="Map"
+                                    height="200"
+                                    image="images/Map.png"
+                                    title="Map"
+                                />
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Card>
+                            <CardActionArea
+                                href="#/Exploration/Timeline"
+                                className={classes.link}
                             >
-                                <i> Timeline </i>
-                            </Typography>
-                        </CardContent>
-                        <CardMedia
-                            component="img"
-                            alt="Timeline"
-                            height="200"
-                            image="images/Timeline.png"
-                            title="Timeline"
-                        />
-                    </CardActionArea>
-                </Card>
+                                <CardContent>
+                                    <Typography
+                                        gutterBottom
+                                        variant="h5"
+                                        component="h2"
+                                        align={"center"}
+                                        className={classes.title}
+                                    >
+                                        Timeline
+                                    </Typography>
+                                </CardContent>
+                                <CardMedia
+                                    component="img"
+                                    alt="Timeline"
+                                    height="200"
+                                    image="images/Timeline.png"
+                                    title="Timeline"
+                                />
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Card>
+                            <CardActionArea
+                                href="#/Exploration/Persons"
+                                className={classes.link}
+                            >
+                                <CardContent>
+                                    <Typography
+                                        gutterBottom
+                                        variant="h5"
+                                        component="h2"
+                                        align={"center"}
+                                        className={classes.title}
+                                    >
+                                        Persons
+                                    </Typography>
+                                </CardContent>
+                                <CardMedia
+                                    component="img"
+                                    alt="Persons"
+                                    height="200"
+                                    image="images/anonymous.jpg"
+                                    title="Persons"
+                                />
+                            </CardActionArea>
+                        </Card>
+                    </Grid>
+                </Grid>
             </Container>
         </>
     );
