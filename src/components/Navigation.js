@@ -110,7 +110,7 @@ const Navigation = (props) => {
                                     "Methods",
                                     "Manuscripts",
                                     "Edition",
-                                    "Visualizations",
+                                    "Exploration",
                                 ].map((text, index) => (
                                     <Fragment key={text}>
                                         <a
@@ -175,9 +175,9 @@ const Navigation = (props) => {
                                 value="#/Edition"
                             />
                             <StyledTab
-                                label="Visualizations"
-                                href="#/Visualizations"
-                                value="#/Visualizations"
+                                label="Exploration"
+                                href="#/Exploration"
+                                value="#/Exploration"
                             />
                         </StyledTabs>
 

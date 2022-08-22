@@ -11,7 +11,7 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 
-const Visualizations = ({ onSearch }) => {
+const Exploration = ({ onSearch }) => {
     const smallScreen = useMediaQuery("(min-width:600px)");
 
     const containerStyle = {
@@ -42,10 +42,7 @@ const Visualizations = ({ onSearch }) => {
             <Header onSearch={onSearch} />
             <Container fixed style={containerStyle}>
                 <Card style={cardStyle}>
-                    <CardActionArea
-                        href="#/Visualizations/Map"
-                        style={linkStyle}
-                    >
+                    <CardActionArea href="#/Exploration/Map" style={linkStyle}>
                         <CardContent>
                             <Typography
                                 gutterBottom
@@ -69,7 +66,7 @@ const Visualizations = ({ onSearch }) => {
 
                 <Card style={cardStyle}>
                     <CardActionArea
-                        href="#/Visualizations/Timeline"
+                        href="#/Exploration/Timeline"
                         style={linkStyle}
                     >
                         <CardContent>
@@ -97,8 +94,8 @@ const Visualizations = ({ onSearch }) => {
     );
 };
 
-Visualizations.propTypes = {
+Exploration.propTypes = {
     onSearch: PropTypes.func,
 };
 
-export default Visualizations;
+export default Exploration;

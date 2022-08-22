@@ -13,10 +13,10 @@ import ChronicleTheme from "./Theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import SearchResults from "./Edition/SearchResults";
 import * as DataApi from "./../utils/Api";
-import Visualizations from "./Visualizations";
-import Timeline from "./Visualizations/Timeline";
-import MapView from "./Visualizations/Map";
-import PersonsList from "./Visualizations/Persons";
+import Exploration from "./Exploration";
+import Timeline from "./Exploration/Timeline";
+import MapView from "./Exploration/Map";
+import PersonsList from "./Exploration/Persons";
 
 const Routes = ({
     sections,
@@ -162,7 +162,7 @@ const Routes = ({
                         searchTerm={searchTerm}
                     />
                 </Route>
-                <Route path="/Visualizations/Map" exact>
+                <Route path="/Exploration/Map" exact>
                     <MapView
                         onSearch={setSearchTerm}
                         geoData={mapFeatures}
@@ -170,7 +170,7 @@ const Routes = ({
                         sections={sections}
                     />
                 </Route>
-                <Route path="/Visualizations/Map/:locationId" exact>
+                <Route path="/Exploration/Map/:locationId" exact>
                     <MapView
                         onSearch={setSearchTerm}
                         geoData={mapFeatures}
@@ -178,7 +178,7 @@ const Routes = ({
                         sections={sections}
                     />
                 </Route>
-                <Route path="/Visualizations/Persons" exact>
+                <Route path="/Exploration/Persons" exact>
                     <PersonsList
                         onSearch={setSearchTerm}
                         persons={persons}
@@ -186,7 +186,7 @@ const Routes = ({
                         sections={sections}
                     />
                 </Route>
-                <Route path="/Visualizations/Persons/:personId" exact>
+                <Route path="/Exploration/Persons/:personId" exact>
                     <PersonsList
                         onSearch={setSearchTerm}
                         persons={persons}
@@ -194,14 +194,14 @@ const Routes = ({
                         sections={sections}
                     />
                 </Route>
-                <Route path="/Visualizations/Timeline" exact>
+                <Route path="/Exploration/Timeline" exact>
                     <Timeline
                         onSearch={setSearchTerm}
                         timelineData={timelineDates}
                     />
                 </Route>
-                <Route path="/Visualizations" exact>
-                    <Visualizations onSearch={setSearchTerm} />
+                <Route path="/Exploration" exact>
+                    <Exploration onSearch={setSearchTerm} />
                 </Route>
                 <Route path="/" exact>
                     <HomePage

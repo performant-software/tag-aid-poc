@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import EditionHeader from "./../Edition/EditionHeader";
+import EditionHeader from "../Edition/EditionHeader";
 import { withRouter } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Container from "@material-ui/core/Container";
@@ -47,11 +47,10 @@ const processLinks = (links, personLookup, sections) => {
 };
 
 const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
+    // scroll to selected person by link ID
     const { personId } = useParams();
-
     const selectedPerson = useRef(null);
     const childRef = useRef(null);
-
     useLayoutEffect(() => {
         if (selectedPerson.current && childRef.current) {
             // wait to scroll until selected person and children have been rendered
@@ -63,26 +62,34 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
         }
     }, [selectedPerson.current, childRef.current]);
 
+    // styles
+    const containerStyle = {
+        maxWidth: "72ch",
+    };
+    const headerStyle = {
+        textAlign: "center",
+        margin: "30px 0px 10px 0px",
+    };
+    const listStyle = {
+        width: "100%",
+        maxWidth: "72ch",
+    };
+    const listItemStyle = {
+        paddingTop: "20px",
+    };
+    const cardActionsStyle = {
+        display: "flex",
+        justifyContent: "space-between",
+    };
+
     return (
         <>
             <EditionHeader onSearch={onSearch} />
-            <Container style={{ maxWidth: "72ch" }}>
-                <Typography
-                    variant="h4"
-                    style={{
-                        textAlign: "center",
-                        margin: "30px 0px 10px 0px",
-                    }}
-                    component="h2"
-                >
+            <Container style={containerStyle}>
+                <Typography variant="h4" style={headerStyle} component="h2">
                     Persons
                 </Typography>
-                <List
-                    style={{
-                        width: "100%",
-                        maxWidth: "72ch",
-                    }}
-                >
+                <List style={listStyle}>
                     {persons
                         .sort((a, b) =>
                             // sort by name
@@ -92,9 +99,7 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                         )
                         .map((person) => (
                             <li
-                                style={{
-                                    paddingTop: "20px",
-                                }}
+                                style={listItemStyle}
                                 key={person.id}
                                 ref={
                                     personId &&
@@ -156,12 +161,7 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                                             </>
                                         )}
                                     </CardContent>
-                                    <CardActions
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "space-between",
-                                        }}
-                                    >
+                                    <CardActions style={cardActionsStyle}>
                                         {person.properties.href && (
                                             <Typography
                                                 component="span"

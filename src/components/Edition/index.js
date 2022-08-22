@@ -389,13 +389,11 @@ const Edition = (props) => {
     }
 
     function handleSelectLocation(node) {
-        props.history.push(`/Visualizations/Map/${node.place.annotationId}`);
+        props.history.push(`/Exploration/Map/${node.place.annotationId}`);
     }
 
     function handleSelectPerson(node) {
-        props.history.push(
-            `/Visualizations/Persons/${node.person.annotationId}`
-        );
+        props.history.push(`/Exploration/Persons/${node.person.annotationId}`);
     }
 
     function handleToggleGraph() {
