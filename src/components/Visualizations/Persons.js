@@ -1,9 +1,11 @@
-import React, { useCallback, useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import EditionHeader from "./../Edition/EditionHeader";
 import { withRouter } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -32,6 +34,7 @@ const processLinks = (links, personLookup, sections) => {
                             sectionId,
                             title: englishTitle,
                             index: titles?.index || 0,
+                            type: link.type,
                         };
                     }
                 })
@@ -52,77 +55,162 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
         if (selectedPerson.current && childRef.current) {
             // wait to scroll until selected person and children have been rendered
             window.scrollTo({
-                top: selectedPerson.current.getBoundingClientRect().top,
+                top:
+                    selectedPerson.current.getBoundingClientRect().top +
+                    window.scrollY,
             });
         }
     }, [selectedPerson.current, childRef.current]);
 
     return (
-        <React.Fragment>
+        <>
             <EditionHeader onSearch={onSearch} />
-            <List>
-                {persons
-                    .sort((a, b) =>
-                        // sort by name
-                        a.properties.identifier.localeCompare(
-                            b.properties.identifier
+            <Container style={{ maxWidth: "72ch" }}>
+                <Typography
+                    variant="h4"
+                    style={{
+                        textAlign: "center",
+                        margin: "30px 0px 10px 0px",
+                    }}
+                >
+                    Persons
+                </Typography>
+                <List
+                    style={{
+                        width: "100%",
+                        maxWidth: "72ch",
+                    }}
+                >
+                    {persons
+                        .sort((a, b) =>
+                            // sort by name
+                            a.properties.identifier.localeCompare(
+                                b.properties.identifier
+                            )
                         )
-                    )
-                    .map((person) => (
-                        <React.Fragment key={person.id}>
-                            <ListItem
-                                ref={
-                                    personId &&
-                                    person.links.find(
-                                        (l) =>
-                                            l.target.toString() ===
-                                            personId.toString()
-                                    )
-                                        ? selectedPerson
-                                        : null
-                                }
-                                id={person.id}
-                                alignItems="flex-start"
-                            >
-                                <ListItemText
-                                    primary={person.properties.identifier}
-                                    secondary={
-                                        <React.Fragment>
-                                            <Typography
-                                                component="span"
-                                                variant="body2"
-                                                color="textPrimary"
-                                            >
-                                                {person.properties.datasource}
-                                            </Typography>
-                                            {person.properties.href}
-                                            <br />
-                                            <ul>
+                        .map((person) => (
+                            <React.Fragment key={person.id}>
+                                <ListItem
+                                    ref={
+                                        personId &&
+                                        person.links.find(
+                                            (l) =>
+                                                l.target.toString() ===
+                                                personId.toString()
+                                        )
+                                            ? selectedPerson
+                                            : null
+                                    }
+                                    id={person.id}
+                                    alignItems="center"
+                                >
+                                    <ListItemText
+                                        primary={person.properties.identifier}
+                                        primaryTypographyProps={{
+                                            variant: "h6",
+                                        }}
+                                        secondary={
+                                            <React.Fragment>
+                                                {person.properties.href && (
+                                                    <Typography
+                                                        component="span"
+                                                        variant="body2"
+                                                        color="textPrimary"
+                                                    >
+                                                        Data source:{" "}
+                                                        <a
+                                                            href={
+                                                                person
+                                                                    .properties
+                                                                    .href
+                                                            }
+                                                        >
+                                                            {person.properties
+                                                                .datasource
+                                                                ? person
+                                                                      .properties
+                                                                      .datasource
+                                                                : "external resource"}
+                                                        </a>
+                                                    </Typography>
+                                                )}
+                                                {!person.properties.href &&
+                                                    person.properties
+                                                        .datasource && (
+                                                        <Typography
+                                                            component="span"
+                                                            variant="body2"
+                                                            color="textPrimary"
+                                                        >
+                                                            Data source:{" "}
+                                                            {
+                                                                person
+                                                                    .properties
+                                                                    .datasource
+                                                            }
+                                                        </Typography>
+                                                    )}
                                                 {processLinks(
                                                     person.links,
                                                     personLookup,
                                                     sections
-                                                ).map((link) => (
-                                                    <li
-                                                        key={link.sectionId}
-                                                        ref={childRef}
-                                                    >
-                                                        <a
-                                                            href={`/#/Edition/${link.sectionId}`}
+                                                ).length > 0 && (
+                                                    <>
+                                                        {(person.properties
+                                                            .href ||
+                                                            person.properties
+                                                                .datasource) && (
+                                                            <br />
+                                                        )}
+                                                        <Typography
+                                                            component="span"
+                                                            variant="body2"
+                                                            color="textPrimary"
                                                         >
-                                                            {link.title}
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </React.Fragment>
-                                    }
-                                />
-                            </ListItem>
-                        </React.Fragment>
-                    ))}
-            </List>
-        </React.Fragment>
+                                                            Textual references:
+                                                        </Typography>
+                                                        <ul>
+                                                            {processLinks(
+                                                                person.links,
+                                                                personLookup,
+                                                                sections
+                                                            ).map((link) => (
+                                                                <li
+                                                                    key={
+                                                                        link.sectionId
+                                                                    }
+                                                                    ref={
+                                                                        childRef
+                                                                    }
+                                                                >
+                                                                    <a
+                                                                        href={`/#/Edition/${link.sectionId}`}
+                                                                    >
+                                                                        {
+                                                                            link.title
+                                                                        }
+                                                                    </a>{" "}
+                                                                    (
+                                                                    {link.type.toLowerCase()}
+                                                                    )
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </>
+                                                )}
+                                            </React.Fragment>
+                                        }
+                                        secondaryTypographyProps={{
+                                            component: "span",
+                                        }}
+                                    />
+                                </ListItem>
+                                <Divider />
+                            </React.Fragment>
+                        ))}
+                </List>
+            </Container>
+        </>
     );
 };
 
