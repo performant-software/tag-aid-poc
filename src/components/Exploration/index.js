@@ -1,18 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Header from "../Header";
-import {
-    Grid,
-    Card,
-    CardMedia,
-    CardActionArea,
-    CardContent,
-    Typography,
-    Container,
-} from "@material-ui/core";
+import Card from "@material-ui/core/Card";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         paddingTop: 40,
         paddingBottom: 40,

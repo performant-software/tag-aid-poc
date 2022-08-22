@@ -10,6 +10,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 
 const processLinks = (links, personLookup, sections) => {
     return [
@@ -46,7 +47,30 @@ const processLinks = (links, personLookup, sections) => {
     ];
 };
 
+const useStyles = makeStyles(() => ({
+    root: {
+        maxWidth: "72ch",
+    },
+    header: {
+        textAlign: "center",
+        margin: "30px 0px 10px 0px",
+    },
+    list: {
+        width: "100%",
+        maxWidth: "72ch",
+    },
+    listItem: {
+        paddingTop: "20px",
+    },
+    cardActions: {
+        display: "flex",
+        justifyContent: "space-between",
+    },
+}));
+
 const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
+    const classes = useStyles();
+
     // scroll to selected person by link ID
     const { personId } = useParams();
     const selectedPerson = useRef(null);
@@ -60,38 +84,23 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                     window.scrollY,
             });
         } else if (childRef.current && !personId) {
+            // scroll to top on load if no person ID selected
             window.scrollTo({ top: 0 });
         }
     }, [selectedPerson.current, childRef.current]);
 
-    // styles
-    const containerStyle = {
-        maxWidth: "72ch",
-    };
-    const headerStyle = {
-        textAlign: "center",
-        margin: "30px 0px 10px 0px",
-    };
-    const listStyle = {
-        width: "100%",
-        maxWidth: "72ch",
-    };
-    const listItemStyle = {
-        paddingTop: "20px",
-    };
-    const cardActionsStyle = {
-        display: "flex",
-        justifyContent: "space-between",
-    };
-
     return (
         <>
             <EditionHeader onSearch={onSearch} />
-            <Container style={containerStyle}>
-                <Typography variant="h4" style={headerStyle} component="h2">
+            <Container className={classes.root}>
+                <Typography
+                    variant="h4"
+                    className={classes.header}
+                    component="h2"
+                >
                     Persons
                 </Typography>
-                <List style={listStyle}>
+                <List className={classes.list}>
                     {persons
                         .sort((a, b) =>
                             // sort by name
@@ -101,7 +110,7 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                         )
                         .map((person) => (
                             <li
-                                style={listItemStyle}
+                                className={classes.listItem}
                                 key={person.id}
                                 ref={
                                     personId &&
@@ -163,7 +172,9 @@ const PersonsList = ({ onSearch, personLookup, persons, sections }) => {
                                             </>
                                         )}
                                     </CardContent>
-                                    <CardActions style={cardActionsStyle}>
+                                    <CardActions
+                                        className={classes.cardActions}
+                                    >
                                         {person.properties.href && (
                                             <Typography
                                                 component="span"
