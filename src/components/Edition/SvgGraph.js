@@ -34,7 +34,7 @@ const SvgGraph = ({
             for (let i = 0; i < nodesAtRank.length; i++) {
                 const zoomNode = getGraphDOMNode(nodesAtRank[i].id);
                 if (zoomNode) {
-                    zoomToNode(zoomNode);
+                    scrollToNode(zoomNode);
                     break;
                 }
             }
@@ -45,7 +45,7 @@ const SvgGraph = ({
     useEffect(() => {
         if (selectedSentence) {
             const domNode = getGraphDOMNode(selectedSentence.startId);
-            zoomToNode(domNode);
+            scrollToNode(domNode);
         }
         highlightAndSelect();
     }, [selectedSentence]);
@@ -53,7 +53,7 @@ const SvgGraph = ({
     useEffect(() => {
         if (!highlightedNode) return;
         const domNode = getGraphDOMNode(highlightedNode.nodeId);
-        zoomToNode(domNode);
+        scrollToNode(domNode);
     }, [highlightedNode]);
 
     return (
@@ -140,13 +140,28 @@ const SvgGraph = ({
         });
     }
 
-    function zoomToNode(domNode) {
-        if (domNode)
-            domNode.scrollIntoView({
+    function scrollToNode(domNode, verticalOnly) {
+        // scroll to the current node
+        if (domNode && svgRef.current) {
+            // workaround for scrollIntoView (inline: center, block: center) on Firefox
+            const svgContainer = svgRef.current.parentNode.parentNode;
+            const svg = svgContainer.getBoundingClientRect();
+            const node = domNode.getBoundingClientRect();
+
+            const nodeY = node.top + node.height / 2.0;
+            const svgY = svg.top + svg.height / 2.0;
+            const newScrollY = nodeY - svgY + svgContainer.scrollTop;
+
+            const nodeX = node.left + node.width / 2.0;
+            const svgX = svg.left + svg.width / 2.0;
+            const newScrollX = nodeX - svgX + svgContainer.scrollLeft;
+
+            svgContainer.scrollTo({
+                top: newScrollY,
+                left: verticalOnly ? svgContainer.scrollLeft : newScrollX,
                 behavior: "smooth",
-                inline: "center",
-                block: "center",
             });
+        }
     }
 
     function getGraphDOMNode(nodeId) {
@@ -160,12 +175,8 @@ const SvgGraph = ({
         let startNode = getStartNode();
         if (startNode) {
             startNode.setAttribute("class", "node highlight start");
-            startNode.scrollIntoView({
-                behavior: "smooth",
-                inline: "center",
-                block: "center",
-            });
-        } else console.log("cant find start");
+            scrollToNode(startNode, true);
+        } else console.error("error finding start");
     }
 
     function getStartNode() {
