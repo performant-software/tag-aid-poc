@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import EditionHeader from "./../Edition/EditionHeader";
+import EditionHeader from "../Edition/EditionHeader";
 import Chart from "react-google-charts";
 import { Redirect, withRouter } from "react-router-dom";
 

@@ -191,6 +191,30 @@ export const getLocationLookup = async (onDataReceived, timestamp) => {
     }
 };
 
+// from the stemmarest api where annotations?label=PERSON
+// the target property refrences a PERSONREF - see below
+export const getPersonData = async (onDataReceived, timestamp) => {
+    const dataFile = `${localUrl}data/${timestamp}/persons.json`;
+    try {
+        const result = await axios.get(dataFile);
+        onDataReceived(result.data);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+// from the stemmarest api where annotations?label=PERSONREF and sectionId is specified
+// the target property references a text nodeId
+export const getPersonLookup = async (onDataReceived, timestamp) => {
+    const dataFile = `${localUrl}data/${timestamp}/personLookup.json`;
+    try {
+        const result = await axios.get(dataFile);
+        onDataReceived(result.data);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const getManuscriptLookup = async (onDataReceived, timestamp) => {
     const dataFile = `${localUrl}data/${timestamp}/sigilLookup.json`;
     try {

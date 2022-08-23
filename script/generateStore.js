@@ -16,6 +16,7 @@ async function generateStore(timestamp) {
     const outdir = `public/data/data_${timestamp}`;
     const lunrIndex = [];
     const locationLookup = [];
+    const personLookup = [];
 
     await fetchData(baseURL, auth).catch((e) => console.log(e));
     const endTime = moment();
@@ -31,9 +32,13 @@ async function generateStore(timestamp) {
 
     async function fetchData(baseURL, auth) {
         try {
+            // sections and witnesses
             let lists = await Promise.all([getSections(), getWitnesses()]);
             writeWitnessList(lists[1]);
             await getSectionStore(lists[0], lists[1]);
+            // persons list
+            const persons = await getAllPersons();
+            writeFile(`${outdir}/persons.json`, JSON.stringify(persons.data));
         } catch (e) {
             console.log(e);
         }
@@ -77,7 +82,11 @@ async function generateStore(timestamp) {
         validSections.sort((a, b) => parseInt(a.index) - parseInt(b.index));
         writeSectionFile(validSections);
         writeLunrIndex();
-        writeLocationLookup();
+        writeFile(
+            `${outdir}/locationLookup.json`,
+            JSON.stringify(locationLookup)
+        );
+        writeFile(`${outdir}/personLookup.json`, JSON.stringify(personLookup));
     }
 
     async function getSectionData(sectionId, index, witnesses, validSections) {
@@ -126,6 +135,8 @@ async function generateStore(timestamp) {
         let personArray = new Promise((resolve) => {
             getPersons(sectionId).then((persons) => {
                 if (persons) writeAnnotationList(persons, sectionId, "persons");
+                let sectionPersons = annotationLookup(sectionId, persons);
+                personLookup.push(...sectionPersons);
                 resolve();
             });
         });
@@ -141,7 +152,8 @@ async function generateStore(timestamp) {
         let placeArray = new Promise((resolve) => {
             getPlaces(sectionId).then((places) => {
                 if (places) writeAnnotationList(places, sectionId, "places");
-                appendLocationLookup(sectionId, places);
+                let sectionPlaces = annotationLookup(sectionId, places);
+                locationLookup.push(...sectionPlaces);
                 resolve();
             });
         });
@@ -220,6 +232,18 @@ async function generateStore(timestamp) {
         } catch (error) {
             console.log(`no person refs for section ${sectionId} `);
             return null;
+        }
+    }
+
+    async function getAllPersons() {
+        // get all person annotations across the entire tradition
+        try {
+            const response = await axios
+                .get(`${baseURL}/annotations?label=PERSON`, { auth })
+                .catch((e) => console.log(e));
+            return response;
+        } catch (error) {
+            console.log(error.message);
         }
     }
 
@@ -451,14 +475,11 @@ async function generateStore(timestamp) {
         fs.writeFileSync(sectFile, JSON.stringify(refs));
     }
 
-    function appendLocationLookup(sectionId, places) {
-        places.forEach((place) => {
-            let placeEntry = {
-                placeRefId: place.id,
-                sectionId: sectionId,
-            };
-            locationLookup.push(placeEntry);
-        });
+    function annotationLookup(sectionId, annotations) {
+        return annotations.map((annotation) => ({
+            annotationRefId: annotation.id,
+            sectionId: sectionId,
+        }));
     }
 
     async function makeDirectory(sectiondir) {
@@ -495,14 +516,6 @@ async function generateStore(timestamp) {
         const lunrFile = `${outdir}/lunrIndex.json`;
         fs.writeFileSync(lunrFile, JSON.stringify(idx));
         console.log("lunr index file written");
-    }
-
-    function writeLocationLookup() {
-        const dataDir = `${outdir}`;
-        const fileName = `locationLookup`;
-        makeDirectory(dataDir);
-        const sectFile = `${outdir}/${fileName}.json`;
-        fs.writeFileSync(sectFile, JSON.stringify(locationLookup));
     }
 }
 

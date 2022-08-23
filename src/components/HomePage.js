@@ -56,6 +56,7 @@ const HomePage = ({ sections, onSearch, selectedTimestamp }) => {
                             <TextPane
                                 onSelectLocation={() => {}}
                                 onSelectNode={() => {}}
+                                onSelectPerson={() => {}}
                                 onSelectSentence={() => {}}
                                 reading="Lemma Text"
                                 sectionId="1019321"
@@ -68,6 +69,7 @@ const HomePage = ({ sections, onSearch, selectedTimestamp }) => {
                             <TextPane
                                 onSelectLocation={() => {}}
                                 onSelectNode={() => {}}
+                                onSelectPerson={() => {}}
                                 onSelectSentence={() => {}}
                                 reading="Translation"
                                 sectionId="1019321"

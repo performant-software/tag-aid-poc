@@ -13,9 +13,10 @@ import ChronicleTheme from "./Theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 import SearchResults from "./Edition/SearchResults";
 import * as DataApi from "./../utils/Api";
-import Visualizations from "./Visualizations";
-import Timeline from "./Visualizations/Timeline";
-import MapView from "./Visualizations/Map";
+import Exploration from "./Exploration";
+import Timeline from "./Exploration/Timeline";
+import MapView from "./Exploration/Map";
+import PersonsList from "./Exploration/Persons";
 
 const Routes = ({
     sections,
@@ -34,55 +35,58 @@ const Routes = ({
     const [armenianIndex, setArmenianIndex] = useState();
     const [mapFeatures, setMapFeatures] = useState([]);
     const [locationLookup, setLocationLookup] = useState([]);
+    const [persons, setPersons] = useState([]);
+    const [personLookup, setPersonLookup] = useState([]);
     const [timelineDates, setTimelineDates] = useState([]);
 
     useEffect(() => {
-        if (!translationIndex && selectedTimestamp)
-            DataApi.getTranslationIndex((data) => {
-                setTranslationIndex(data);
-            }, selectedTimestamp);
-    }, [selectedTimestamp]);
-
-    useEffect(() => {
-        if (translationDictionary.length === 0 && selectedTimestamp)
-            DataApi.getLunrData((data) => {
-                setTranslationDictionary(data);
-            }, selectedTimestamp);
-    }, [selectedTimestamp]);
-    useEffect(() => {
-        if (!armenianIndex && selectedTimestamp)
-            DataApi.getArmenianIndex((data) => {
-                setArmenianIndex(data);
-            }, selectedTimestamp);
-    }, [selectedTimestamp]);
-    useEffect(() => {
-        if (armenianDictionary.length === 0 && selectedTimestamp)
-            DataApi.getLunrArmenianData((data) => {
-                setArmenianDictionary(data);
-            }, selectedTimestamp);
-    }, [selectedTimestamp]);
-
-    useEffect(() => {
-        if (mapFeatures.length === 0 && selectedTimestamp) {
-            DataApi.getLocationData((data) => {
-                setMapFeatures(data);
-            }, selectedTimestamp);
-        }
-    }, [selectedTimestamp]);
-
-    useEffect(() => {
-        if (locationLookup.length === 0 && selectedTimestamp) {
-            DataApi.getLocationLookup((data) => {
-                setLocationLookup(data);
-            }, selectedTimestamp);
-        }
-    }, [selectedTimestamp]);
-
-    useEffect(() => {
-        if (timelineDates.length === 0 && selectedTimestamp) {
-            DataApi.getTimelineDates((data) => {
-                setTimelineDates(data);
-            }, selectedTimestamp);
+        // fetch data when selectedTimestamp loads or is changed
+        if (selectedTimestamp) {
+            if (!translationIndex) {
+                DataApi.getTranslationIndex((data) => {
+                    setTranslationIndex(data);
+                }, selectedTimestamp);
+            }
+            if (!translationDictionary.length) {
+                DataApi.getLunrData((data) => {
+                    setTranslationDictionary(data);
+                }, selectedTimestamp);
+            }
+            if (!armenianIndex) {
+                DataApi.getArmenianIndex((data) => {
+                    setArmenianIndex(data);
+                }, selectedTimestamp);
+            }
+            if (!armenianDictionary.length) {
+                DataApi.getLunrArmenianData((data) => {
+                    setArmenianDictionary(data);
+                }, selectedTimestamp);
+            }
+            if (!mapFeatures.length) {
+                DataApi.getLocationData((data) => {
+                    setMapFeatures(data);
+                }, selectedTimestamp);
+            }
+            if (!locationLookup.length) {
+                DataApi.getLocationLookup((data) => {
+                    setLocationLookup(data);
+                }, selectedTimestamp);
+            }
+            if (!persons.length) {
+                DataApi.getPersonData((data) => {
+                    setPersons(data);
+                }, selectedTimestamp);
+            }
+            if (!personLookup.length) {
+                DataApi.getPersonLookup((data) => {
+                    setPersonLookup(data);
+                }, selectedTimestamp);
+            }
+            if (!timelineDates.length) {
+                DataApi.getTimelineDates((data) => {
+                    setTimelineDates(data);
+                }, selectedTimestamp);
+            }
         }
     }, [selectedTimestamp]);
 
@@ -158,7 +162,7 @@ const Routes = ({
                         searchTerm={searchTerm}
                     />
                 </Route>
-                <Route path="/Visualizations/Map" exact>
+                <Route path="/Exploration/Map" exact>
                     <MapView
                         onSearch={setSearchTerm}
                         geoData={mapFeatures}
@@ -166,7 +170,7 @@ const Routes = ({
                         sections={sections}
                     />
                 </Route>
-                <Route path="/Visualizations/Map/:locationId" exact>
+                <Route path="/Exploration/Map/:locationId" exact>
                     <MapView
                         onSearch={setSearchTerm}
                         geoData={mapFeatures}
@@ -174,14 +178,30 @@ const Routes = ({
                         sections={sections}
                     />
                 </Route>
-                <Route path="/Visualizations/Timeline" exact>
+                <Route path="/Exploration/Persons" exact>
+                    <PersonsList
+                        onSearch={setSearchTerm}
+                        persons={persons}
+                        personLookup={personLookup}
+                        sections={sections}
+                    />
+                </Route>
+                <Route path="/Exploration/Persons/:personId" exact>
+                    <PersonsList
+                        onSearch={setSearchTerm}
+                        persons={persons}
+                        personLookup={personLookup}
+                        sections={sections}
+                    />
+                </Route>
+                <Route path="/Exploration/Timeline" exact>
                     <Timeline
                         onSearch={setSearchTerm}
                         timelineData={timelineDates}
                     />
                 </Route>
-                <Route path="/Visualizations" exact>
-                    <Visualizations onSearch={setSearchTerm} />
+                <Route path="/Exploration" exact>
+                    <Exploration onSearch={setSearchTerm} />
                 </Route>
                 <Route path="/" exact>
                     <HomePage

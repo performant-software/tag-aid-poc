@@ -260,6 +260,7 @@ async function generateDates(timestamp) {
             fs.mkdirSync("public", { recursive: true });
         if (!fs.existsSync("public/data"))
             fs.mkdirSync("public/data", { recursive: true });
+        if (!fs.existsSync(outdir)) fs.mkdirSync(outdir, { recursive: true });
     }
 
     function writeFile(filePath, contents) {

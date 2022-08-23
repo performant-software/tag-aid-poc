@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import mapboxgl from "mapbox-gl";
-import EditionHeader from "./../Edition/EditionHeader";
+import EditionHeader from "../Edition/EditionHeader";
 import { withRouter } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
@@ -290,7 +290,7 @@ const MapView = ({ geoData, locationLookup, sections, onSearch }) => {
         let innerHtml = "";
         links.forEach((link) => {
             const lookup = locationLookup.find(
-                (l) => l.placeRefId.toString() === link.target.toString()
+                (l) => l.annotationRefId.toString() === link.target.toString()
             );
 
             if (lookup) {

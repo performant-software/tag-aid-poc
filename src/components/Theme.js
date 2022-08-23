@@ -1,6 +1,6 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 
-const ChronicleTheme = createMuiTheme({
+const ChronicleTheme = createTheme({
     typography: {
         useNextVariants: true,
         fontFamily: ["Baskerville, ArmBoloragir"],
